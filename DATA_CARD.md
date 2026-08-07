@@ -1,6 +1,6 @@
 # JALAAKAR — DATA CARD
 
-**Generated:** 2026-08-08 00:31 · **Source DB:** `jalaakar.db`
+**Generated:** 2026-08-08 00:38 · **Source DB:** `jalaakar.db`
 **Demo taluka:** Dindori, Nashik
 
 **Scenario date:** 2026-06-30 (pre-monsoon)
@@ -24,7 +24,7 @@ This file is generated from the database by `tools/data_card.py`. Do not edit it
 | `wells` | 940 | rural well registry |
 | `gw_observations` | 68,994 | **real measured** groundwater readings |
 | `gw_daily` | 3,250,606 | daily levels, real + interpolated |
-| `weather_daily` | 3,858,146 | Open-Meteo daily weather per entity |
+| `weather_daily` | 3,858,146 | daily weather per entity (NASA POWER for wells, Open-Meteo for reservoirs) |
 | `reservoir_daily` | 86 | urban storage, real + interpolated |
 | `features` | 3,194,786 | final joined training table |
 
@@ -32,10 +32,21 @@ This file is generated from the database by `tools/data_card.py`. Do not edit it
 
 - **28,717 of 3,250,606 daily groundwater rows (0.88%) are genuine measurements.** The rest are interpolated.
 - `gw_daily.is_observed` separates the two. Every accuracy number must be computed against `is_observed = 1` rows only.
-- **Interpolation MAE: NOT YET RECORDED.** Dev A owes this (task A5). Re-run with `--mae <value>` before the freeze.
+- **Interpolation MAE (held-out every 4th observation): 1.32 m.**
 - Urban rows carry `reservoir_daily.source`: `interpolated` 77, `manual` 9.
 
-> The sentence to say out loud: *"We anchor on quality-controlled seasonal observations and interpolate daily using rainfall-conditioned recession curves scaled by each well's specific yield, validated against held-out readings."*
+> The sentence to say out loud: *"We reconstruct daily levels from each well's own seasonal cycle plus a linearly interpolated anomaly. We validated four methods against 1,088 held-out readings and shipped the lowest-error one. Rainfall-driven recession curves scored worse, so we don't use them for reconstruction — rainfall still feeds the forecasting model as a feature."*
+
+**Method selection (measured, not assumed).** Every 4th reading was held out, reconstructed without it, and the error measured at that point:
+
+| Method | MAE |
+|---|---:|
+| **climatology + anomaly (shipped)** | **1.32 m** |
+| seasonal climatology alone | 1.52 m |
+| rainfall-driven recession + specific yield | 1.90 m |
+| linear between readings | 1.99 m |
+
+The rainfall-physics approach in the original plan came second worst. Adding a rainfall-anomaly correction to the shipped method moved MAE by 0.005 m. The reconstructed curve passes through every real reading exactly by construction (max deviation 0.000000 m).
 
 > Never say: *"we trained on 5 years of daily GSDA data."*
 
@@ -83,7 +94,8 @@ The urban series covers roughly one season of publicly reported aggregates. It i
 | Source | Used for | Licence |
 |---|---|---|
 | [Sci Data 2025 / IISc groundwater dataset](https://doi.org/10.6084/m9.figshare.29293877.v3) | well registry, seasonal levels, specific yield | CC BY 4.0 |
-| [Open-Meteo Historical Weather API](https://open-meteo.com/en/docs/historical-weather-api) | daily rainfall, ET0, soil moisture, temperature, humidity | CC BY 4.0 |
+| [NASA POWER (MERRA-2)](https://power.larc.nasa.gov/) | daily rainfall, temperature, humidity for **all 940 wells** | public domain (NASA) |
+| [Open-Meteo Historical Weather API](https://open-meteo.com/en/docs/historical-weather-api) | daily weather for the **14 reservoirs only** | CC BY 4.0 |
 | [Mumbai lake & Pune dam levels](https://www.mumbailakewaterlevel.in/) (Maharashtra WRD / BMC Hydraulic Engineer's Dept) | urban storage | public reporting |
 | [GSDA / MRSAC State WRIS](http://mrsac.maharashtra.gov.in/nhpgis/) | optional telemetry (Appendix A) | public government data |
 
@@ -92,10 +104,13 @@ Total data cost: **₹0**.
 ## Known limitations
 
 1. Groundwater readings are **seasonal, not daily**. Daily values are modelled. `is_observed` tells you which is which.
-2. Weather is ERA5 reanalysis on a ~0.1° grid, not station data. Coordinates are deduped to that grid, so nearby wells share a weather series.
-3. The urban track rests on published **city aggregates**, not per-lake daily telemetry, for most dates.
-4. Coverage is **Maharashtra only**. Nothing here generalises to other states without re-running ingestion.
-5. The scenario date is deliberately **pre-monsoon 2026**. Run the model on today's data and it should return SAFE — the reservoirs are full. That contrast is the point, not a bug.
+2. **Two weather sources, deliberately.** Open-Meteo (ERA5) exhausted its free quota partway through the well pull, so all 940 wells use **NASA POWER / MERRA-2** at a ~0.5° dedupe (~55 km); the 14 reservoirs kept their Open-Meteo/ERA5 series at ~0.25°. Wells within a cell share one weather series. Neither is station data.
+3. **ET0 for wells is computed, not observed.** POWER does not serve reference evapotranspiration, so it is derived with the FAO-56 Hargreaves formula from daily max/min/mean temperature and latitude — the standard fallback when radiation data is absent.
+4. **Soil moisture is NULL for all wells.** The hourly soil-moisture request was ~95% of Open-Meteo's per-call cost and had to be dropped to complete the pull. Reservoir rows retain it.
+5. **Specific yield is transplanted for 44% of wells.** Only 271 of 940 have a value from the source dataset; 256 take their district's modal value and **413 take the value of the nearest donor well, a median 83.5 km away**. `wells.sy_source` records which. Reference_Sy in the source dataset takes only 4 distinct values across all of Maharashtra (0.018 / 0.020 / 0.023 / 0.130) because it is read from a hydrogeological map rather than measured per well, which is what makes transplanting defensible — but the Nashik wells, Dindori included, have no QC'd donor closer than Palghar.
+6. The urban track rests on published **city aggregates**, not per-lake daily telemetry, for most dates.
+7. Coverage is **Maharashtra only**. Nothing here generalises to other states without re-running ingestion.
+8. The scenario date is deliberately **pre-monsoon 2026**. Run the model on today's data and it should return SAFE — the reservoirs are full. That contrast is the point, not a bug.
 
 ## Last ingest runs
 
