@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+import sys
 import zipfile
 from pathlib import Path
 
@@ -33,6 +34,7 @@ import pandas as pd
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))          # so `import ingest.db` works when run directly
 CFG = yaml.safe_load((ROOT / "config.yaml").read_text())
 INTERIM = ROOT / CFG["paths"]["interim"]
 ZIP_PATH = ROOT / CFG["paths"]["raw"] / "figshare" / \
@@ -170,6 +172,66 @@ def attach_sy(reg: pd.DataFrame, donors: pd.DataFrame) -> pd.DataFrame:
     return reg
 
 
+# -------------------------------------------------------------------- A3 load
+def safe_upsert_wells(con, df: pd.DataFrame) -> int:
+    """Write `wells` WITHOUT triggering the ON DELETE CASCADE.
+
+    ⚠️  Do not replace this with db.upsert(mode='replace') until B has patched it.
+    SQLite's INSERT OR REPLACE is DELETE-then-INSERT. With foreign_keys=ON and
+    ON DELETE CASCADE on gw_observations/gw_daily, re-upserting an IDENTICAL
+    wells row silently destroys every child row for that well — verified:
+    13 observations + 1 daily row went to 0 and 0, with no error raised.
+
+    That would mean any re-run of this script after A4 wipes the entire
+    interpolation output. ON CONFLICT DO UPDATE mutates in place instead.
+
+    Remove this once ingest/db.py exposes mode='update'.
+    """
+    from ingest.db import table_columns, _normalise
+
+    cols = [c for c in table_columns(con, "wells") if c in df.columns]
+    setters = ", ".join(f"{c}=excluded.{c}" for c in cols if c != "well_id")
+    sql = (f"INSERT INTO wells ({', '.join(cols)}) "
+           f"VALUES ({', '.join('?' * len(cols))}) "
+           f"ON CONFLICT(well_id) DO UPDATE SET {setters}")
+    rows = list(_normalise(df[cols].copy()).itertuples(index=False, name=None))
+    con.executemany(sql, rows)
+    return len(rows)
+
+
+def load_sqlite(reg: pd.DataFrame, long: pd.DataFrame) -> None:
+    """A3 — load wells + gw_observations. Order matters: FK requires wells first."""
+    from ingest.db import connect, upsert, summary, log_run, cfg
+
+    obs = long.rename(columns={"obs_date": "obs_date"}).copy()
+    obs["is_last_5y"] = obs["is_last_5y"].astype(int)
+
+    with log_run("02_wells.py", rows_in=len(reg)) as run:
+        with connect() as con:
+            n_w = safe_upsert_wells(con, reg)
+            n_o = upsert(con, "gw_observations", obs)
+            run.rows_out = n_w + n_o
+            print(f"\n[db] wells            {n_w:,}")
+            print(f"[db] gw_observations  {n_o:,}")
+            print()
+            print(summary(con).to_string(index=False))
+
+            # prove the FK actually resolves — an orphan here means the join is broken
+            orphans = con.execute(
+                "SELECT COUNT(*) FROM gw_observations o "
+                "LEFT JOIN wells w ON w.well_id=o.well_id WHERE w.well_id IS NULL"
+            ).fetchone()[0]
+            print(f"\n  orphan observations (must be 0): {orphans}")
+            if orphans:
+                raise SystemExit("[FAIL] observations reference missing wells")
+
+            d = con.execute(
+                "SELECT COUNT(*) FROM wells WHERE taluka=?",
+                (cfg.demo_taluka,)).fetchone()[0]
+            print(f"  {cfg.demo_taluka} wells in DB: {d}")
+    print(f"\n[db] {cfg.db_path}")
+
+
 # ------------------------------------------------------------------------ main
 def main() -> None:
     INTERIM.mkdir(parents=True, exist_ok=True)
@@ -270,6 +332,8 @@ def main() -> None:
     print(f"        date range {long.obs_date.min().date()} -> {long.obs_date.max().date()}")
     print(f"        last-5y observations: {int(long.is_last_5y.sum()):,}")
     print("=" * 78)
+
+    load_sqlite(reg, long)          # A3
 
 
 if __name__ == "__main__":
