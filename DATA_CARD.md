@@ -1,6 +1,6 @@
 # JALAAKAR — DATA CARD
 
-**Generated:** 2026-08-08 00:55 · **Source DB:** `FROZEN_20260808_0054.db`
+**Generated:** 2026-08-08 01:04 · **Source DB:** `FROZEN_20260808_0103.db`
 **Demo taluka:** Dindori, Nashik
 
 **Scenario date:** 2026-06-30 (pre-monsoon)
