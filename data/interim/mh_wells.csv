@@ -1,0 +1,941 @@
+well_id,lat,lon,district,taluka,specific_yield,sy_source,village,aquifer_type,well_depth,n_observations,first_obs,last_obs
+MH47ca911323,21.4292,77.0944,Amravati,Chikhaldara,0.02,district_modal,Arao,Unconfined,7.0,68,2000-01-15,2023-05-15
+MH2dab5513a8,21.3292,77.9097,Amravati,Morshi,0.02,district_modal,Ambada,-,15.5,45,2000-01-15,2015-01-15
+MHfe160fe434,21.1667,77.3,Amravati,Anjangaon Surji,0.02,district_modal,Anjangaon Surji,Unconfined,45.0,58,2001-05-15,2023-05-15
+MHe92e1fbebb,20.9167,78.1375,Amravati,Teosa,0.02,measured,Anjansingi,Unconfined,10.8,85,2000-01-15,2023-05-15
+MH0312057979,21.3083,77.925,Amravati,Morshi,0.02,measured,Ashtagaon,Unconfined,8.0,84,2000-01-15,2023-05-15
+MH9161663ba0,20.8444,77.7286,Amravati,Amravati,0.13,measured,Badnera,Unconfined,17.62,84,2000-01-15,2023-05-15
+MH4a24ce2b4f,21.3972,77.4611,Amravati,Chikhaldara,0.02,measured,Behali,Unconfined,9.0,84,2000-01-15,2023-05-15
+MHc0ad783f5f,20.7667,77.7,Amravati,Nandgaon Khandeshwar,0.02,district_modal,Belora,Unconfined,18.0,77,2000-01-15,2023-05-15
+MH25ec83db2f,20.8542,77.6042,Amravati,Bhatkuli,0.02,district_modal,Bhatkulijain,-,10.66,51,2000-01-15,2013-08-15
+MH48efbebb34,21.5139,76.7806,Amravati,Dharni,0.02,measured,Bhokarbardi,Unconfined,8.0,80,2000-01-15,2023-05-15
+MH3912ad21cb,20.8167,77.9667,Amravati,Chandur Railway,0.02,district_modal,Chandur Railway,Unconfined,10.1,83,2000-01-15,2023-05-15
+MHe9d65b9d7a,21.36,77.9444,Amravati,Morshi,0.02,measured,Chicholi,Unconfined,10.92,84,2000-01-15,2023-05-15
+MH458a03dfa4,21.3833,78.0597,Amravati,Morshi,0.02,district_modal,Dapori,Unconfined,21.0,61,2005-01-15,2023-05-15
+MH52a47ba2f7,21.2625,76.9806,Amravati,Chikhaldara,0.02,district_modal,Dargarh,Unconfined,6.4,48,2000-01-15,2021-11-15
+MHdf4ba9f398,20.6833,78.1569,Amravati,Chandur Railway,0.02,measured,Devgaon,Unconfined,9.7,83,2000-01-15,2023-05-15
+MHeb2078327a,21.5583,76.8833,Amravati,Dharni,0.02,district_modal,Dharni,-,6.05,40,2000-01-15,2013-01-15
+MH88407c7282,21.5333,77.1167,Amravati,Dharni,0.02,measured,Harisal,Unconfined,10.8,84,2000-01-15,2023-05-15
+MHe012560456,21.6833,77.3361,Amravati,Chikhaldara,0.02,district_modal,Hatru,Unconfined,7.0,45,2000-05-15,2022-11-15
+MH99452fc6fc,21.3931,78.0839,Amravati,Morshi,0.02,measured,Hiwarkheda,Unconfined,15.35,81,2000-01-15,2023-05-15
+MH64a3e97999,21.4556,78.1389,Amravati,Warud,0.02,district_modal,Jamgaon (Via Khadka),-,16.6,57,2000-01-15,2015-01-15
+MH17015189a4,21.3153,77.9542,Amravati,Morshi,0.02,measured,Khanapur,Unconfined,13.5,83,2000-01-15,2023-05-15
+MH7f8e2f6a45,21.3097,77.8611,Amravati,Morshi,0.02,district_modal,Kher,-,10.7,56,2000-01-15,2015-01-15
+MHc79a39290d,21.5,77.2042,Amravati,Chikhaldara,0.02,measured,Kolkaz,Unconfined,8.6,85,2000-01-15,2023-05-15
+MH763f786bb6,20.9333,78.05,Amravati,Teosa,0.02,measured,Kurha,Unconfined,11.9,85,2000-01-15,2023-05-15
+MHf8f948dc73,21.5333,77.0389,Amravati,Dharni,0.02,measured,Lawada,Unconfined,9.75,79,2000-01-15,2023-05-15
+MH13547e0d60,21.3764,78.1903,Amravati,Warud,0.02,district_modal,Loni,Unconfined,22.45,82,2000-01-15,2023-05-15
+MH1f4ed28627,20.7333,77.7667,Amravati,Nandgaon Khandeshwar,0.02,district_modal,Mahuli,Unconfined,9.0,83,2000-01-15,2023-05-15
+MH3b7769a2f2,20.7625,77.9375,Amravati,Chandur Railway,0.02,district_modal,Manjarkhed Kasba,-,36.0,46,2000-01-15,2017-11-15
+MH24a0e6ec21,21.3189,78.0022,Amravati,Morshi,0.02,district_modal,Moorshin,Unconfined,10.0,54,2007-11-15,2023-05-15
+MHbac7774709,21.025,77.8333,Amravati,Amravati,0.13,measured,Nandgaon,Unconfined,12.0,85,2000-01-15,2023-05-15
+MH4490a8a602,21.05,77.3125,Amravati,Anjangaon Surji,0.02,district_modal,Nimbhari,Unconfined,12.03,60,2005-11-15,2023-05-15
+MH11e8ff9e40,21.3861,78.0111,Amravati,Morshi,0.02,measured,Pala,Unconfined,12.5,83,2000-01-15,2023-05-15
+MHac102de393,21.3611,77.8681,Amravati,Morshi,0.02,district_modal,Pimpri,Unconfined,12.0,76,2000-01-15,2023-05-15
+MHde2c6b39d0,20.8861,77.875,Amravati,Amravati,0.02,district_modal,Pohra,Unconfined,5.14,84,2000-01-15,2023-05-15
+MHac8fcf7eb6,21.2417,77.8167,Amravati,Morshi,0.02,measured,Rithpur,Unconfined,10.3,85,2000-01-15,2023-05-15
+MHa08ae2e2f9,21.1769,77.9375,Amravati,Morshi,0.02,district_modal,Sawarkheda,Unconfined,11.2,78,2000-01-15,2022-11-15
+MHd5280f1643,20.6833,78.1,Amravati,Chandur Railway,0.02,district_modal,Shendurjana Khurd,Unconfined,10.6,83,2000-01-15,2023-05-15
+MH4aeb8cf5e0,20.6306,77.8522,Amravati,Nandgaon Khandeshwar,0.02,district_modal,Shivni,Unconfined,9.67,65,2005-05-15,2022-11-15
+MHbdc521fe47,21.4333,77.4167,Amravati,Chikhaldara,0.02,measured,Silona,Unconfined,5.3,83,2000-01-15,2023-05-15
+MH462119b09f,21.0458,77.9833,Amravati,Teosa,0.02,district_modal,Sindola,-,13.0,50,2000-01-15,2013-01-15
+MH078cb40d6d,21.0861,78.0681,Amravati,Teosa,0.02,measured,Teosa,Unconfined,11.5,84,2000-01-15,2023-05-15
+MH4c3a320d61,21.2806,77.275,Amravati,Chikhaldara,0.02,district_modal,Wadgaon (Fattepur),Unconfined,10.0,67,2000-01-15,2023-05-15
+MH54b1054201,21.05,77.1833,Amravati,Daryapur,0.02,district_modal,Wadner Gangai,Unconfined,11.3,63,2005-05-15,2022-11-15
+MH9ce115aa8e,21.0167,77.7,Amravati,Amravati,0.13,measured,Walgaon,Unconfined,9.5,85,2000-01-15,2023-05-15
+MHee88bde301,20.9833,78.0333,Amravati,Teosa,0.02,district_modal,Warha,Unconfined,30.2,47,2007-11-15,2023-05-15
+MHabcf5bf7da,21.4667,78.2667,Amravati,Warud,0.02,measured,Warud,Unconfined,14.7,83,2000-01-15,2023-05-15
+MH72ec8788b4,21.4056,78.0403,Amravati,Morshi,0.02,district_modal,Yavali,Unconfined,40.0,41,2011-08-15,2023-05-15
+MH1654de18c8,20.5417,75.7417,Aurangabad,Sillod,0.02,nearest_well,Ajanta,Unconfined,11.0,79,2000-01-15,2023-05-15
+MH2e9c150b5a,19.8,75.4778,Aurangabad,Aurangabad,0.02,nearest_well,Apatgaon,-,12.5,50,2000-01-15,2014-01-15
+MH0d1d73d032,20.0167,75.3944,Aurangabad,Aurangabad,0.02,nearest_well,Chauka,Unconfined,16.5,81,2000-01-15,2023-05-15
+MH6cfa30b6f4,20.2917,75.3458,Aurangabad,Kannad,0.02,nearest_well,Digar Pishore,Unconfined,30.0,65,2001-01-15,2023-05-15
+MHccd6681309,20.5819,75.7319,Aurangabad,Soegaon,0.02,nearest_well,Fardapur,-,12.5,52,2000-01-15,2014-01-15
+MHffa3806e2c,20.1375,75.1333,Aurangabad,Kannad,0.02,nearest_well,Hatnur,Unconfined,13.8,48,2000-01-15,2023-05-15
+MHa916ff316d,20.1667,75.6333,Aurangabad,Sillod,0.02,nearest_well,Kaigaon,Unconfined,13.0,70,2000-01-15,2023-05-15
+MH8eb7b96163,20.2667,75.1333,Aurangabad,Kannad,0.02,nearest_well,Kannad,Unconfined,18.0,82,2000-01-15,2023-05-15
+MH897e5f9db3,20.0167,74.8,Aurangabad,Vaijapur,0.02,nearest_well,Khandala,Semi-confined,100.0,59,2000-08-15,2023-05-15
+MHf35e6dd177,20.0042,75.1917,Aurangabad,Khuldabad,0.02,nearest_well,Khuldabad,Unconfined,25.0,55,2007-08-15,2023-05-15
+MHc660f49e4b,20.1667,75.0667,Aurangabad,Kannad,0.02,nearest_well,Kinnal,-,15.0,73,2001-08-15,2022-11-15
+MH4196fcfc9f,20.125,75.4667,Aurangabad,Aurangabad,0.02,nearest_well,Patri,Unconfined,10.0,80,2000-01-15,2023-05-15
+MH379bd69a10,19.9167,74.75,Aurangabad,Vaijapur,0.02,nearest_well,Rotegaon,Unconfined,13.0,82,2000-01-15,2023-05-15
+MH6c6713e5ea,20.0833,75.15,Aurangabad,Khuldabad,0.02,nearest_well,Walur Tanda,Unconfined,15.9,80,2000-01-15,2023-05-15
+MH042a32f574,18.7333,76.4,Beed,Ambejogai,0.02,district_modal,Ambejogai,Unconfined,6.1,74,2000-01-15,2023-05-15
+MH6872ecf68d,18.8,75.1667,Beed,Ashti,0.02,district_modal,Ashti,Unconfined,14.7,64,2000-01-15,2023-05-15
+MHd0bed4535d,19.2167,75.9222,Beed,Georai,0.02,district_modal,Bhend Takli,Unconfined,13.98,65,2000-01-15,2023-01-15
+MH739561f978,18.7167,75.7,Beed,Beed,0.02,district_modal,Chousala,Unconfined,30.0,59,2000-01-15,2023-05-15
+MHdb62350b56,18.7667,75.5583,Beed,Patoda,0.02,district_modal,Daskhed,Unconfined,14.0,74,2000-01-15,2023-05-15
+MH94024b9936,18.7333,76.6444,Beed,Ambejogai,0.02,district_modal,Dharmapuri,Unconfined,6.2,74,2000-01-15,2023-05-15
+MHf3ab23d94f,18.95,75.2,Beed,Ashti,0.02,district_modal,Doithana,Unconfined,9.08,76,2000-01-15,2023-05-15
+MH6f2fb4de93,18.8333,76.4833,Beed,Ambejogai,0.02,district_modal,Kanerwadi,Unconfined,11.38,71,2000-01-15,2023-05-15
+MH045e4c8822,18.6667,75.15,Beed,Ashti,0.02,district_modal,Khadkhat,Unconfined,16.0,63,2000-01-15,2023-01-15
+MH2aa881f114,19.1778,75.6319,Beed,Georai,0.02,measured,Kolegaon,Unconfined,10.0,77,2000-01-15,2022-11-15
+MHc85ebdd181,18.7167,76.1333,Beed,Kaij,0.02,measured,Kumbhephal,Unconfined,10.88,84,2000-01-15,2023-05-15
+MHf055d07997,19.0667,75.3167,Beed,Patoda,0.02,measured,Manur,Unconfined,24.33,81,2000-01-15,2023-05-15
+MHab270a8ecd,18.9667,75.8833,Beed,Beed,0.02,measured,Mauj,Unconfined,9.96,81,2000-01-15,2023-05-15
+MH1fe00c7be5,18.9153,75.7472,Beed,Beed,0.02,district_modal,Pali,Unconfined,8.0,82,2000-01-15,2023-05-15
+MHb250b706ac,18.85,76.5333,Beed,Ambejogai,0.02,district_modal,Parli,Unconfined,9.75,66,2000-01-15,2023-05-15
+MH7d33439bde,18.8667,75.4667,Beed,Patoda,0.02,measured,Patoda,Unconfined,8.5,85,2000-01-15,2023-05-15
+MH36438ecee3,18.9333,75.3583,Beed,Patoda,0.02,district_modal,Pimpalwandi,Unconfined,8.6,78,2000-01-15,2023-01-15
+MH01a5ad7576,18.9333,75.6333,Beed,Patoda,0.02,district_modal,Pithi,Unconfined,11.41,74,2000-01-15,2023-05-15
+MH9c158a4274,18.9833,76.3833,Beed,Manjlegaon,0.02,district_modal,Sirsala,Unconfined,10.0,72,2000-01-15,2023-01-15
+MHc1854029fb,18.7333,76.5167,Beed,Ambejogai,0.02,measured,Talni,Unconfined,20.4,79,2000-01-15,2023-01-15
+MH8ff00e97c7,18.9833,76.1833,Beed,Manjlegaon,0.02,measured,Telgaon,Unconfined,26.1,79,2000-01-15,2023-01-15
+MH187dbbd783,19.2833,75.6,Beed,Georai,0.02,district_modal,Umapur,Unconfined,10.92,71,2000-01-15,2023-01-15
+MHe70adfcdf2,18.9833,76.0333,Beed,Kaij,0.02,measured,Wadwani,Unconfined,7.0,81,2000-01-15,2023-01-15
+MH5d280812f6,20.9433,79.7033,Bhandara,Pauni,0.023,district_modal,Adyal,Unconfined,40.0,42,2011-08-15,2023-05-15
+MH0f61b28499,21.1583,79.6542,Bhandara,Bhandara,0.023,measured,Bhandara,Unconfined,12.4,87,2000-01-15,2023-08-15
+MH1bd6932845,21.4708,79.7167,Bhandara,Tumsar,0.023,measured,Chicholi,Unconfined,12.3,86,2000-01-15,2023-08-15
+MH6ffd39357d,21.2833,79.6833,Bhandara,Mohadi,0.023,measured,Dahegaon,Unconfined,7.4,86,2000-01-15,2023-08-15
+MHcb1c8177cc,21.1,79.6833,Bhandara,Bhandara,0.023,measured,Daodipar Khapa,Unconfined,14.42,83,2000-01-15,2023-08-15
+MHf0620269ab,21.1333,79.9333,Bhandara,Sakoli,0.023,district_modal,Ekodi,Unconfined,10.04,78,2000-01-15,2023-08-15
+MH5f8bf27f80,21.3833,79.5833,Bhandara,Mohadi,0.023,measured,Jamb,Unconfined,13.75,85,2000-01-15,2023-08-15
+MH34679077b2,21.1675,79.5667,Bhandara,Bhandara,0.023,measured,Kharbi,Unconfined,14.15,86,2000-01-15,2023-08-15
+MH67e6819a17,21.2028,79.7928,Bhandara,Mohadi,0.023,measured,Koka (Kokha),Unconfined,18.0,83,2000-01-15,2023-01-15
+MH74421ae607,20.7458,79.8847,Bhandara,Lakhandur,0.023,measured,Lakhandur,Unconfined,14.45,86,2000-01-15,2023-08-15
+MH93f8242e22,20.7347,79.8917,Bhandara,Lakhandur,0.023,district_modal,Lakhandur,Unconfined,30.0,58,2000-08-15,2023-08-15
+MH2c2f85ef07,21.0667,79.8333,Bhandara,Sakoli,0.023,district_modal,Lakhani,Unconfined,14.1,77,2000-01-15,2023-01-15
+MHe6a5c58f6b,20.95,79.8,Bhandara,Lakhandur,0.023,measured,Madgi,Unconfined,12.23,87,2000-01-15,2023-08-15
+MH855cc188e8,20.7417,79.55,Bhandara,Pauni,0.023,measured,Nilaj,Unconfined,15.97,80,2000-01-15,2023-01-15
+MHbeb5aa1691,20.9181,79.8597,Bhandara,Lakhandur,0.023,district_modal,Palandur,Unconfined,11.5,79,2000-01-15,2023-01-15
+MH282c29a642,21.1333,79.7083,Bhandara,Bhandara,0.023,district_modal,Palari,Unconfined,11.3,86,2000-01-15,2023-08-15
+MH4e2852ad12,20.775,79.6264,Bhandara,Pauni,0.023,measured,Pauni,Unconfined,6.5,85,2000-01-15,2023-05-15
+MH3cfe72f3d7,21.1792,80.0042,Bhandara,Sakoli,0.023,measured,Pitjhari,Unconfined,9.2,82,2000-01-15,2023-01-15
+MH3bed81b613,21.0833,79.9833,Bhandara,Sakoli,0.023,measured,Sakoli,Unconfined,14.52,85,2000-01-15,2023-08-15
+MH22320caba0,21.0092,79.9761,Bhandara,Sakoli,0.023,district_modal,Sakra,Unconfined,15.85,75,2000-01-15,2023-08-15
+MH44a22984b7,21.4583,79.8403,Bhandara,Tumsar,0.023,measured,Sihora,Unconfined,12.27,86,2000-01-15,2023-08-15
+MH1f681e2890,21.3667,79.7167,Bhandara,Mohadi,0.023,measured,Tumsar Khapa,Unconfined,10.6,86,2000-01-15,2023-08-15
+MHad07c82a43,21.3972,79.6722,Bhandara,Mohadi,0.023,district_modal,Usarra,Unconfined,11.55,84,2000-01-15,2023-08-15
+MHffee047fec,21.2333,79.6467,Bhandara,Mohadi,0.023,measured,Varti,Unconfined,11.28,82,2000-01-15,2023-08-15
+MH53ad14d6fe,20.4167,76.45,Buldana,Chikhli,0.02,nearest_well,Amdapur,Unconfined,13.9,78,2000-01-15,2023-05-15
+MHc80290b198,20.5583,76.6456,Buldana,Khamgaon,0.02,nearest_well,Atali,Semi-confined,9.09,55,2007-08-15,2023-05-15
+MH84f06fa97b,20.4333,76.6833,Buldana,Mehkar,0.13,nearest_well,Deolgaon (Sakarsha),Unconfined,12.0,78,2000-01-15,2022-11-15
+MH9007b9fd92,20.0917,76.1806,Buldana,Deulgaon Raja,0.02,nearest_well,Deolgaon Mahi,Unconfined,8.0,80,2000-01-15,2023-05-15
+MH0f5e2f34bb,20.0167,76.0333,Buldana,Deulgaon Raja,0.02,nearest_well,Deolgaon Raja,Unconfined,11.3,80,2000-01-15,2023-05-15
+MH4be0af3e0f,20.6667,76.0333,Buldana,Motala,0.02,nearest_well,Dhamangaon,Unconfined,10.0,84,2000-01-15,2023-05-15
+MH91138abf3c,20.8625,76.3367,Buldana,Nandura,0.02,nearest_well,Dighi,Unconfined,25.0,62,2005-05-15,2023-01-15
+MH2ab667d983,20.4875,76.2972,Buldana,Chikhli,0.02,nearest_well,Dongar Khandala,Unconfined,12.0,77,2000-01-15,2023-05-15
+MHd52900bada,20.6667,76.55,Buldana,Khamgaon,0.02,nearest_well,Garadgaon,Unconfined,9.1,81,2000-01-15,2023-05-15
+MH178e0de85e,20.4667,76.1111,Buldana,Buldana,0.02,nearest_well,Hatedi,Unconfined,8.4,75,2000-01-15,2023-05-15
+MHe3cd6b4599,20.83,76.5833,Buldana,Shegaon,0.02,nearest_well,Jalamb,Unconfined,10.0,63,2005-05-15,2023-01-15
+MH2d0d644b39,20.4583,76.375,Buldana,Chikhli,0.02,nearest_well,Karwand,Unconfined,5.0,79,2000-01-15,2023-05-15
+MH4f787ba178,20.4417,76.2292,Buldana,Chikhli,0.02,nearest_well,Kelwad,Unconfined,7.0,81,2000-01-15,2023-05-15
+MH047b90f122,20.7,76.575,Buldana,Khamgaon,0.02,nearest_well,Khamgaon,Unconfined,8.9,74,2000-01-15,2023-05-15
+MHa65fcc1d36,19.9861,76.2444,Buldana,Sindkhed Raja,0.02,nearest_well,Kingaon Raja,Unconfined,12.0,80,2000-01-15,2023-05-15
+MHeae12a2199,20.6681,76.6806,Buldana,Shegaon,0.02,nearest_well,Kolori,Unconfined,11.9,82,2000-01-15,2023-05-15
+MH38c69bb862,20.2667,76.4139,Buldana,Mehkar,0.02,nearest_well,Laohala,-,10.0,52,2000-01-15,2018-08-15
+MH0d679056f2,20.55,76.55,Buldana,Khamgaon,0.02,nearest_well,Lokhanda,Unconfined,7.92,78,2000-01-15,2023-05-15
+MH9d6f7c01c0,20.15,76.5667,Buldana,Mehkar,0.02,nearest_well,Mehkar,Unconfined,14.55,85,2000-01-15,2023-05-15
+MH0501023ebc,20.25,76.2667,Buldana,Deulgaon Raja,0.02,nearest_well,Mera Khurd,Unconfined,12.6,64,2000-01-15,2023-05-15
+MH6bc7fa084b,20.6833,76.2,Buldana,Motala,0.02,nearest_well,Motala,Unconfined,9.0,77,2000-01-15,2023-05-15
+MHb2e4e48491,20.2431,76.575,Buldana,Mehkar,0.13,nearest_well,Naygaon,Unconfined,40.0,40,2011-08-15,2023-05-15
+MHbd720788dd,20.5167,76.05,Buldana,Buldana,0.02,nearest_well,Padali,Unconfined,9.5,71,2001-08-15,2023-05-15
+MHb438b753a5,20.7667,76.0278,Buldana,Motala,0.02,nearest_well,Pimpalgaon Devi,Unconfined,10.5,80,2000-01-15,2023-05-15
+MH2533b8a164,20.7244,76.4375,Buldana,Khamgaon,0.02,nearest_well,Pimpalgaon Raja,Unconfined,17.61,83,2000-01-15,2023-05-15
+MH6290ac5a5a,20.6292,76.1292,Buldana,Motala,0.02,nearest_well,Rohankhed,Unconfined,15.5,80,2000-01-15,2023-05-15
+MH710314f746,20.3833,76.0833,Buldana,Buldana,0.02,nearest_well,Sailani,Unconfined,12.2,70,2000-01-15,2023-05-15
+MH2bbdc3c013,20.8,76.7,Buldana,Shegaon,0.02,nearest_well,Shegaon,Unconfined,9.89,83,2000-01-15,2023-05-15
+MHc5128c1a8b,19.95,76.05,Buldana,Deulgaon Raja,0.02,nearest_well,Sindkhed Raja,Unconfined,16.0,82,2000-01-15,2023-05-15
+MH98e846af50,20.0875,76.5347,Buldana,Lonar,0.02,nearest_well,Sultanpur,Unconfined,9.9,82,2000-01-15,2023-05-15
+MH149136b3fc,20.7333,76.35,Buldana,Nandura,0.02,nearest_well,Tarvadi,Unconfined,11.4,81,2000-01-15,2023-05-15
+MH1ad2948da9,20.8717,76.2667,Buldana,Malkapur,0.02,nearest_well,Waghul,Unconfined,11.75,56,2005-05-15,2023-05-15
+MH731f5067f7,20.3472,76.6333,Buldana,Mehkar,0.13,nearest_well,Warwand,Unconfined,20.0,75,2000-01-15,2023-05-15
+MH9a051c0582,20.0064,79.4983,Chandrapur,Chandrapur,0.023,district_modal,Ajaypur,Semi-confined,44.0,45,2008-08-15,2023-05-15
+MHc16f617812,19.7583,79.6333,Chandrapur,Gondpipri,0.023,measured,Aksapur,Unconfined,15.15,84,2000-01-15,2023-05-15
+MH0577e8aa63,20.3728,79.5644,Chandrapur,Sindewahi,0.023,district_modal,Alesur,Unconfined,20.0,55,2005-08-15,2023-05-15
+MH82ba0d1654,20.45,79.75,Chandrapur,Nagbhir,0.023,district_modal,Balapur (Bk),Unconfined,30.0,71,2000-01-15,2023-05-15
+MHdb509c0570,19.8606,79.35,Chandrapur,Chandrapur,0.023,measured,Ballarsha,Unconfined,11.75,80,2000-01-15,2022-11-15
+MHa244b83cac,20.4197,78.9583,Chandrapur,Warora,0.023,district_modal,Barwha,Unconfined,40.0,40,2011-08-15,2023-05-15
+MH1152983db8,20.1083,79.1167,Chandrapur,Bhadravati,0.023,district_modal,Bhandak,Unconfined,20.96,78,2000-01-15,2023-05-15
+MHe024a0a131,19.8167,79.7167,Chandrapur,Gondpipri,0.023,measured,Bhimni,Unconfined,8.6,84,2000-01-15,2023-05-15
+MH65ccc04e49,20.6167,79.8667,Chandrapur,Brahmapuri,0.023,measured,Brahmapuri,Unconfined,10.95,85,2000-01-15,2023-05-15
+MH47f28e2f0d,19.9417,79.2944,Chandrapur,Chandrapur,0.023,district_modal,Chandrapur,Unconfined,13.0,61,2005-08-15,2022-11-15
+MH978d03c691,20.3897,79.1883,Chandrapur,Warora,0.023,district_modal,Chargaon,Unconfined,40.0,40,2011-08-15,2023-05-15
+MH4c781f2262,20.3833,79.1833,Chandrapur,Warora,0.02,measured,Chargaon,Unconfined,9.95,80,2000-01-15,2023-05-15
+MH60f53b25b9,20.0028,79.4861,Chandrapur,Chandrapur,0.023,measured,Chichpalli,Unconfined,12.75,84,2000-01-15,2023-05-15
+MH1591ba2a65,20.4917,79.3917,Chandrapur,Chimur,0.023,measured,Chimur,Unconfined,9.0,81,2000-01-15,2023-05-15
+MH29bba65351,20.1992,79.2344,Chandrapur,Bhadravati,0.023,measured,Chora,Unconfined,16.05,83,2000-01-15,2023-05-15
+MH5719023bbd,19.625,79.6208,Chandrapur,Gondpipri,0.023,measured,Dabha,Unconfined,9.0,83,2000-01-15,2023-05-15
+MH6e6a7dd8e7,19.9333,79.1,Chandrapur,Chandrapur,0.023,district_modal,Ghugus,Unconfined,11.65,72,2000-01-15,2022-11-15
+MH87d0da39d7,20.5417,79.4583,Chandrapur,Chimur,0.023,measured,Jambhulghat,Unconfined,8.74,84,2000-01-15,2023-05-15
+MH0a823680ad,19.7833,79.45,Chandrapur,Rajura,0.023,measured,Kalmana,Unconfined,9.15,84,2000-01-15,2023-05-15
+MH990e995d3f,20.5833,79.4917,Chandrapur,Chimur,0.023,district_modal,Kawadsi,Unconfined,16.32,72,2000-01-15,2023-05-15
+MHb8de3263eb,19.7917,79.4917,Chandrapur,Chandrapur,0.023,measured,Kothari,Unconfined,15.6,81,2000-01-15,2022-11-15
+MH5b4771f357,20.3,78.85,Chandrapur,Warora,0.023,district_modal,Madheri,-,12.12,43,2000-01-15,2012-01-15
+MH925d85954b,20.3067,78.8514,Chandrapur,Warora,0.023,district_modal,Madheri,Unconfined,40.0,40,2011-08-15,2023-05-15
+MH4ef327c9d4,20.1833,79.3333,Chandrapur,Bhadravati,0.023,measured,Mahurli,Unconfined,8.45,82,2000-01-15,2023-05-15
+MH58851e3aca,20.165,79.1481,Chandrapur,Bhadravati,0.023,measured,Mangli,Unconfined,12.0,81,2000-01-15,2023-05-15
+MH632a1ae518,20.4667,79.8333,Chandrapur,Brahmapuri,0.023,measured,Mendki,Unconfined,15.3,84,2000-01-15,2023-05-15
+MHb29ec9ace5,20.6458,79.65,Chandrapur,Nagbhir,0.023,measured,Mohadi Mokasa,Unconfined,12.0,83,2000-01-15,2023-05-15
+MH5d80200c72,19.995,79.2278,Chandrapur,Chandrapur,0.023,district_modal,Morwa (P1),Semi-confined,65.5,48,2001-01-15,2023-05-15
+MH5b61c9b612,20.0667,79.6833,Chandrapur,Mul,0.023,measured,Mul,Unconfined,13.3,84,2000-01-15,2023-05-15
+MH2b46ad87d1,20.5833,79.6667,Chandrapur,Nagbhir,0.023,measured,Nagbhir,Unconfined,10.62,82,2000-01-15,2022-11-15
+MHdc502ab549,20.58,79.67,Chandrapur,Nagbhir,0.023,district_modal,Nagbhir,Unconfined,40.0,40,2011-08-15,2023-05-15
+MH3f96efb701,20.05,79.5167,Chandrapur,Chandrapur,0.023,measured,Nandegur,Unconfined,11.3,83,2000-01-15,2023-05-15
+MHe0f9f1365d,20.1897,79.0367,Chandrapur,Bhadravati,0.023,district_modal,Nandori (Bk),Semi-confined,43.0,54,2001-01-15,2022-11-15
+MHb3c0f72353,20.2083,79.925,Chandrapur,Sindewahi,0.023,district_modal,Niphandra,Unconfined,7.9,79,2000-01-15,2023-05-15
+MHff7bf59a56,20.1917,79.6917,Chandrapur,Mul,0.023,measured,Rajoli Tukkum,Unconfined,12.1,85,2000-01-15,2023-05-15
+MH29f3b29969,20.4083,79.2,Chandrapur,Warora,0.023,district_modal,Ralegaon,-,12.52,51,2000-01-15,2018-01-15
+MHc85699c748,20.4083,79.0,Chandrapur,Warora,0.02,measured,Rampur,Unconfined,15.0,79,2000-01-15,2023-05-15
+MHc2dbb644d6,19.9986,79.8892,Chandrapur,Sindewahi,0.023,district_modal,Sakhri,Unconfined,8.43,40,2009-01-15,2023-05-15
+MHf2cbb1917e,20.3083,79.0833,Chandrapur,Warora,0.02,measured,Salori,Unconfined,8.7,85,2000-01-15,2023-05-15
+MH688e19e846,20.1,79.75,Chandrapur,Mul,0.023,district_modal,Saoli,Unconfined,30.0,60,2000-08-15,2022-11-15
+MHaf6966f601,20.0833,79.7833,Chandrapur,Mul,0.023,measured,Sawali,Unconfined,12.08,84,2000-01-15,2023-05-15
+MH7df282236e,20.4083,79.6583,Chandrapur,Nagbhir,0.023,district_modal,Sawargaon,Unconfined,13.24,72,2000-01-15,2023-05-15
+MH70347c76f9,20.6458,79.5333,Chandrapur,Chimur,0.023,measured,Shankarpur,Unconfined,12.0,84,2000-01-15,2023-05-15
+MH6e5f14ff1d,20.2936,79.1803,Chandrapur,Bhadravati,0.02,measured,Shergaon Khurd,Unconfined,10.4,84,2000-01-15,2023-05-15
+MH4c0d70cc31,20.2833,79.65,Chandrapur,Sindewahi,0.023,district_modal,Sindewahi,-,11.13,69,2000-01-15,2019-01-15
+MHf55b882975,19.6667,79.3333,Chandrapur,Rajura,0.023,measured,Sondo,Unconfined,8.37,84,2000-01-15,2023-05-15
+MHb1bc7d1328,20.0333,79.2,Chandrapur,Chandrapur,0.023,district_modal,Tadali,Unconfined,10.0,73,2000-01-15,2023-05-15
+MH2325e9a764,20.1167,79.8833,Chandrapur,Mul,0.023,measured,Wihar Khurd,Unconfined,10.56,83,2000-01-15,2023-05-15
+MH17e23408a5,20.4836,79.2336,Chandrapur,Warora,0.023,measured,Wahangaon,Unconfined,9.5,81,2000-01-15,2023-05-15
+MHb9e76b8b2f,20.2972,78.8917,Chandrapur,Warora,0.023,district_modal,Wandli,-,8.21,41,2000-01-15,2014-01-15
+MH4873742751,19.6,79.65,Chandrapur,Gondpipri,0.023,district_modal,Watarna,Unconfined,30.0,66,2000-05-15,2022-11-15
+MH2bc9810d58,19.65,79.4333,Chandrapur,Rajura,0.023,measured,Wirur,Unconfined,11.6,85,2000-01-15,2023-05-15
+MH25a07ccb4a,20.825,74.6,Dhule,Dhule,0.02,nearest_well,Ajnale,Unconfined,9.25,81,2000-01-15,2023-05-15
+MH7b24c055fc,20.85,74.7833,Dhule,Dhule,0.02,nearest_well,Avdhan,Unconfined,11.6,83,2000-01-15,2023-05-15
+MHe711f70153,21.5208,74.9,Dhule,Shirpur,0.02,nearest_well,Boradi,Unconfined,12.0,63,2000-08-15,2022-11-15
+MHb9a86b064e,20.95,73.9667,Dhule,Sakri,0.02,nearest_well,Burdi Pada,Unconfined,9.16,82,2000-01-15,2023-05-15
+MH47de3a5824,21.2167,74.2333,Dhule,Sakri,0.02,nearest_well,Chadwel,Unconfined,12.5,72,2000-01-15,2022-11-15
+MH1f1b06123e,21.0042,73.8561,Dhule,Sakri,0.02,nearest_well,Charanmal,Unconfined,10.0,66,2000-01-15,2022-11-15
+MH18edf7d0ea,21.1833,74.6833,Dhule,Shindkhede,0.02,nearest_well,Chimthane,Unconfined,11.0,79,2000-01-15,2023-05-15
+MHb6780eac3a,21.0667,74.1639,Dhule,Sakri,0.02,nearest_well,Dahival,Unconfined,9.0,78,2000-01-15,2022-11-15
+MHbd5860862e,21.0208,74.7542,Dhule,Dhule,0.02,nearest_well,Deobhane,-,22.2,42,2000-01-15,2012-05-15
+MHf0ca68f020,20.9042,74.7667,Dhule,Dhule,0.02,nearest_well,Dhule,Unconfined,9.67,84,2000-01-15,2023-05-15
+MHcd24797bdf,20.8875,74.6167,Dhule,Dhule,0.02,nearest_well,Gotane,-,75.0,49,2000-08-15,2016-08-15
+MH862425c709,21.2667,75.1089,Dhule,Shirpur,0.02,nearest_well,Hisala,Unconfined,27.0,78,2000-01-15,2023-05-15
+MH5b695a1426,20.9722,74.4444,Dhule,Sakri,0.02,nearest_well,Ichhapur,Unconfined,9.35,68,2000-01-15,2023-01-15
+MH0b49a4729a,21.3333,74.9131,Dhule,Shirpur,0.02,nearest_well,Kalamsare,Unconfined,60.0,50,2000-01-15,2023-01-15
+MH022cb5deeb,20.8208,74.7458,Dhule,Dhule,0.02,nearest_well,Laling,Unconfined,13.1,79,2000-01-15,2023-05-15
+MHf8331f0165,21.2458,74.6375,Dhule,Shindkhede,0.02,nearest_well,Methi,Unconfined,13.0,77,2000-01-15,2023-05-15
+MHd74d9c32ec,20.8833,74.95,Dhule,Dhule,0.02,nearest_well,Mukti,Unconfined,11.4,83,2000-01-15,2023-05-15
+MH57ed9bccca,20.9667,74.775,Dhule,Dhule,0.02,nearest_well,Nangaon,Unconfined,7.95,78,2000-01-15,2022-11-15
+MH5c1f6b36b6,21.2167,74.8167,Dhule,Shindkhede,0.02,nearest_well,Nardana,Unconfined,8.75,83,2000-01-15,2023-05-15
+MHb41f52b56d,20.9417,74.5167,Dhule,Dhule,0.02,nearest_well,Ner,-,10.9,42,2000-01-15,2012-05-15
+MH3b629e917d,20.9492,74.525,Dhule,Dhule,0.02,nearest_well,Ner,Semi-confined,50.0,61,2000-08-15,2023-05-15
+MHdc4422bde5,21.525,75.0472,Dhule,Shirpur,0.02,nearest_well,Palasner,Unconfined,9.9,85,2000-01-15,2023-05-15
+MHf684eeab17,20.95,74.125,Dhule,Sakri,0.02,nearest_well,Pimpalner,Unconfined,7.0,80,2000-01-15,2023-05-15
+MH8246a2bd07,20.7283,74.7,Dhule,Dhule,0.02,nearest_well,Purmepada(Pur),Unconfined,10.5,77,2000-01-15,2023-05-15
+MH475aa82a72,20.9833,74.3167,Dhule,Sakri,0.02,nearest_well,Sakri,Unconfined,12.5,85,2000-01-15,2023-05-15
+MH326829017b,21.4833,74.9833,Dhule,Shirpur,0.02,nearest_well,Sangivi,Unconfined,7.4,78,2000-01-15,2022-11-15
+MH3e70d74126,21.0833,74.7833,Dhule,Dhule,0.02,nearest_well,Songir,-,14.8,48,2000-01-15,2013-11-15
+MH17b0f679af,19.4333,80.0667,Gadchiroli,Aheri,0.023,district_modal,Allapalli,Unconfined,12.32,83,2000-01-15,2023-05-15
+MHcab9875195,20.4667,79.9833,Gadchiroli,Armori,0.023,district_modal,Armori,-,9.08,58,2000-01-15,2016-05-15
+MH2a48dc106a,19.6833,79.7917,Gadchiroli,Chamorshi,0.023,district_modal,Ashti,Unconfined,8.0,71,2000-01-15,2023-05-15
+MHd00ce115ec,18.95,79.9833,Gadchiroli,Sironcha,0.023,district_modal,Bamni,Unconfined,9.2,65,2000-01-15,2023-05-15
+MHef9858c63d,19.5,79.95,Gadchiroli,Chamorshi,0.023,district_modal,Bori,Unconfined,10.94,78,2000-01-15,2023-05-15
+MHfaeb283802,19.9333,79.8833,Gadchiroli,Chamorshi,0.023,measured,Chamorshi,Unconfined,10.5,83,2000-01-15,2023-05-15
+MH0faa407a7d,20.55,80.2667,Gadchiroli,Kurkheda,0.023,district_modal,Chandona Tola,Unconfined,9.9,78,2000-01-15,2023-05-15
+MHd3f756c76c,20.2083,80.175,Gadchiroli,Dhanora,0.023,district_modal,Chatgaon,Unconfined,13.25,81,2000-01-15,2023-05-15
+MH7ea0119f08,19.6,79.85,Gadchiroli,Chamorshi,0.023,measured,Chaudampalli,Unconfined,10.15,82,2000-01-15,2023-05-15
+MH6304ffa1d0,19.6033,79.8517,Gadchiroli,Chamorshi,0.023,district_modal,Chaurampalli,Unconfined,30.0,63,2000-05-15,2023-05-15
+MH44ee8c31ed,20.4333,80.1833,Gadchiroli,Armori,0.023,district_modal,Delanwadi,Unconfined,9.71,76,2000-01-15,2023-05-15
+MH344aa9bab7,20.2667,80.3,Gadchiroli,Dhanora,0.023,district_modal,Dhanora,Unconfined,10.55,75,2000-01-15,2023-05-15
+MH20c9c6d658,19.5153,80.1572,Gadchiroli,Aheri,0.023,district_modal,Elchil,Unconfined,9.0,69,2000-01-15,2023-05-15
+MHee361d7cb5,20.1833,80.0083,Gadchiroli,Gadchiroli,0.023,measured,Gadchiroli,Unconfined,11.74,84,2000-01-15,2023-05-15
+MH50a1a6c25e,20.6264,80.15,Gadchiroli,Kurkheda,0.023,measured,Gowardha,Unconfined,8.0,78,2000-01-15,2022-11-15
+MH62e9ec7dcf,19.7917,79.9833,Gadchiroli,Chamorshi,0.023,measured,Ghot,Unconfined,17.5,83,2000-01-15,2022-11-15
+MH7c914d5ba3,19.1058,80.1203,Gadchiroli,Aheri,0.023,district_modal,Govindgaon,Unconfined,8.39,66,2000-01-15,2023-05-15
+MHf7464ebbe3,20.0653,80.0014,Gadchiroli,Gadchiroli,0.023,district_modal,Govindpur,Unconfined,15.09,83,2000-01-15,2023-05-15
+MH5560e199fe,19.6,80.2333,Gadchiroli,Etapalli,0.023,district_modal,Itapalli,Unconfined,14.35,70,2000-01-15,2023-05-15
+MHa2840f4982,20.575,79.9708,Gadchiroli,Armori,0.023,district_modal,Khondala,Unconfined,12.41,80,2000-01-15,2023-05-15
+MHdc710c12d4,19.7639,79.8144,Gadchiroli,Chamorshi,0.023,measured,Konsari,Unconfined,10.0,81,2000-01-15,2023-05-15
+MH704cea2e36,20.6167,80.2083,Gadchiroli,Kurkheda,0.023,measured,Kurkhera,Unconfined,11.14,79,2000-01-15,2023-05-15
+MHc10c7a26ba,19.5417,79.9,Gadchiroli,Chamorshi,0.023,district_modal,Lagam,Unconfined,9.5,78,2000-01-15,2023-05-15
+MH25a1000b9f,19.6819,79.9972,Gadchiroli,Chamorshi,0.023,district_modal,Mulchera,Unconfined,10.0,78,2000-01-15,2023-05-15
+MHfce1bda0e6,19.3,80.0333,Gadchiroli,Aheri,0.023,district_modal,Nandigaon,Unconfined,9.2,69,2000-01-15,2023-05-15
+MH8f4e9cd04b,20.3472,80.1819,Gadchiroli,Dhanora,0.023,district_modal,Rangi,Unconfined,11.17,82,2000-01-15,2023-05-15
+MH7d43a36b1f,19.1667,80.15,Gadchiroli,Aheri,0.023,district_modal,Repanpalli,Unconfined,14.0,66,2000-01-15,2023-05-15
+MHc311b7fb74,20.6272,80.0406,Gadchiroli,Armori,0.023,measured,Shankarpur,Unconfined,12.86,82,2000-01-15,2023-05-15
+MHcbb3955ee1,20.5208,80.2333,Gadchiroli,Kurkheda,0.023,district_modal,Sonsari,Unconfined,30.0,51,2000-08-15,2023-05-15
+MHc12772434c,19.9833,79.9667,Gadchiroli,Chamorshi,0.023,district_modal,Talodhi Rampur,Unconfined,15.0,82,2000-01-15,2023-05-15
+MH201fc874ec,19.2833,80.0833,Gadchiroli,Aheri,0.023,district_modal,Timiram,Unconfined,11.95,69,2000-01-15,2023-05-15
+MHf391c8cf6c,19.05,80.0667,Gadchiroli,Aheri,0.023,district_modal,Umanur,Unconfined,16.2,66,2000-01-15,2023-05-15
+MH28d82066ea,20.6167,79.9667,Gadchiroli,Armori,0.023,measured,Wadsa,Unconfined,13.55,83,2000-01-15,2023-05-15
+MHa5c3ffb485,20.4333,80.0917,Gadchiroli,Armori,0.023,district_modal,Wairagarh,Unconfined,13.67,80,2000-01-15,2023-05-15
+MH9f086e088c,19.5333,80.0667,Gadchiroli,Aheri,0.023,district_modal,Yelgur Tola,Unconfined,14.45,79,2000-01-15,2023-05-15
+MH9bfacf748b,21.375,80.3833,Gondia,Amgaon,0.023,measured,Amgaon,Unconfined,10.35,86,2000-01-15,2023-08-15
+MH95965707e8,20.8222,80.0222,Gondia,Arjuni Morgaon,0.023,district_modal,Arjuni,Unconfined,11.62,78,2000-01-15,2021-08-15
+MH66b5c957af,21.4833,80.2667,Gondia,Gondiya,0.023,measured,Asoli,Unconfined,9.95,82,2000-01-15,2023-08-15
+MH9d4c4d3b5c,20.8903,79.9986,Gondia,Arjuni Morgaon,0.023,district_modal,Bondgaon,Unconfined,12.8,65,2005-05-15,2023-01-15
+MH9ae4aa1f20,21.45,80.25,Gondia,Gondiya,0.023,district_modal,Datora,Unconfined,30.0,65,2000-01-15,2023-08-15
+MH6ed789de43,21.0667,80.25,Gondia,Deori,0.023,district_modal,Dongargaon,Unconfined,12.92,71,2000-01-15,2023-01-15
+MH63f2dac6cb,21.0758,80.25,Gondia,Deori,0.023,district_modal,Dongargaon,Unconfined,33.0,51,2000-08-15,2023-08-15
+MH796dd3fe8d,21.3333,80.2167,Gondia,Goregaon,0.023,measured,Goregaon,Unconfined,11.55,87,2000-01-15,2023-08-15
+MH2aebbe06f4,20.7667,80.1333,Gondia,Arjuni Morgaon,0.023,district_modal,Karandli,Unconfined,8.72,44,2000-01-15,2017-05-15
+MH021162d3ed,21.0667,80.15,Gondia,Arjuni Morgaon,0.023,district_modal,Kohemara,Unconfined,10.8,78,2000-01-15,2021-08-15
+MH63f60b3d6f,21.225,80.2083,Gondia,Goregaon,0.023,measured,Murdoli,Unconfined,10.1,87,2000-01-15,2023-08-15
+MHfa819fcd93,21.3464,79.8217,Gondia,Tirora,0.023,measured,Navegaon Ii (Khurd),Unconfined,9.0,82,2000-01-15,2023-08-15
+MH2a261a9543,20.9167,80.0833,Gondia,Arjuni Morgaon,0.023,measured,Navegaon,Unconfined,15.9,86,2000-01-15,2023-08-15
+MH8dec2061db,21.6139,80.2472,Gondia,Gondiya,0.13,measured,Rajegaon,Unconfined,11.5,82,2000-01-15,2023-08-15
+MHfb6c1cbb39,20.9097,79.9403,Gondia,Arjuni Morgaon,0.13,measured,Salebardi,Unconfined,19.25,85,2000-01-15,2023-08-15
+MHa16ae9f988,20.95,79.9833,Gondia,Arjuni Morgaon,0.023,measured,Sangadi,Unconfined,14.0,83,2000-01-15,2023-01-15
+MH7aae2e2d7b,21.2917,79.9333,Gondia,Tirora,0.023,district_modal,Sarra,-,5.03,74,2000-01-15,2020-11-15
+MH86375828ac,21.4958,80.0267,Gondia,Tirora,0.023,measured,Sejgaon,Unconfined,9.95,84,2000-01-15,2023-08-15
+MH3a2e9dd390,21.075,80.0917,Gondia,Deori,0.023,measured,Sondad,Unconfined,15.55,83,2000-01-15,2023-08-15
+MH2abc90ff20,21.4,79.9333,Gondia,Tirora,0.023,district_modal,Tiroda,Unconfined,11.4,73,2000-01-15,2023-08-15
+MHf1c0fa23fb,21.4172,79.9364,Gondia,Tirora,0.023,district_modal,Tiroda,Unconfined,32.2,40,2011-08-15,2023-08-15
+MH3dd0ffd65a,19.1444,77.155,Hingoli,Basmath,0.02,nearest_well,Alegaon (Old),Unconfined,13.5,80,2000-01-15,2023-05-15
+MH2d0a86f72a,19.2667,77.1333,Hingoli,Basmath,0.02,nearest_well,Babulgaon,Unconfined,10.0,74,2000-01-15,2023-05-15
+MH4b94b5d5c6,19.3333,77.15,Hingoli,Basmath,0.02,nearest_well,Basmath,-,9.35,59,2000-01-15,2017-01-15
+MHb2ef32fe8e,19.17,77.1333,Hingoli,Basmath,0.02,nearest_well,Churawa,-,20.95,48,2000-01-15,2016-11-15
+MHa9ba4e9797,19.7667,76.8,Hingoli,Hingoli,0.02,nearest_well,Hatta,Unconfined,13.5,79,2000-01-15,2023-01-15
+MHb319229977,19.7167,77.15,Hingoli,Hingoli,0.02,nearest_well,Hingoli,-,14.85,51,2000-01-15,2017-01-15
+MHe0306f58cd,19.9333,77.15,Hingoli,Hingoli,0.13,nearest_well,Kanhergaon,Unconfined,12.5,82,2000-01-15,2023-05-15
+MH10ca534b73,19.8167,76.8667,Hingoli,Hingoli,0.02,nearest_well,Kolsa,Unconfined,9.0,76,2000-01-15,2022-11-15
+MH150be771dc,20.5069,74.9028,Jalgaon,Chalisgaon,0.02,nearest_well,Adgaon,Unconfined,10.5,73,2000-01-15,2023-05-15
+MH7647f3c00e,21.1389,75.9694,Jalgaon,Raver,0.02,nearest_well,Balvadi,Unconfined,19.8,81,2000-01-15,2023-05-15
+MHa6a73aeed5,21.0306,75.7819,Jalgaon,Bhusawal,0.02,nearest_well,Bhusawal (New),Unconfined,11.0,78,2000-01-15,2022-11-15
+MHa2d2f63375,20.4792,74.9625,Jalgaon,Chalisgaon,0.02,nearest_well,Bilakhed,-,72.0,47,2000-08-15,2014-01-15
+MH92496f7033,20.3717,75.0522,Jalgaon,Chalisgaon,0.02,nearest_well,Bodar,Unconfined,25.0,81,2000-01-15,2023-05-15
+MH185de1f4db,20.8833,75.9833,Jalgaon,Bhusawal,0.02,nearest_well,Bodwad,Unconfined,19.9,83,2000-01-15,2023-05-15
+MHe27c3b5897,20.4667,75.025,Jalgaon,Chalisgaon,0.02,nearest_well,Chalisgaon,-,12.66,53,2000-01-15,2014-01-15
+MHcd705de726,21.25,75.3,Jalgaon,Chopda,0.02,nearest_well,Chopda,Unconfined,14.0,76,2000-01-15,2022-08-15
+MHfc566b7db6,21.2089,75.5125,Jalgaon,Chopda,0.02,nearest_well,Dhanora,Unconfined,64.0,70,2003-05-15,2023-05-15
+MH8a6df4a43d,21.0194,75.2667,Jalgaon,Erandol,0.02,nearest_well,Dharangaon,Unconfined,10.2,82,2000-01-15,2023-05-15
+MHfa35cf3d18,20.9167,75.3333,Jalgaon,Erandol,0.02,nearest_well,Erandol,Unconfined,7.9,80,2000-01-15,2023-05-15
+MHf76c20a537,21.2417,75.175,Jalgaon,Chopda,0.02,nearest_well,Hated Budruk,Unconfined,11.4,76,2000-01-15,2023-05-15
+MH18a5ff3352,20.5375,75.1181,Jalgaon,Chalisgaon,0.02,nearest_well,Higone,-,12.8,48,2000-01-15,2015-05-15
+MH522af3f8e9,20.825,75.3,Jalgaon,Erandol,0.02,nearest_well,Kasoda,Unconfined,7.0,84,2000-01-15,2023-05-15
+MH84d399f2af,20.5667,74.95,Jalgaon,Chalisgaon,0.02,nearest_well,Mahunbare,-,10.9,54,2000-01-15,2014-01-15
+MHda899fd054,20.8583,75.025,Jalgaon,Parola,0.02,nearest_well,Mondhale,Unconfined,7.2,82,2000-01-15,2023-05-15
+MH5f2b74721b,20.8739,75.4403,Jalgaon,Erandol,0.02,nearest_well,Nagduli,-,30.0,40,2000-01-15,2014-01-15
+MH6dec6c6f89,21.0042,75.6583,Jalgaon,Jalgaon,0.02,nearest_well,Naseerabad,Unconfined,19.4,84,2000-01-15,2023-05-15
+MH1063d3a686,20.5806,75.175,Jalgaon,Pachora,0.02,nearest_well,Pasardi,Unconfined,10.1,80,2000-01-15,2023-05-15
+MH2f16379a16,20.9917,75.3833,Jalgaon,Erandol,0.02,nearest_well,Pimpalkotha,Unconfined,10.5,80,2000-01-15,2023-05-15
+MHb686493d6c,21.2472,76.0344,Jalgaon,Raver,0.02,nearest_well,Raver,Unconfined,34.25,65,2005-01-15,2023-05-15
+MH23abd8040e,20.8528,75.1,Jalgaon,Parola,0.02,nearest_well,Sadavan Bk.,-,9.0,48,2001-01-15,2014-05-15
+MH5ba51c9a8c,20.7306,75.1,Jalgaon,Parola,0.02,nearest_well,Talwade Kd,Unconfined,11.5,81,2000-01-15,2023-05-15
+MH83aa9e1da2,21.0167,75.9125,Jalgaon,Bhusawal,0.02,nearest_well,Varangaon,-,13.7,41,2000-01-15,2014-11-15
+MHeca793c9f2,20.6531,75.4453,Jalgaon,Pachora,0.02,nearest_well,Varkhedi,-,7.2,48,2000-01-15,2014-01-15
+MHf73e4d740e,19.6,75.7833,Jalna,Ambad,0.02,nearest_well,Ambad,Unconfined,10.15,83,2000-01-15,2023-05-15
+MH0b38675bef,19.8697,75.7133,Jalna,Jalna,0.02,nearest_well,Badnapur,Unconfined,18.0,63,2005-08-15,2023-05-15
+MH69e0a90186,20.2667,75.7667,Jalna,Bhokardan,0.02,nearest_well,Bhokardhan,Unconfined,30.0,63,2000-01-15,2023-05-15
+MHc04b9c4161,19.5167,75.6917,Jalna,Ambad,0.02,nearest_well,Dungaon,-,16.0,51,2000-01-15,2014-01-15
+MHebdcfaaae7,20.2,76.0167,Jalna,Jafferabad,0.02,nearest_well,Jafrabad,Unconfined,16.5,85,2000-01-15,2023-05-15
+MHbdf3abfe44,19.8333,75.8833,Jalna,Jalna,0.02,nearest_well,Jalna,-,12.69,46,2000-01-15,2014-11-15
+MH32820e9f0c,19.8167,75.9833,Jalna,Jalna,0.02,nearest_well,Kalegaon,Unconfined,18.0,82,2000-01-15,2023-05-15
+MHd8eb309ba5,20.05,75.8989,Jalna,Bhokardan,0.02,nearest_well,Longaon,Unconfined,14.95,81,2000-01-15,2023-05-15
+MHef09403b28,19.65,76.3833,Jalna,Partur,0.02,nearest_well,Mantha,Unconfined,17.0,84,2000-01-15,2023-05-15
+MH6627da68bd,19.9167,76.0389,Jalna,Jalna,0.02,nearest_well,Navha,Unconfined,10.27,71,2000-01-15,2023-05-15
+MH5d2af018e2,19.7917,76.3922,Jalna,Partur,0.02,nearest_well,Naygaon,Unconfined,30.0,56,2003-08-15,2023-05-15
+MHde8d2497f5,19.6569,76.1222,Jalna,Ambad,0.02,nearest_well,Ranjani,-,12.3,47,2000-01-15,2014-11-15
+MH3898843538,19.7569,75.8444,Jalna,Jalna,0.02,nearest_well,Samangaon,Unconfined,12.0,83,2000-01-15,2023-05-15
+MHaf458f62df,19.8319,76.2611,Jalna,Jalna,0.02,nearest_well,Sevli,-,8.3,45,2000-01-15,2015-01-15
+MH1edfa32784,19.3667,75.7111,Jalna,Ambad,0.02,nearest_well,Shahagad,Unconfined,16.0,68,2000-01-15,2018-01-15
+MH9f634b9a13,19.475,76.2333,Jalna,Partur,0.02,nearest_well,Shreshti,Unconfined,13.0,76,2000-01-15,2023-05-15
+MHb5909c98af,19.8667,75.7667,Jalna,Jalna,0.02,nearest_well,Silegaon,-,14.95,48,2000-01-15,2013-08-15
+MHd4f9226ae9,20.0764,75.6583,Jalna,Bhokardan,0.02,nearest_well,Talegaon,Unconfined,12.5,73,2000-01-15,2023-05-15
+MHa3b52e77c0,19.8833,76.4444,Jalna,Partur,0.02,nearest_well,Talni,Unconfined,8.25,80,2000-01-15,2023-05-15
+MHfee601d86a,19.4583,75.93,Jalna,Ambad,0.02,nearest_well,Tirthpuri,Unconfined,14.19,79,2000-01-15,2023-05-15
+MH39b9c4d995,19.4675,75.7417,Jalna,Ambad,0.02,nearest_well,Wadigodri,Unconfined,30.0,50,2005-01-15,2023-05-15
+MHd5157f19aa,20.3667,75.7917,Jalna,Bhokardan,0.02,nearest_well,Wakdi,Unconfined,12.0,65,2000-01-15,2023-05-15
+MH329fbc00f1,20.2667,76.1333,Jalna,Jafferabad,0.02,nearest_well,Warud,Unconfined,23.39,68,2000-01-15,2023-05-15
+MHe4dcc1f290,19.6792,76.2778,Jalna,Partur,0.02,nearest_well,Watur,Unconfined,14.5,73,2000-01-15,2020-01-15
+MH54226dacc8,16.1167,74.2,Kolhapur,Ajra,0.02,measured,Ajra,Unconfined,12.5,80,2000-01-15,2023-05-15
+MHcc96ecd63e,16.9678,73.8069,Kolhapur,Shahuwadi,0.02,measured,Amba,Unconfined,10.5,78,2000-01-15,2023-05-15
+MH0da41ebb91,16.6042,73.8917,Kolhapur,Bavda,0.02,measured,Aslaj,Unconfined,8.6,83,2000-01-15,2023-05-15
+MHb9ab499523,16.2408,74.3517,Kolhapur,Gadhinglaj,0.02,measured,Gadinglaj,Unconfined,9.9,80,2000-01-15,2023-05-15
+MH5300837c21,16.5417,73.8294,Kolhapur,Bavda,0.02,district_modal,Gagan Bauda,Unconfined,12.0,55,2001-11-15,2023-05-15
+MHeb8682c2eb,16.6417,74.275,Kolhapur,Karvir,0.02,district_modal,Gokul Shirgaon,Unconfined,10.6,77,2000-01-15,2023-05-15
+MH3cba456d3c,16.1694,74.4694,Kolhapur,Gadhinglaj,0.02,measured,Halkarne,Unconfined,8.8,82,2000-01-15,2023-05-15
+MH4e24c6ced1,15.8972,74.3403,Kolhapur,Chandgad,0.023,measured,Karve,Unconfined,11.26,82,2000-01-15,2023-05-15
+MH10dea44afe,16.4486,74.0653,Kolhapur,Radhanagari,0.02,district_modal,Khindi Varvade,-,5.91,40,2000-01-15,2017-11-15
+MH1ba9477f45,16.8703,74.2975,Kolhapur,Hatkanangale,0.02,measured,Kini Wathar,Unconfined,14.88,85,2000-01-15,2023-05-15
+MH434c449bec,16.3833,74.1833,Kolhapur,Bhudargad,0.02,measured,Murgud,Unconfined,7.3,74,2000-01-15,2023-05-15
+MHf48c878266,15.9333,74.25,Kolhapur,Chandgad,0.023,measured,Naganwadi,Unconfined,9.65,84,2000-01-15,2023-05-15
+MHf96f932a11,16.0567,74.3306,Kolhapur,Gadhinglaj,0.02,measured,Nesari,Unconfined,12.5,78,2000-01-15,2023-05-15
+MH24841e4aab,16.2333,74.05,Kolhapur,Bhudargad,0.02,measured,Nitawade,Unconfined,14.84,81,2000-01-15,2023-05-15
+MH07a372803d,16.8417,74.0833,Kolhapur,Panhala,0.02,measured,Paijarwadi,Unconfined,15.0,77,2000-01-15,2023-05-15
+MH827e69cb98,16.8167,74.1,Kolhapur,Panhala,0.02,measured,Panhala,Unconfined,11.5,82,2000-01-15,2023-05-15
+MH08e1a78f18,16.7,74.0167,Kolhapur,Bavda,0.02,measured,Partangale,Unconfined,6.5,81,2000-01-15,2023-05-15
+MHf805d0afe7,15.8675,74.2333,Kolhapur,Chandgad,0.018,measured,Patne,Unconfined,10.62,79,2000-01-15,2023-05-15
+MH81983cdb4c,16.2972,74.2167,Kolhapur,Bhudargad,0.02,measured,Pimpalgaon,Unconfined,8.3,83,2000-01-15,2023-05-15
+MH1de00cd498,16.7819,74.0794,Kolhapur,Panhala,0.02,district_modal,Pimpli Tarf Thane,-,6.8,51,2000-01-15,2015-01-15
+MHd5a7a7ec6e,16.4083,73.9958,Kolhapur,Radhanagari,0.02,measured,Radhanagari,Unconfined,10.15,85,2000-01-15,2023-05-15
+MH65ea0abbef,16.4944,74.1306,Kolhapur,Radhanagari,0.02,measured,Shelewadi,Unconfined,12.14,81,2000-01-15,2023-05-15
+MH267042c3a3,16.6667,74.4833,Kolhapur,Hatkanangale,0.02,measured,Shiradwad,Unconfined,14.7,82,2000-01-15,2023-05-15
+MHc7e6d97e79,16.7333,74.2833,Kolhapur,Hatkanangale,0.02,district_modal,Shiroli,Unconfined,11.2,71,2000-11-15,2022-08-15
+MH48c235d68e,16.4139,74.2389,Kolhapur,Kagal,0.02,measured,Surupali,Unconfined,9.3,78,2000-01-15,2023-05-15
+MH380b6910b1,15.8375,74.375,Kolhapur,Chandgad,0.02,district_modal,Surute,Unconfined,18.0,72,2000-01-15,2023-05-15
+MH7ea52e6277,16.7811,73.9861,Kolhapur,Panhala,0.02,district_modal,Undri,Unconfined,9.0,76,2000-01-15,2023-05-15
+MH2d36d106b8,16.2583,74.2542,Kolhapur,Bhudargad,0.02,measured,Authur,Unconfined,16.65,82,2000-01-15,2023-05-15
+MH65916330f3,16.8833,74.0447,Kolhapur,Shahuwadi,0.02,district_modal,Wadicharan,-,5.4,40,2000-01-15,2015-01-15
+MH5a206130d8,16.6403,74.1792,Kolhapur,Karvir,0.02,measured,Washi,Unconfined,9.43,83,2000-01-15,2023-05-15
+MHf6cb862087,18.7,76.9333,Latur,Ahmadpur,0.02,nearest_well,Ahmadpur,Unconfined,15.04,84,2000-01-15,2023-01-15
+MH5bf508ce30,18.4592,76.7569,Latur,Ahmadpur,0.02,nearest_well,Ashta,Unconfined,22.5,83,2000-01-15,2023-05-15
+MHbb9c9e9e1c,18.0567,76.9278,Latur,Nilanga,0.02,nearest_well,Aurad Shahajani,Semi-confined,81.0,46,2003-11-15,2023-05-15
+MHba9cdee59b,18.25,76.5,Latur,Ausa,0.02,nearest_well,Ausa,Unconfined,14.34,81,2000-01-15,2023-05-15
+MHda783fd090,18.1722,76.4078,Latur,Ausa,0.02,nearest_well,Belkund,-,10.0,52,2000-01-15,2015-11-15
+MH55d878bdcc,18.2675,76.3967,Latur,Ausa,0.02,nearest_well,Bhada,Unconfined,11.0,81,2000-01-15,2023-05-15
+MH4f65b5a79b,18.4083,76.3139,Latur,Latur,0.02,nearest_well,Borgaon Kale,Unconfined,15.4,83,2000-01-15,2023-05-15
+MHcd25a72cd5,18.3,76.5333,Latur,Ausa,0.02,nearest_well,Budhoda,Unconfined,21.4,82,2000-01-15,2023-05-15
+MHc34c696d91,18.575,76.9139,Latur,Ahmadpur,0.02,nearest_well,Chapoli,Unconfined,22.8,83,2000-01-15,2023-01-15
+MH8ab84c991b,18.2667,77.0833,Latur,Udgir,0.02,nearest_well,Deoni,Unconfined,17.75,79,2000-01-15,2023-05-15
+MH766a3b325b,18.525,77.0417,Latur,Udgir,0.02,nearest_well,Handerguli,Unconfined,50.0,60,2001-11-15,2023-01-15
+MH8fe50866d8,18.63,77.1967,Latur,Udgir,0.02,nearest_well,Jalkot,Unconfined,32.0,77,2000-01-15,2023-05-15
+MHfecff7e451,17.9167,76.7667,Latur,Nilanga,0.02,nearest_well,Kasar Sirsi,Unconfined,12.45,82,2000-01-15,2023-05-15
+MHe3e7460cde,18.1861,76.8056,Latur,Nilanga,0.02,nearest_well,Kelgaon,Unconfined,16.9,84,2000-01-15,2023-05-15
+MHc3fc0fe11a,18.7611,76.7722,Latur,Ahmadpur,0.02,nearest_well,Kingaon,Unconfined,23.75,83,2000-01-15,2023-05-15
+MH288b40501d,18.1167,76.5833,Latur,Ausa,0.02,nearest_well,Lamjana Phata,Unconfined,17.47,82,2000-01-15,2023-05-15
+MH62b2d9c808,18.4,76.5833,Latur,Latur,0.02,nearest_well,Latur,-,11.0,50,2000-01-15,2014-11-15
+MH1fd878cda2,18.4472,76.7306,Latur,Ahmadpur,0.02,nearest_well,Mahalangra,Unconfined,15.0,77,2000-01-15,2023-05-15
+MHd8fc66d44f,18.3167,77.15,Latur,Udgir,0.02,nearest_well,Mogha,Unconfined,19.18,81,2000-01-15,2023-05-15
+MH45cb5f35a8,18.4,76.4,Latur,Latur,0.02,nearest_well,Murud-Akola,Unconfined,19.0,84,2000-01-15,2023-05-15
+MH1ccc5c79f9,18.4,76.2333,Latur,Latur,0.02,nearest_well,Murud,Unconfined,11.0,82,2000-01-15,2023-05-15
+MHf9a5dcfc99,18.4142,77.1858,Latur,Udgir,0.02,nearest_well,Nagalgaon,Semi-confined,62.25,61,2003-08-15,2023-05-15
+MH932343a985,18.2819,76.6708,Latur,Nilanga,0.02,nearest_well,Panchincholi,Unconfined,23.92,81,2000-01-15,2023-05-15
+MHc3c18be39b,18.3464,76.8903,Latur,Nilanga,0.02,nearest_well,Panderwadi,Unconfined,16.0,76,2000-01-15,2023-01-15
+MHee59e13bc1,18.6267,76.6292,Latur,Renapur,0.02,nearest_well,Pangaon,Unconfined,9.21,85,2000-01-15,2023-05-15
+MH09d9ae0319,18.6708,76.8333,Latur,Ahmadpur,0.02,nearest_well,Patoda,Unconfined,10.0,81,2000-01-15,2023-05-15
+MH80fa1098d1,18.5167,76.6,Latur,Renapur,0.02,nearest_well,Renapur,Unconfined,11.95,66,2000-01-15,2023-05-15
+MH1c8541d155,18.9319,72.8311,Mumbai City,Mumbai,0.02,measured,Bombay (Church Gate),Unconfined,4.4,85,2000-01-15,2023-05-15
+MH206e37c91c,18.8967,72.8111,Mumbai City,Mumbai,0.02,district_modal,Colaba (Dandi),Unconfined,5.04,73,2000-01-15,2023-05-15
+MHf2c3aaa3b0,19.025,72.8444,Mumbai City,Mumbai,0.02,district_modal,Mahim,Unconfined,5.8,76,2000-08-15,2023-05-15
+MHc0915043f4,19.1353,72.8872,Mumbai Suburban,Mumbai (Suburban),0.02,measured,A.M.C. Colony,Unconfined,14.0,84,2000-01-15,2023-05-15
+MHcb0d662b74,20.9944,78.925,Nagpur,Hingna,0.02,district_modal,Amgaon,Unconfined,8.1,47,2010-05-15,2023-05-15
+MHed27ec4197,20.775,79.0125,Nagpur,Umred,0.02,district_modal,Bela,Unconfined,30.0,59,2000-01-15,2023-01-15
+MH35f13b7893,20.8833,78.975,Nagpur,Nagpur (Rural),0.02,measured,Borkhedi,Unconfined,10.5,86,2000-01-15,2023-05-15
+MH15938ea15c,21.2833,79.3417,Nagpur,Mauda,0.023,measured,Chacher,Unconfined,13.26,85,2000-01-15,2023-05-15
+MH073bc6a4ba,21.2667,78.7583,Nagpur,Katol,0.02,measured,Chargaon (Punarwasi),Unconfined,11.0,84,2000-01-15,2023-05-15
+MHb9f0c437aa,21.3028,78.9139,Nagpur,Kalameshwar,0.02,district_modal,Dhapewada Ew,Unconfined,15.32,45,2010-11-15,2023-05-15
+MH4f6bf9c962,20.9917,79.0333,Nagpur,Hingna,0.02,district_modal,Gumgaon,Unconfined,10.43,67,2000-01-15,2018-05-15
+MH284dff9d44,21.2333,78.9167,Nagpur,Kalameshwar,0.023,measured,Kalmeshwar,Unconfined,11.75,84,2000-01-15,2023-05-15
+MH039b8808a2,21.2083,79.2083,Nagpur,Kamptee,0.02,district_modal,Kamptee,Unconfined,14.5,66,2005-05-15,2023-05-15
+MH02402f833f,20.9333,78.85,Nagpur,Hingna,0.02,measured,Kanholi Bara,Unconfined,10.5,83,2000-01-15,2023-05-15
+MH7da42f83bf,21.4597,78.8764,Nagpur,Savner,0.13,measured,Kelod,Unconfined,17.0,85,2000-01-15,2023-05-15
+MHacd4cf06d9,21.2417,79.5458,Nagpur,Mauda,0.02,district_modal,Khat,Unconfined,10.5,72,2000-01-15,2023-05-15
+MH66681e7f43,21.45,78.9667,Nagpur,Savner,0.02,measured,Khubala,Unconfined,12.35,85,2000-01-15,2023-01-15
+MHde21a3e22b,21.1333,78.65,Nagpur,Katol,0.02,district_modal,Kondhali,Unconfined,15.0,56,2000-01-15,2023-05-15
+MH9552f1f1e4,21.2528,79.08,Nagpur,Kamptee,0.02,district_modal,Koradi,Unconfined,5.37,67,2005-05-15,2023-05-15
+MH09993a7e5d,21.4194,79.0383,Nagpur,Savner,0.02,measured,Kothulna,Unconfined,13.3,86,2000-01-15,2023-05-15
+MH118151ac1a,21.0125,79.3528,Nagpur,Kuhi,0.02,district_modal,Kuhi,-,11.17,47,2000-01-15,2014-05-15
+MH2216f8db53,20.8667,79.2194,Nagpur,Umred,0.02,district_modal,Makardhokda,Unconfined,10.23,81,2000-01-15,2023-05-15
+MH6ae05e86c6,20.8742,79.2094,Nagpur,Umred,0.02,district_modal,Makardhokda,Unconfined,40.0,43,2011-08-15,2023-05-15
+MH22409a041d,21.1417,78.7625,Nagpur,Kalameshwar,0.02,district_modal,Mohpa,Unconfined,15.32,44,2010-05-15,2023-05-15
+MHa9e2cae8e3,21.5667,79.0167,Nagpur,Parseoni,0.02,district_modal,Nagalwadi,Unconfined,13.5,84,2000-01-15,2023-05-15
+MHf704508ce3,21.1264,79.1056,Nagpur,Nagpur (Rural),0.02,district_modal,Ngpur City,Unconfined,12.0,62,2005-05-15,2023-01-15
+MHd773203e44,21.1306,79.0639,Nagpur,Nagpur (Rural),0.02,measured,Nagpur City,Unconfined,11.05,83,2000-01-15,2023-01-15
+MH5b2b83016d,20.8028,79.4286,Nagpur,Bhiwapur,0.02,district_modal,Nawegaon (Deshmukh),Unconfined,13.9,79,2000-01-15,2023-05-15
+MH236941dd8e,21.3667,79.1833,Nagpur,Parseoni,0.023,measured,Nayakund,Unconfined,18.2,84,2000-08-15,2023-05-15
+MH7a6e570804,21.0333,79.1667,Nagpur,Umred,0.02,measured,Panchgaon,-,9.0,82,2000-01-15,2023-05-15
+MHb3ec1dea47,21.55,79.1667,Nagpur,Parseoni,0.023,measured,Parseoni,Unconfined,13.9,81,2000-01-15,2023-05-15
+MHadf6bc8417,21.4,79.3,Nagpur,Parseoni,0.023,measured,Ramtek,Unconfined,12.45,84,2000-01-15,2023-05-15
+MH79fb54126d,21.3897,78.9406,Nagpur,Savner,0.02,district_modal,Saoner,Unconfined,15.6,40,2012-11-15,2023-05-15
+MH2f8fe6fb6d,21.1333,78.8,Nagpur,Hingna,0.02,measured,Sathnaori,Unconfined,18.0,85,2000-05-15,2023-05-15
+MH8be3b8e6f1,21.3625,78.6258,Nagpur,Katol,0.02,district_modal,Sonoli,Unconfined,25.3,42,2011-08-15,2023-05-15
+MH707266a838,20.85,79.3333,Nagpur,Umred,0.02,district_modal,Umrer,Unconfined,10.9,79,2000-01-15,2023-05-15
+MH6900b68b05,20.95,79.2167,Nagpur,Umred,0.02,district_modal,Uti,Unconfined,5.55,78,2000-01-15,2023-05-15
+MHcd26f966ec,21.3333,79.2167,Nagpur,Parseoni,0.023,measured,Wagholi,Unconfined,12.4,87,2000-01-15,2023-05-15
+MH95f9e384fb,21.1417,78.9333,Nagpur,Kalameshwar,0.02,measured,Wardhamna,Unconfined,8.0,83,2000-01-15,2023-05-15
+MH9c496f77e0,18.5917,77.5083,Nanded,Deglur,0.02,nearest_well,Atkali,Unconfined,31.65,50,2000-01-15,2023-01-15
+MHc7889ab97d,19.2333,77.4333,Nanded,Nanded,0.02,nearest_well,Barad,Unconfined,13.4,80,2000-01-15,2023-05-15
+MHb38edbbbaf,19.2167,77.6833,Nanded,Bhokar,0.02,nearest_well,Bhokar,Unconfined,13.8,80,2000-01-15,2023-01-15
+MH99253664f9,19.5333,78.2333,Nanded,Kinwat,0.02,nearest_well,Chikhli Chota,Unconfined,8.0,57,2000-01-15,2020-01-15
+MH9bd0c8cc5e,19.2889,77.6639,Nanded,Hadgaon,0.02,nearest_well,Dhawari Buzurg,Unconfined,10.0,80,2000-01-15,2023-05-15
+MH446adfad6a,19.4239,77.6344,Nanded,Hadgaon,0.02,nearest_well,Dorli,Unconfined,8.0,79,2000-01-15,2023-05-15
+MH6a7fb2951e,19.4167,77.8667,Nanded,Hadgaon,0.02,nearest_well,Himayat Nagar,-,11.1,57,2000-01-15,2019-11-15
+MH69f76e4f39,19.4167,78.0167,Nanded,Kinwat,0.02,nearest_well,Islapur,Unconfined,9.8,73,2000-01-15,2022-11-15
+MH9c8047dfa4,18.6561,77.1833,Nanded,Mukhed,0.02,nearest_well,Jamb Buzurg,Unconfined,14.0,81,2000-01-15,2023-05-15
+MHc4407a8386,19.3417,78.0833,Nanded,Kinwat,0.02,nearest_well,Jhalakwadi,Unconfined,6.4,80,2000-01-15,2023-05-15
+MH8a522f5a17,19.675,78.1833,Nanded,Kinwat,0.02,nearest_well,Kamtala,Unconfined,11.0,82,2000-01-15,2023-05-15
+MH266018e5a8,19.2819,77.4625,Nanded,Nanded,0.02,nearest_well,Lahan,Unconfined,9.75,81,2000-01-15,2023-05-15
+MH7f706c1f02,19.875,77.95,Nanded,Kinwat,0.02,nearest_well,Lakmapur,Unconfined,7.5,74,2000-01-15,2022-11-15
+MH10dd30d48c,19.8056,77.9222,Nanded,Kinwat,0.02,nearest_well,Mahur,Unconfined,10.0,59,2000-01-15,2017-05-15
+MH72e026e899,18.8167,77.0167,Nanded,Kandhar,0.02,nearest_well,Malegaon (I),Unconfined,5.7,67,2000-01-15,2021-08-15
+MHfe862b1395,19.3111,77.3167,Nanded,Nanded,0.02,nearest_well,Malegaon (Ii),Unconfined,14.34,79,2000-01-15,2023-05-15
+MHba0acc7a8d,18.4833,77.3667,Nanded,Mukhed,0.02,nearest_well,Mukrambad (Kharka),Unconfined,9.68,72,2000-01-15,2021-01-15
+MH3ffe797bb8,19.2125,77.6992,Nanded,Bhokar,0.02,nearest_well,Nagapur,Unconfined,11.85,76,2000-01-15,2023-05-15
+MHdba4762ece,18.85,77.5333,Nanded,Biloli,0.02,nearest_well,Naigaon,Unconfined,10.45,77,2000-01-15,2022-08-15
+MH7e71fe4c7a,18.8097,77.5333,Nanded,Biloli,0.02,nearest_well,Narsi,Unconfined,8.5,83,2000-01-15,2023-05-15
+MH8528ccd072,19.2333,77.6333,Nanded,Bhokar,0.02,nearest_well,Narwat,Unconfined,15.31,84,2000-01-15,2023-05-15
+MH81635ede2b,18.6417,77.4458,Nanded,Mukhed,0.02,nearest_well,Pala,Unconfined,7.2,68,2000-01-15,2022-11-15
+MHdf3cbdd646,19.1333,77.4167,Nanded,Nanded,0.02,nearest_well,Sikarghat (Amdura),Unconfined,32.5,82,2000-01-15,2023-05-15
+MHd7f969f260,19.3708,77.6167,Nanded,Hadgaon,0.02,nearest_well,Tamsa,Unconfined,36.0,50,2000-01-15,2023-05-15
+MHaf2b463b21,19.85,78.2,Nanded,Kinwat,0.02,nearest_well,Unkeshwar,Unconfined,5.0,77,2000-01-15,2023-05-15
+MHa469d3d994,19.4333,77.4833,Nanded,Hadgaon,0.02,nearest_well,Waranga,Unconfined,11.0,82,2000-01-15,2023-05-15
+MHb64e3c64cd,21.5619,74.0158,Nandurbar,Akkalkuwa,0.02,nearest_well,Akkalkuva,Unconfined,13.0,83,2000-01-15,2023-05-15
+MH35a722d604,21.3083,74.0917,Nandurbar,Nawapur,0.02,nearest_well,Bhadavad,Unconfined,9.35,78,2000-01-15,2023-01-15
+MH2f456b5c92,21.825,74.2125,Nandurbar,Akrani,0.02,nearest_well,Dhadgaon June,Unconfined,78.0,58,2000-08-15,2023-05-15
+MH7a1081f1c9,21.5333,73.9333,Nandurbar,Akkalkuwa,0.02,nearest_well,Khapar,Unconfined,13.0,72,2000-01-15,2022-11-15
+MHe2d90c7194,21.4153,74.1306,Nandurbar,Nandurbar,0.02,nearest_well,Loy,Unconfined,9.0,82,2000-01-15,2023-05-15
+MH6e3b292de1,21.3619,74.2464,Nandurbar,Nandurbar,0.02,nearest_well,Nandurbar,Unconfined,10.77,83,2000-01-15,2023-05-15
+MH961b28b41d,21.1639,73.7806,Nandurbar,Nawapur,0.02,nearest_well,Nawapur,Unconfined,13.6,79,2000-01-15,2023-05-15
+MHcb35ae890a,21.35,74.4,Nandurbar,Nandurbar,0.02,nearest_well,Ranala,Unconfined,10.6,80,2000-01-15,2022-11-15
+MH09da369c85,21.0667,73.8325,Nandurbar,Nawapur,0.02,nearest_well,Vadkolambi,Unconfined,10.53,71,2000-01-15,2023-05-15
+MH4e792e8b39,21.1833,73.9667,Nandurbar,Nawapur,0.02,nearest_well,Viasarwadi,Unconfined,13.8,74,2000-01-15,2023-05-15
+MH48960fae74,19.8447,74.0833,Nashik,Sinnar,0.02,nearest_well,Bargaon Pimpri,Unconfined,9.0,46,2009-11-15,2023-01-15
+MH12421cd79d,20.2042,73.6792,Nashik,Dindori,0.02,nearest_well,Chachadgaon,Unconfined,10.1,79,2000-01-15,2023-05-15
+MHc5c0971350,20.2583,74.2375,Nashik,Chandvad,0.02,nearest_well,Chandwad,Unconfined,12.1,75,2000-01-15,2023-05-15
+MHbdc8e6f42a,20.6,74.6333,Nashik,Malegaon,0.02,nearest_well,Chikhalohol,Unconfined,10.75,77,2000-05-15,2023-05-15
+MHa51142f3d1,20.5333,74.5667,Nashik,Malegaon,0.02,nearest_well,Dabhadi,Unconfined,7.0,70,2000-01-15,2023-01-15
+MH94e8570c1e,20.2833,74.4458,Nashik,Chandvad,0.02,nearest_well,Dahigaon,Semi-confined,45.0,55,2000-01-15,2023-01-15
+MH344387c89f,20.5333,74.6917,Nashik,Malegaon,0.02,nearest_well,Dahiwal,Unconfined,15.55,71,2000-01-15,2023-05-15
+MH1d27cf33ba,20.5417,73.8272,Nashik,Kalwan,0.02,nearest_well,Dalwat,Unconfined,8.5,78,2000-01-15,2023-01-15
+MH3a73759ac6,19.9,73.8167,Nashik,Nashik,0.02,nearest_well,Deolali,Unconfined,8.44,75,2000-01-15,2023-05-15
+MH7db9cd7192,20.075,73.6125,Nashik,Nashik,0.02,nearest_well,Dhundegaon,Unconfined,14.0,79,2000-01-15,2023-05-15
+MH202bff19b1,20.2,73.8167,Nashik,Dindori,0.02,nearest_well,Dindori,Unconfined,15.0,78,2000-05-15,2023-05-15
+MH81caf5f20b,20.0833,73.6667,Nashik,Nashik,0.02,nearest_well,Gangawadi,Unconfined,11.42,70,2000-01-15,2023-01-15
+MH0ba7adbd47,20.1,73.3833,Nashik,Peint,0.02,nearest_well,Harsul,Unconfined,6.8,82,2000-01-15,2023-05-15
+MH8d43cb13b1,19.695,73.5708,Nashik,Igatpuri,0.02,nearest_well,Igatpuri,Unconfined,30.0,53,2000-01-15,2023-01-15
+MH57562e36fa,20.0639,74.1111,Nashik,Niphad,0.02,nearest_well,Jalgaon,Unconfined,11.25,68,2000-01-15,2023-01-15
+MHa3a45d1cac,20.6639,74.6778,Nashik,Malegaon,0.02,nearest_well,Jhodga,Unconfined,8.15,74,2000-01-15,2022-11-15
+MH2a074d20fa,20.6333,74.5417,Nashik,Malegaon,0.02,nearest_well,Karanjagavan,Unconfined,10.2,79,2000-01-15,2023-01-15
+MH92dfd95779,20.2542,73.585,Nashik,Peint,0.02,nearest_well,Karanjali,Unconfined,4.7,77,2000-01-15,2023-05-15
+MH1a442e3727,19.7167,73.6333,Nashik,Igatpuri,0.02,nearest_well,Khambale,Unconfined,7.25,67,2000-01-15,2023-05-15
+MH7fd40c436f,20.2917,74.6708,Nashik,Nandgaon,0.02,nearest_well,Kokanwadi,Unconfined,9.0,79,2000-01-15,2022-11-15
+MH985c1890f7,20.0694,73.5306,Nashik,Nashik,0.02,nearest_well,Kona,Unconfined,9.0,79,2000-01-15,2023-01-15
+MH39a93e9ed1,20.5556,74.3486,Nashik,Baglan,0.02,nearest_well,Lakhmapur,Unconfined,30.6,60,2001-11-15,2021-01-15
+MHaf4d6ed3c5,20.0467,73.8078,Nashik,Nashik,0.02,nearest_well,Mhasrul,Unconfined,11.0,81,2000-01-15,2023-05-15
+MH094fc74765,19.8083,73.6542,Nashik,Igatpuri,0.02,nearest_well,Mukhane,Unconfined,7.0,67,2000-01-15,2022-01-15
+MHe4ef5230ff,20.1767,73.7,Nashik,Dindori,0.02,nearest_well,Nalegaon,Unconfined,12.0,79,2000-01-15,2023-01-15
+MH3850a6c680,20.3083,74.6583,Nashik,Nandgaon,0.02,nearest_well,Nandgaon,Unconfined,10.0,82,2000-01-15,2023-01-15
+MHc710d2f2f8,19.7167,74.1333,Nashik,Sinnar,0.02,nearest_well,Nandur Shirgate,Unconfined,10.0,79,2000-01-15,2023-01-15
+MH8098825999,20.2603,73.5083,Nashik,Peint,0.02,nearest_well,Peinth,Unconfined,8.0,83,2000-01-15,2023-05-15
+MH65a37d8e83,20.1708,73.9833,Nashik,Niphad,0.02,nearest_well,Pimpalgaon Baswant,Unconfined,11.62,84,2000-01-15,2023-05-15
+MHa9c6ba5eda,19.8889,73.6958,Nashik,Nashik,0.02,nearest_well,Raigarh Nagar,Unconfined,7.47,77,2000-01-15,2023-05-15
+MH0bcfd4b4ab,20.0708,74.0917,Nashik,Niphad,0.02,nearest_well,Raslapur,Unconfined,9.0,82,2000-01-15,2023-05-15
+MH1cd733c7ad,20.6333,74.4042,Nashik,Malegaon,0.02,nearest_well,Ravalgaon,Unconfined,9.62,79,2000-01-15,2022-11-15
+MHd5316f5b90,20.5333,74.3833,Nashik,Baglan,0.02,nearest_well,Ravalgaon,Semi-confined,90.0,50,2000-08-15,2023-01-15
+MHca23b0a192,20.6,74.2042,Nashik,Baglan,0.02,nearest_well,Satana,Unconfined,21.0,82,2000-01-15,2023-01-15
+MH18f4b38732,20.3575,74.4611,Nashik,Malegaon,0.02,nearest_well,Savargaon,Unconfined,7.8,74,2000-01-15,2023-05-15
+MH7a19f9d5e4,19.8333,74.0,Nashik,Sinnar,0.02,nearest_well,Sinnar,Unconfined,12.45,82,2000-01-15,2023-05-15
+MHc76b1f3e94,20.3,74.1167,Nashik,Chandvad,0.02,nearest_well,Sogras,Unconfined,10.75,78,2000-01-15,2023-05-15
+MH8ceabd1516,20.5211,74.2,Nashik,Baglan,0.02,nearest_well,Thengode,Semi-confined,50.0,73,2000-01-15,2023-01-15
+MH1f3fd83090,20.7417,74.5608,Nashik,Malegaon,0.02,nearest_well,Tinghri,Unconfined,30.0,70,2000-08-15,2023-01-15
+MHb45daaad9d,20.775,74.1333,Nashik,Baglan,0.02,nearest_well,Toharabad,Unconfined,17.73,61,2000-01-15,2023-05-15
+MH476728904f,19.9542,73.525,Nashik,Nashik,0.02,nearest_well,Trimbakeswar,Unconfined,9.0,80,2000-01-15,2023-01-15
+MH9af62c89d9,20.3292,73.8833,Nashik,Dindori,0.02,nearest_well,Vani,Unconfined,8.07,70,2000-01-15,2023-01-15
+MH99cf7229c2,19.6333,73.7333,Nashik,Igatpuri,0.02,nearest_well,Vasali,Unconfined,16.0,79,2000-01-15,2022-11-15
+MHf6072e277e,20.1083,74.225,Nashik,Niphad,0.02,nearest_well,Vinchur,Semi-confined,45.0,45,2000-08-15,2023-01-15
+MH8b42889d68,18.4333,75.4167,Osmanabad,Paranda,0.02,nearest_well,Anala,Unconfined,10.0,72,2000-01-15,2023-01-15
+MH617a753f7c,18.4667,75.6583,Osmanabad,Bhum,0.02,nearest_well,Bhum,-,13.15,40,2000-01-15,2011-01-15
+MH9d7fb27ef1,18.3739,76.1028,Osmanabad,Osmanabad,0.02,nearest_well,Dhoki,Unconfined,13.0,83,2000-01-15,2023-05-15
+MHf6f41180a6,17.7639,76.1394,Osmanabad,Tuljapur,0.02,nearest_well,Itkal,Semi-confined,75.0,58,2000-01-15,2023-05-15
+MH4243615cdf,18.4931,75.4722,Osmanabad,Paranda,0.02,nearest_well,Kukadgaon,Unconfined,11.0,74,2000-01-15,2023-05-15
+MHf4b50201e0,17.9917,76.3306,Osmanabad,Umarga,0.02,nearest_well,Lohara Buzurg,Unconfined,13.05,84,2000-01-15,2023-05-15
+MHee9aff44e6,18.4833,75.9333,Osmanabad,Kalamb,0.02,nearest_well,Massa (Khurd),Unconfined,8.1,66,2000-01-15,2023-01-15
+MH6eb5a20cc6,17.975,76.1597,Osmanabad,Tuljapur,0.02,nearest_well,Mouje Barul,Unconfined,11.25,84,2000-01-15,2023-05-15
+MHb7b5181fe6,18.5583,75.5389,Osmanabad,Bhum,0.02,nearest_well,Pathrud,Unconfined,10.0,43,2005-05-15,2023-01-15
+MH172f846586,18.2167,75.5333,Osmanabad,Paranda,0.02,nearest_well,Pimpalwandi,Unconfined,10.1,78,2000-01-15,2023-05-15
+MH67c470028a,18.2,76.0833,Osmanabad,Osmanabad,0.02,nearest_well,Sancha,Unconfined,7.02,65,2000-01-15,2023-05-15
+MH9b679c146b,18.3708,75.425,Osmanabad,Paranda,0.02,nearest_well,Sonari,Unconfined,10.0,83,2000-01-15,2023-05-15
+MHa41e77c2bd,18.0333,76.2167,Osmanabad,Osmanabad,0.02,nearest_well,Takiwiki,Unconfined,12.0,78,2000-01-15,2023-05-15
+MHbb94b16799,17.8333,76.6833,Osmanabad,Umarga,0.02,nearest_well,Turori,Unconfined,13.4,82,2000-01-15,2023-05-15
+MHc11d26eb2a,18.1208,76.0806,Osmanabad,Osmanabad,0.02,nearest_well,Vadgaon Siddheswar,Unconfined,12.6,81,2000-01-15,2023-05-15
+MH23deb7ae62,18.5178,75.6958,Osmanabad,Bhum,0.02,nearest_well,Wakwad,Unconfined,13.0,79,2000-01-15,2023-01-15
+MH09c5122993,18.325,75.9639,Osmanabad,Osmanabad,0.02,nearest_well,Yedshi,Unconfined,10.7,60,2000-01-15,2023-01-15
+MH2b15dbaa82,19.4667,72.7728,Palghar,Vasai,0.02,measured,Vasai,Unconfined,7.3,83,2000-01-15,2022-11-15
+MH43c2fe7950,19.425,72.7833,Palghar,Vasai,0.02,measured,Vasai,Unconfined,4.45,81,2000-01-15,2022-11-15
+MH72d44ba1d9,19.9833,72.7333,Palghar,Dahanu,0.02,district_modal,Dahanu,Unconfined,5.65,65,2000-01-15,2022-11-15
+MH00b6d46dcb,20.075,72.925,Palghar,Dahanu,0.02,measured,Dapchari Takarpada,Unconfined,8.65,83,2000-01-15,2022-11-15
+MHb1dfeae92e,19.7,72.8167,Palghar,Palghar,0.02,district_modal,Chahade,Unconfined,8.85,78,2000-01-15,2022-01-15
+MH1e6e11b571,19.6139,72.9167,Palghar,Palghar,0.02,district_modal,Ganje,Unconfined,3.9,77,2000-01-15,2022-01-15
+MHec5e8eaa96,19.9444,72.8667,Palghar,Dahanu,0.02,measured,Gunjad,Unconfined,6.75,83,2000-01-15,2022-11-15
+MHd657c9b29f,19.3792,72.7917,Palghar,Vasai,0.02,measured,Vasai,Unconfined,7.4,82,2000-01-15,2022-11-15
+MH5651f6348d,20.2069,72.8861,Palghar,Talasari,0.02,measured,Kajli,Unconfined,7.25,81,2000-01-15,2022-11-15
+MHb98e659339,19.9167,72.95,Palghar,Dahanu,0.02,measured,Kasa,Unconfined,8.5,83,2000-01-15,2022-11-15
+MHd18314e889,19.4833,72.85,Palghar,Vasai,0.02,district_modal,Vasai,Unconfined,5.0,74,2000-01-15,2022-05-15
+MH4a61a884ee,19.8,73.4,Palghar,Mokhada,0.02,district_modal,Khodala,Unconfined,4.9,79,2000-01-15,2022-11-15
+MH31c2e7199c,19.7208,72.9083,Palghar,Palghar,0.02,district_modal,Manor,-,7.35,46,2000-01-15,2013-01-15
+MH5581234d46,19.9167,73.35,Palghar,Mokhada,0.02,measured,Mokhada,Unconfined,6.85,77,2000-01-15,2022-11-15
+MH61a2339454,20.0569,73.0389,Palghar,Dahanu,0.02,measured,Shilonda,Unconfined,7.0,79,2000-01-15,2022-08-15
+MH5f9ded1c0f,19.3478,72.7861,Palghar,Vasai,0.02,district_modal,Sandor,-,5.1,67,2000-01-15,2019-05-15
+MH16d37bad55,20.1042,73.0083,Palghar,Talasari,0.02,measured,Udhwa,Unconfined,7.0,82,2000-01-15,2022-11-15
+MHebc554b55f,19.3583,72.8833,Palghar,Vasai,0.02,district_modal,Wafana,-,8.75,55,2000-01-15,2019-05-15
+MH08e30e4bd0,19.55,76.4833,Parbhani,Pathri,0.02,nearest_well,Chikhalthana,Unconfined,21.0,84,2000-01-15,2023-05-15
+MH6b2d46ca10,19.5394,76.9444,Parbhani,Jintur,0.02,nearest_well,Gojegaon,Unconfined,9.6,82,2000-01-15,2023-05-15
+MH6dbf4f571b,19.6167,76.6833,Parbhani,Jintur,0.02,nearest_well,Jintur,Unconfined,15.43,79,2000-01-15,2023-05-15
+MH8ab5fcc7fd,19.3875,76.6875,Parbhani,Parbhani,0.02,nearest_well,Kausdi,Semi-confined,70.0,76,2000-05-15,2023-05-15
+MH71eff751bf,19.1167,76.7333,Parbhani,Parbhani,0.02,nearest_well,Kotamwadi,Unconfined,5.33,72,2000-01-15,2023-05-15
+MH11ceae41b9,19.6833,76.7,Parbhani,Jintur,0.02,nearest_well,Mankeswar,Unconfined,10.1,84,2000-01-15,2023-05-15
+MHa2231ba490,19.3,76.4833,Parbhani,Pathri,0.02,nearest_well,Manwat,Unconfined,12.75,84,2000-01-15,2023-05-15
+MH51a54357ae,19.3681,76.4042,Parbhani,Pathri,0.02,nearest_well,Selu,Unconfined,22.0,85,2000-01-15,2023-05-15
+MH7d3c631282,19.175,76.7417,Parbhani,Parbhani,0.02,nearest_well,Singanapur,Unconfined,12.45,82,2000-01-15,2023-05-15
+MHe98d08ea66,19.1333,76.9333,Parbhani,Parbhani,0.02,nearest_well,Todkalas,Unconfined,11.5,73,2000-01-15,2023-05-15
+MHe78a5333d0,19.4022,72.8517,Palghar,Vasai,0.02,district_modal,Waliv,-,8.2,54,2000-01-15,2015-08-15
+MH698a004270,19.1667,74.0833,Pune,Junnar,0.02,district_modal,Ale,-,16.7,52,2000-05-15,2014-08-15
+MHa0305a67cb,19.1667,74.2167,Pune,Junnar,0.02,measured,Ane,Unconfined,14.21,78,2000-01-15,2023-05-15
+MH22f63f19a7,19.1333,74.1931,Pune,Junnar,0.02,district_modal,Belhe,-,18.05,52,2000-01-15,2014-08-15
+MHd92e760481,18.2667,74.7667,Pune,Indapur,0.02,measured,Bhadalwadi,Unconfined,7.8,75,2000-01-15,2023-05-15
+MHd5589711cc,18.4964,73.72,Pune,Mulshi,0.02,district_modal,Bukum,Unconfined,11.0,74,2000-01-15,2023-05-15
+MH01161d820b,18.6389,73.7889,Pune,Haveli,0.02,district_modal,Chinchwad,-,6.27,49,2000-05-15,2017-05-15
+MH0c689eebf9,18.1006,74.4806,Pune,Baramati,0.02,measured,Dhumalwadi,Unconfined,16.0,79,2000-01-15,2023-05-15
+MH5eed6c626b,18.0944,74.6111,Pune,Baramati,0.02,measured,Dorlewadi,Unconfined,7.31,82,2000-01-15,2023-05-15
+MH05f8d06b73,18.2681,74.1708,Pune,Purandhar,0.02,measured,Jejuri,Unconfined,8.9,84,2000-01-15,2023-05-15
+MHc7b425f88c,19.2061,73.8694,Pune,Junnar,0.02,measured,Junnar,Unconfined,24.0,80,2000-01-15,2023-05-15
+MH4f08b597b4,19.0583,73.9611,Pune,Ambegaon,0.02,district_modal,Kalamb,-,12.14,71,2000-01-15,2019-11-15
+MH853b5bca28,18.1361,74.2542,Pune,Baramati,0.02,measured,Karanje,Unconfined,10.4,85,2000-01-15,2023-05-15
+MHfce5a41b9c,18.5108,74.33,Pune,Daund,0.02,district_modal,Khutbhav,Unconfined,30.0,55,2002-08-15,2023-05-15
+MHf27c73fdb0,18.5819,73.5319,Pune,Mulshi,0.02,measured,Kolwan,Unconfined,4.3,80,2000-01-15,2023-05-15
+MH572f33d823,18.7583,73.4181,Pune,Mawal,0.02,measured,Lonawala,Unconfined,10.72,83,2000-01-15,2023-05-15
+MH07cd8c15a5,18.9028,74.0875,Pune,Ambegaon,0.02,measured,Loni (Ambegaon),Unconfined,9.65,82,2000-01-15,2023-05-15
+MHa19eaaeedf,19.0667,73.925,Pune,Ambegaon,0.02,district_modal,Mahalunge Padval,Unconfined,33.0,40,2007-08-15,2020-08-15
+MH7db9d2538a,19.1333,73.9833,Pune,Junnar,0.02,measured,Narayangaon,Unconfined,9.22,85,2000-01-15,2023-05-15
+MH22efab708e,18.0833,74.9167,Pune,Indapur,0.02,measured,Nimbgaon-Ketke,Unconfined,13.54,76,2000-01-15,2023-05-15
+MH2d0d9107cf,19.2708,73.9667,Pune,Junnar,0.02,measured,Otur,Unconfined,26.5,84,2000-01-15,2023-05-15
+MH7bd781b76a,18.8358,74.0558,Pune,Ambegaon,0.02,district_modal,Pabal New,Unconfined,10.0,43,2009-11-15,2023-05-15
+MHe0d367f68a,18.6333,74.0611,Pune,Haveli,0.02,measured,Parne,Unconfined,10.0,85,2000-01-15,2023-05-15
+MH2582e061da,18.4333,74.4333,Pune,Daund,0.02,measured,Patas,Unconfined,5.36,84,2000-01-15,2023-05-15
+MH0d1bb4b435,18.1111,74.2028,Pune,Purandhar,0.02,measured,Pimpri (Kh) Malvasti,Unconfined,7.97,86,2000-01-15,2023-05-15
+MHe8925aa0db,18.5389,73.8458,Pune,Pune City,0.02,measured,Pune,Unconfined,12.2,85,2000-01-15,2023-05-15
+MH385410df05,18.8639,73.8972,Pune,Khed,0.02,measured,Rajgurnagar (Khed),Unconfined,13.36,83,2000-01-15,2023-05-15
+MHd687a8c218,18.35,74.6333,Pune,Daund,0.02,district_modal,Ravangaon,-,8.42,46,2000-01-15,2013-11-15
+MHc82d6102a5,18.2833,74.1167,Pune,Purandhar,0.02,measured,Sakurde,Unconfined,9.6,84,2000-01-15,2023-05-15
+MHa4b01db224,18.6914,74.1306,Pune,Haveli,0.02,district_modal,Shikrapur,Unconfined,8.0,41,2011-08-15,2023-05-15
+MH6a60e73056,18.3333,73.85,Pune,Haveli,0.02,measured,Shivpur Khed,Unconfined,11.0,81,2000-01-15,2023-05-15
+MH51630eea56,18.7333,73.6667,Pune,Mawal,0.02,district_modal,Talegaon,-,5.67,52,2000-01-15,2014-08-15
+MH1cd60e6d05,18.2472,74.5389,Pune,Baramati,0.02,district_modal,Undavri Kade Pathar,Unconfined,8.8,80,2000-01-15,2023-05-15
+MHde9c6014e5,18.4917,74.1361,Pune,Haveli,0.02,district_modal,Uruli Kanchan,-,18.0,47,2000-01-15,2015-08-15
+MH37a2e4ba27,18.5681,73.9833,Pune,Haveli,0.02,district_modal,Wagholi,-,13.8,51,2000-01-15,2015-05-15
+MHff60a318f6,18.3,73.6333,Pune,Velhe,0.02,measured,Wehle,Unconfined,6.54,80,2000-01-15,2023-05-15
+MH6b0450d6e6,18.4139,74.0167,Pune,Purandhar,0.02,district_modal,Zendewadi,-,15.5,55,2000-01-15,2022-05-15
+MHee535c6571,18.9528,73.15,Raigad,Panvel,0.02,district_modal,Ajivali,-,5.2,62,2000-01-15,2022-05-15
+MHe4b19d6a54,18.1667,73.1833,Raigad,Mangaon,0.023,measured,Chandore,Unconfined,9.0,81,2000-01-15,2023-05-15
+MH74d9ff580b,18.925,73.1167,Raigad,Panvel,0.02,measured,Chinchwad,Unconfined,10.3,82,2000-01-15,2023-05-15
+MHe06f13b840,18.4778,73.0083,Raigad,Roha,0.02,measured,Dapoli,Unconfined,8.0,76,2000-01-15,2023-05-15
+MH4d27464409,18.9125,73.3194,Raigad,Karjat,0.02,measured,Hudhre Budruk (Karjat,Unconfined,6.7,78,2000-01-15,2023-05-15
+MH7cd10964f3,18.3028,73.2389,Raigad,Mangaon,0.02,district_modal,Indapur,-,5.6,54,2000-01-15,2018-01-15
+MHf8861da668,18.8139,73.0875,Raigad,Pen,0.02,measured,Jite,Unconfined,7.8,78,2000-01-15,2023-05-15
+MHeda519f010,18.7264,73.2986,Raigad,Khalapur,0.02,district_modal,Kargaon,Unconfined,6.54,73,2000-01-15,2023-05-15
+MH98d7451b61,18.0889,73.1056,Raigad,Mhasla,0.023,measured,Kelte,Unconfined,4.8,84,2000-01-15,2023-05-15
+MH2062632c6b,18.8278,73.2842,Raigad,Khalapur,0.02,measured,Khalapur,Unconfined,7.2,83,2000-01-15,2023-05-15
+MHbb15e21959,18.45,73.1,Raigad,Roha,0.02,measured,Kharapati,Unconfined,7.72,81,2000-01-15,2023-05-15
+MH907581a514,18.3583,73.0306,Raigad,Murud,0.02,district_modal,Khutal,Unconfined,6.85,72,2000-01-15,2023-05-15
+MH4a4fb02214,18.3028,73.3056,Raigad,Mangaon,0.02,measured,Kumbharcha Kosta Bk,Unconfined,6.5,84,2000-01-15,2023-05-15
+MH56807825a9,18.55,73.1333,Raigad,Roha,0.02,district_modal,Nagothan,-,7.75,55,2000-01-15,2016-08-15
+MH154f3a7c8e,19.0292,73.325,Raigad,Karjat,0.02,district_modal,Neral,-,4.2,67,2000-01-15,2018-05-15
+MH7697c56e87,18.4333,73.2056,Raigad,Roha,0.02,measured,Phugaon,Unconfined,6.82,82,2000-01-15,2023-05-15
+MHf3646e2663,18.0319,73.0806,Raigad,Shrivardhan,0.023,measured,Saigaon Govalwadi,Unconfined,5.0,79,2000-01-15,2023-05-15
+MH9505cf7fcd,18.0708,73.4,Raigad,Mahad,0.023,measured,Sochinde,Unconfined,6.09,81,2000-01-15,2023-05-15
+MH9f943fe795,18.135,73.325,Raigad,Mangaon,0.02,district_modal,Temple,Unconfined,6.7,73,2000-01-15,2021-01-15
+MH8a11ba4dd4,18.7333,73.05,Raigad,Pen,0.02,district_modal,Vadkhal,Unconfined,4.6,71,2000-01-15,2023-05-15
+MH7021c8ed2a,18.1333,73.5667,Raigad,Mahad,0.02,measured,Varandha,Unconfined,6.02,82,2000-01-15,2023-05-15
+MH5a54f6b643,18.75,73.0333,Raigad,Pen,0.02,measured,Veshwi,Unconfined,9.82,85,2000-01-15,2023-05-15
+MHb96d9d0744,17.6333,73.4833,Ratnagiri,Khed,0.023,measured,Awasi,Unconfined,10.0,82,2000-01-15,2023-05-15
+MH16f27b40ee,17.3514,73.4556,Ratnagiri,Chiplun,0.023,district_modal,Abitgaon,-,18.7,55,2000-01-15,2015-11-15
+MHd377434e0f,17.345,73.3444,Ratnagiri,Guhagar,0.023,measured,Abloli,Unconfined,9.0,85,2000-01-15,2023-05-15
+MH22eb0c67fa,17.1333,73.4833,Ratnagiri,Sangameshwar,0.023,measured,Ambed Budruk,Unconfined,6.74,82,2000-01-15,2023-05-15
+MHa6a9a96644,17.5333,73.5167,Ratnagiri,Chiplun,0.023,measured,Chiplun,Unconfined,6.9,83,2000-01-15,2023-05-15
+MH029a4c6b36,17.59,73.1769,Ratnagiri,Dapoli,0.023,district_modal,Dabhol,Unconfined,9.35,69,2000-01-15,2022-08-15
+MHa747598a29,16.9833,73.6,Ratnagiri,Sangameshwar,0.023,district_modal,Dabhola,Unconfined,25.25,60,2000-01-15,2023-05-15
+MH77b90575cb,17.7625,73.1917,Ratnagiri,Dapoli,0.023,measured,Dapoli,Unconfined,10.45,84,2000-01-15,2023-05-15
+MH2c40c0b896,17.7472,73.3542,Ratnagiri,Khed,0.023,measured,Dasturi,Unconfined,8.25,81,2000-01-15,2023-05-15
+MH4e8529c6b5,17.4833,73.35,Ratnagiri,Guhagar,0.023,measured,Devghar,Unconfined,8.0,86,2000-01-15,2023-05-15
+MHf4faef35b0,17.0792,73.6083,Ratnagiri,Sangameshwar,0.023,district_modal,Devrukh,Unconfined,14.0,47,2005-05-15,2023-05-15
+MH7c3764a482,17.6053,73.6022,Ratnagiri,Khed,0.023,district_modal,Dhamnand,Semi-confined,60.0,46,2000-05-15,2022-11-15
+MHa707d86f2f,17.4025,73.4042,Ratnagiri,Chiplun,0.023,measured,Dugvay,Unconfined,7.0,84,2000-01-15,2023-05-15
+MH9b50e560e7,17.3019,73.2217,Ratnagiri,Ratnagiri,0.023,district_modal,Jaigarh,Unconfined,23.4,80,2000-01-15,2023-05-15
+MH363acf4e7a,17.1667,73.4,Ratnagiri,Ratnagiri,0.023,measured,Jakadevi,Unconfined,15.15,86,2000-01-15,2023-05-15
+MH18f801d911,17.7458,73.1833,Ratnagiri,Dapoli,0.023,measured,Jalgaon,Unconfined,15.0,84,2000-01-15,2023-05-15
+MH0c4215bb82,17.7667,73.4167,Ratnagiri,Khed,0.023,measured,Kalvane,Unconfined,7.75,86,2000-01-15,2023-05-15
+MHb990ad4291,17.4667,73.5167,Ratnagiri,Chiplun,0.023,district_modal,Kamathe,-,8.0,65,2000-01-15,2018-08-15
+MHf137dc92e7,17.7839,73.2386,Ratnagiri,Dapoli,0.023,measured,Karanjani,Unconfined,8.05,82,2000-01-15,2023-05-15
+MHa3513e0aaf,16.9958,73.5708,Ratnagiri,Sangameshwar,0.023,measured,Karanjari,Unconfined,16.0,85,2000-01-15,2023-05-15
+MHdcd49c0f1b,17.7,73.55,Ratnagiri,Khed,0.023,district_modal,Khopi,-,7.42,67,2000-01-15,2018-05-15
+MH4bf284c1b6,17.3917,73.3222,Ratnagiri,Guhagar,0.023,measured,Kotluk,Unconfined,11.5,86,2000-01-15,2023-05-15
+MHe632817775,17.9458,73.2944,Ratnagiri,Mandangad,0.023,measured,Kumble,Unconfined,6.5,83,2000-01-15,2023-05-15
+MH9705b1cc86,18.05,73.2833,Ratnagiri,Mandangad,0.023,measured,Mahapral,Unconfined,6.5,80,2000-01-15,2023-05-15
+MHf96f04976d,17.9667,73.2333,Ratnagiri,Mandangad,0.023,measured,Mandangarh,Unconfined,10.3,80,2000-01-15,2022-11-15
+MH208ce9a4d7,16.8861,73.4444,Ratnagiri,Lanja,0.023,district_modal,Morewadi(Agave),Unconfined,15.5,49,2005-05-15,2023-05-15
+MH4c64acdb22,17.1389,73.5944,Ratnagiri,Sangameshwar,0.023,district_modal,Muchari (Bhatadewadi),Unconfined,11.0,65,2000-01-15,2023-05-15
+MH6a26dfc3ed,17.1708,73.4292,Ratnagiri,Sangameshwar,0.023,district_modal,Niwali,-,17.0,68,2000-01-15,2022-05-15
+MHeb039f6ade,17.7,73.5833,Ratnagiri,Khed,0.02,measured,Oni,Unconfined,12.9,85,2000-01-15,2023-05-15
+MH91625af9a3,17.3958,73.2667,Ratnagiri,Guhagar,0.023,measured,Pimper,Unconfined,9.1,85,2000-01-15,2023-05-15
+MHb9397eea74,16.9125,73.3472,Ratnagiri,Ratnagiri,0.023,measured,Pomendi (Kh),Unconfined,10.0,78,2000-01-15,2023-05-15
+MHedc5e86133,17.4167,73.6667,Ratnagiri,Chiplun,0.023,measured,Pophali,Unconfined,8.46,82,2000-01-15,2023-01-15
+MHd63f8935a2,16.7,73.7,Ratnagiri,Rajapur,0.023,district_modal,Raipatan,Unconfined,8.0,78,2000-01-15,2022-11-15
+MH7669b4fa0c,16.65,73.5167,Ratnagiri,Rajapur,0.023,measured,Rajapur,Unconfined,17.0,83,2000-01-15,2023-05-15
+MH0efec9da29,17.2347,73.2722,Ratnagiri,Ratnagiri,0.023,district_modal,Khandala Satwade,Unconfined,11.0,85,2000-01-15,2023-05-15
+MH1688cd4b10,16.9833,73.7167,Ratnagiri,Sangameshwar,0.023,district_modal,Sakarpa,Unconfined,11.0,83,2000-01-15,2023-05-15
+MH98fb0c9312,17.4917,73.2597,Ratnagiri,Guhagar,0.023,district_modal,Shingartale,-,6.0,58,2000-01-15,2018-01-15
+MHccf538d84f,16.6558,73.4306,Ratnagiri,Rajapur,0.023,district_modal,Solgaon,Unconfined,13.0,76,2000-01-15,2023-05-15
+MH09bb49f0e7,16.7903,73.5756,Ratnagiri,Lanja,0.023,district_modal,Vankhed,-,8.75,62,2000-01-15,2019-01-15
+MH3617cc2bf9,17.75,73.2833,Ratnagiri,Dapoli,0.023,measured,Vakarli,Unconfined,7.0,80,2000-01-15,2023-05-15
+MHdefd502fca,17.5533,73.5081,Ratnagiri,Chiplun,0.023,district_modal,Valops Pudhwadi,Unconfined,5.9,80,2000-01-15,2023-05-15
+MHf66b908036,17.8625,73.35,Ratnagiri,Dapoli,0.023,district_modal,Visapur,-,6.84,52,2000-01-15,2022-05-15
+MH347947e89c,17.6167,73.6472,Ratnagiri,Khed,0.023,district_modal,Wave,-,9.07,61,2000-01-15,2018-01-15
+MH1dccbef1ed,17.0167,74.775,Sangli,Kavathe-Mahankal,0.02,nearest_well,Alkud,-,11.0,71,2000-01-15,2020-01-15
+MH677d7f310e,16.7875,74.8167,Sangli,Miraj,0.02,nearest_well,Arag,Unconfined,5.25,76,2000-01-15,2023-05-15
+MHbc42c60056,16.9536,74.4094,Sangli,Walwa,0.02,nearest_well,Ashta,Unconfined,11.5,84,2000-01-15,2023-05-15
+MH4aa7d569fe,17.4167,74.9333,Sangli,Atpadi,0.02,nearest_well,Atpadi,-,10.2,44,2000-01-15,2012-01-15
+MHd5035086c7,17.0861,74.4958,Sangli,Tasgaon,0.02,nearest_well,Bambwade,Unconfined,16.84,80,2000-01-15,2023-05-15
+MH2421ee0b5e,17.3667,74.3667,Sangli,Khanapur,0.02,nearest_well,Belavade,Unconfined,7.26,70,2000-01-15,2023-05-15
+MH7077a7d5d6,16.9458,75.1833,Sangli,Jat,0.02,nearest_well,Bilur,Unconfined,19.0,81,2000-01-15,2023-05-15
+MH7903294caf,17.0,75.0736,Sangli,Jat,0.02,nearest_well,Daphlapur,-,12.45,49,2000-01-15,2015-01-15
+MHc5880a9514,17.05,75.2167,Sangli,Jat,0.02,nearest_well,Jath,Unconfined,12.2,82,2000-01-15,2023-05-15
+MH3dd03fc5e9,17.3,74.3667,Sangli,Khanapur,0.02,nearest_well,Kadepur,Unconfined,9.5,77,2000-01-15,2023-05-15
+MH4c329d2011,17.0083,74.8694,Sangli,Kavathe-Mahankal,0.02,nearest_well,Kawathe Mahankal,Unconfined,8.28,42,2006-11-15,2023-05-15
+MH3311141c44,17.1083,75.1181,Sangli,Jat,0.02,nearest_well,Kumbhari,Unconfined,9.25,81,2000-01-15,2023-05-15
+MHa3bf1cae17,17.4,74.5333,Sangli,Khanapur,0.02,nearest_well,Mahuli,-,14.0,42,2000-01-15,2015-01-15
+MH1df77aa4d2,17.15,74.9736,Sangli,Kavathe-Mahankal,0.02,nearest_well,Nimaj,-,9.1,46,2000-01-15,2013-11-15
+MH76fc6a83d7,17.1333,74.4667,Sangli,Tasgaon,0.02,nearest_well,Panmalewadi,Unconfined,9.8,77,2000-01-15,2023-05-15
+MH2c4cd5f8f5,17.0508,74.2333,Sangli,Walwa,0.02,nearest_well,Peth,Unconfined,9.0,83,2000-01-15,2023-05-15
+MHbcd38ace27,17.1639,75.1792,Sangli,Jat,0.02,nearest_well,Shegaon,Unconfined,8.8,75,2000-01-15,2023-05-15
+MHe357ff7b54,17.1306,74.3633,Sangli,Tasgaon,0.02,nearest_well,Takari,Unconfined,11.94,79,2000-01-15,2023-05-15
+MHb92334cb28,17.5417,74.9583,Sangli,Atpadi,0.02,nearest_well,Umbargaon,Unconfined,12.05,77,2000-01-15,2023-05-15
+MHedd71a7be4,17.0583,75.3167,Sangli,Jat,0.02,nearest_well,Valsang,Unconfined,10.0,80,2000-01-15,2022-11-15
+MHf3e7a91082,17.2333,74.3833,Sangli,Khanapur,0.02,nearest_well,Wangi,-,10.8,55,2000-01-15,2015-01-15
+MHa0b972c72a,17.1019,74.1514,Sangli,Walwa,0.02,nearest_well,Wategaon,-,10.05,51,2000-01-15,2015-01-15
+MHd900c72424,16.9708,74.2878,Sangli,Walwa,0.02,nearest_well,Yednipani,-,16.2,52,2000-01-15,2015-01-15
+MH3f0ecac67f,17.0667,74.5167,Sangli,Tasgaon,0.02,nearest_well,Yevali,Unconfined,14.5,82,2000-01-15,2023-05-15
+MH3bc10fd3dd,17.5333,74.05,Satara,Satara,0.02,district_modal,Atit,Unconfined,7.8,82,2000-01-15,2023-05-15
+MHee5951e1d5,17.5333,74.3333,Satara,Khatav,0.02,measured,Aundh,Unconfined,13.15,84,2000-01-15,2023-05-15
+MHb5b9f77e05,18.1028,74.0833,Satara,Khandala,0.02,district_modal,Bhade,Unconfined,12.75,69,2000-05-15,2023-05-15
+MHae39b7bd80,17.2333,73.9667,Satara,Patan,0.02,district_modal,Dhebevadi,Unconfined,11.52,83,2000-01-15,2023-05-15
+MHd23794d67c,17.8847,74.5917,Satara,Phaltan,0.02,district_modal,Javali,Unconfined,13.5,80,2000-01-15,2023-05-15
+MH547c330ba7,17.5667,74.5167,Satara,Khatav,0.02,district_modal,Katar Khatav,Unconfined,10.25,73,2000-01-15,2023-05-15
+MH715d8fe174,17.7083,73.9806,Satara,Satara,0.02,district_modal,Kondve,Unconfined,11.6,73,2000-01-15,2023-05-15
+MH2cf288aa9a,17.7,74.1833,Satara,Koregaon,0.02,measured,Koregaon,Unconfined,11.6,83,2000-01-15,2023-05-15
+MHba9bef6ef7,17.9167,73.65,Satara,Mahabaleshwar,0.02,district_modal,Mahabaleswar,Unconfined,19.0,75,2000-01-15,2023-05-15
+MH337c993696,17.3333,74.0167,Satara,Patan,0.02,district_modal,Malharpeth,Unconfined,24.66,82,2000-01-15,2023-05-15
+MH965345bb7a,17.25,74.1833,Satara,Karad,0.02,district_modal,Malkapur,Unconfined,13.0,66,2000-01-15,2023-05-15
+MH698b80b675,17.395,73.7467,Satara,Patan,0.023,measured,Manainagar,Unconfined,4.5,78,2000-01-15,2023-05-15
+MH30b939afe8,17.8375,74.2694,Satara,Khatav,0.02,district_modal,Manjarvadi (Mol),Unconfined,9.0,80,2000-01-15,2023-05-15
+MHfa125096af,17.8333,73.7722,Satara,Jaoli,0.02,district_modal,Medha,Unconfined,6.2,77,2000-01-15,2023-05-15
+MH7d09537e6e,17.6333,74.7833,Satara,Man,0.02,district_modal,Mhaswad,Unconfined,16.53,64,2000-01-15,2023-05-15
+MH07ae2841c6,17.9667,74.35,Satara,Phaltan,0.02,district_modal,Mirgaon,Unconfined,13.0,74,2000-01-15,2023-05-15
+MHf2e694f82a,17.8917,74.5042,Satara,Phaltan,0.02,district_modal,Mogarle,Unconfined,7.63,74,2000-01-15,2023-05-15
+MHadb9eaed1e,17.3217,73.895,Satara,Patan,0.02,district_modal,Morgir (Shivpurpeth),Unconfined,4.62,73,2000-01-15,2023-05-15
+MHb265b84b22,17.1417,73.9792,Satara,Patan,0.02,district_modal,Mutlavadi,Unconfined,8.97,70,2000-01-15,2023-05-15
+MH173bbfeed7,17.9833,74.5667,Satara,Phaltan,0.02,district_modal,Nimblak,Unconfined,11.0,76,2000-01-15,2023-05-15
+MH241df70ddd,17.9931,74.525,Satara,Phaltan,0.02,district_modal,Nimblak,Unconfined,30.0,64,2000-05-15,2023-05-15
+MH5484d7c2e1,18.025,74.3417,Satara,Phaltan,0.02,district_modal,Nimbore,-,7.5,57,2000-01-15,2015-01-15
+MH50c13c795c,17.9167,73.75,Satara,Mahabaleshwar,0.02,district_modal,Panchagani,Unconfined,20.6,79,2000-01-15,2023-05-15
+MH6d0b1eb951,17.3792,73.9,Satara,Patan,0.02,district_modal,Patan,-,8.6,57,2000-01-15,2019-08-15
+MHc856f2af2f,18.0583,74.3444,Satara,Phaltan,0.02,district_modal,Pimpalwadi,-,8.2,52,2000-01-15,2015-01-15
+MH6cd4dd48f3,17.65,74.5167,Satara,Khatav,0.02,measured,Pingli,Unconfined,11.75,72,2000-01-15,2022-11-15
+MHa4731d78a7,17.6,74.2,Satara,Koregaon,0.02,district_modal,Rehmatpur,Unconfined,15.0,82,2000-01-15,2023-05-15
+MHb292aee483,17.22,73.875,Satara,Patan,0.02,district_modal,Savanthwadi (Jinti),Unconfined,7.5,62,2000-01-15,2023-05-15
+MH8369278ea1,17.6383,74.05,Satara,Satara,0.02,district_modal,Shendri,Unconfined,6.25,80,2000-01-15,2023-05-15
+MH51b95278e8,17.4667,74.8167,Satara,Man,0.02,district_modal,Shenwadi,Unconfined,8.32,78,2000-01-15,2023-05-15
+MH85595c9b84,18.15,73.975,Satara,Khandala,0.02,measured,Shirwal,Unconfined,13.8,83,2000-01-15,2023-05-15
+MH0cd89c79eb,17.9667,73.9833,Satara,Wai,0.02,district_modal,Surur,Unconfined,17.0,67,2000-01-15,2023-05-15
+MHf6b274719a,18.0333,74.2333,Satara,Phaltan,0.02,district_modal,Taradgaon,-,11.45,40,2000-01-15,2015-01-15
+MH3799769c21,17.8667,74.325,Satara,Phaltan,0.02,district_modal,Tathvade,Unconfined,14.0,79,2000-01-15,2023-05-15
+MHd00a29345e,17.1592,74.075,Satara,Karad,0.02,district_modal,Undale,Unconfined,13.99,81,2000-01-15,2023-05-15
+MHf82d6e311e,17.7528,74.0514,Satara,Satara,0.02,district_modal,Vaduth,Unconfined,6.69,78,2000-01-15,2023-05-15
+MH37a975ab15,17.3892,74.1156,Satara,Karad,0.02,district_modal,Varade,Unconfined,20.1,76,2000-01-15,2023-05-15
+MHe89f32e047,17.4833,73.9819,Satara,Patan,0.02,district_modal,Velkhandwadi (Tarli),Unconfined,9.2,76,2000-01-15,2023-05-15
+MH55ba005c9e,17.95,73.9,Satara,Wai,0.02,measured,Wai,Unconfined,6.7,81,2000-01-15,2023-05-15
+MH6d4e896222,17.9,74.1333,Satara,Koregaon,0.02,district_modal,Wathar (Station),Unconfined,20.0,76,2000-01-15,2022-11-15
+MH19ab079f93,17.1222,74.0292,Satara,Karad,0.02,district_modal,Yelegaon,Semi-confined,84.0,58,2000-05-15,2023-05-15
+MH85b637fb0a,16.2333,73.4667,Sindudurg,Malwan,0.023,measured,Achra,Unconfined,19.25,82,2000-01-15,2023-05-15
+MH1d9278f03d,15.775,73.9333,Sindudurg,Sawantwadi,0.023,district_modal,Adali (Dewalwadi),Unconfined,17.0,78,2000-01-15,2023-05-15
+MHb59f11fe34,15.9,73.7333,Sindudurg,Vengurla,0.023,measured,Adeli (Bomderwadi),Unconfined,9.0,80,2000-01-15,2023-05-15
+MH929b98cd92,15.95,74.0028,Sindudurg,Sawantwadi,0.023,district_modal,Amboli,-,6.05,50,2000-01-15,2014-08-15
+MH556b2cc60b,16.1886,73.7333,Sindudurg,Kudal,0.023,district_modal,Ambrad (Parabwadi),Semi-confined,84.0,46,2005-05-15,2023-05-15
+MHf94ecb4114,16.0111,73.5861,Sindudurg,Kudal,0.023,district_modal,Chendwan,Unconfined,9.0,73,2000-01-15,2023-05-15
+MH3d748e528b,15.9333,73.9333,Sindudurg,Sawantwadi,0.018,measured,Danoli,Unconfined,5.45,85,2000-01-15,2023-05-15
+MHa4bfc7cc14,15.6667,73.9667,Sindudurg,Sawantwadi,0.018,measured,Dodamarga,Unconfined,10.2,84,2000-01-15,2023-05-15
+MHc3ff99783f,16.1375,73.4706,Sindudurg,Malwan,0.023,measured,Hadi (Gaonkarwadi),Unconfined,14.64,81,2000-01-15,2023-05-15
+MHee7ff2e4fc,15.8667,73.8333,Sindudurg,Sawantwadi,0.023,measured,Insuli,Unconfined,14.5,83,2000-01-15,2023-05-15
+MH9d7e774bf3,16.2278,73.8083,Sindudurg,Kankavli,0.018,measured,Kanedi Bazar,Unconfined,9.0,80,2000-01-15,2023-05-15
+MHebac9c3eb3,16.2639,73.7142,Sindudurg,Kankavli,0.023,district_modal,Kankavalli,-,10.2,63,2000-01-15,2018-05-15
+MH81ec71a905,16.15,73.6833,Sindudurg,Kudal,0.023,district_modal,Kasal,Unconfined,14.5,72,2000-01-15,2022-11-15
+MHed735d0729,16.55,73.6167,Sindudurg,Kankavli,0.023,district_modal,Khare Patan,Unconfined,10.53,84,2000-01-15,2023-05-15
+MHbb9e2011b8,16.4819,73.7236,Sindudurg,Vaibhavvadi,0.023,district_modal,Kokisare,-,10.0,46,2000-01-15,2014-05-15
+MHebe801f21f,16.0211,73.6903,Sindudurg,Kudal,0.023,measured,Kudal,Unconfined,11.0,85,2000-01-15,2023-05-15
+MH05fe3debb3,16.0883,73.5792,Sindudurg,Malwan,0.023,measured,Kunkaule,Unconfined,8.37,84,2000-01-15,2023-05-15
+MHa25c77669b,16.0611,73.4583,Sindudurg,Malwan,0.023,measured,Malwan,Unconfined,11.94,83,2000-01-15,2023-05-15
+MH6d8a970901,15.9772,73.7856,Sindudurg,Kudal,0.023,measured,Mangaon Bazar,Unconfined,7.8,85,2000-01-15,2023-05-15
+MH804bade995,15.8986,73.6806,Sindudurg,Vengurla,0.023,district_modal,Math,-,9.0,57,2000-01-15,2017-11-15
+MH1c4e8334f2,15.8278,73.7486,Sindudurg,Vengurla,0.023,measured,Matond (Ghodemukh),Unconfined,6.0,79,2000-01-15,2023-05-15
+MHaa23551706,16.3778,73.6875,Sindudurg,Kankavli,0.02,measured,Nandgaon,Unconfined,10.58,83,2000-01-15,2023-05-15
+MH512c3f9f6a,16.3,73.45,Sindudurg,Devgad,0.023,measured,Narange,Unconfined,13.0,82,2000-01-15,2023-05-15
+MH14d898c286,16.2422,73.5422,Sindudurg,Malwan,0.023,measured,Palsamb,Unconfined,8.0,82,2000-01-15,2023-05-15
+MH4beb7531bb,16.4861,73.595,Sindudurg,Devgad,0.023,district_modal,Phanasgaon,-,14.2,70,2000-01-15,2019-08-15
+MH23c2a329f6,16.3667,73.8,Sindudurg,Kankavli,0.023,district_modal,Phonda,Unconfined,10.14,83,2000-01-15,2023-05-15
+MH9a59dc45b4,16.2417,73.6,Sindudurg,Malwan,0.023,measured,Ramgarh,Unconfined,5.1,83,2000-01-15,2023-05-15
+MH9b700b974d,15.9094,73.8264,Sindudurg,Sawantwadi,0.023,district_modal,Sawanthwadi,Unconfined,6.0,74,2000-01-15,2023-05-15
+MHc995c7ea31,16.0889,73.6389,Sindudurg,Malwan,0.023,measured,Sawarwad,Unconfined,7.0,84,2000-01-15,2023-05-15
+MHc4b7b94c89,16.3833,73.5833,Sindudurg,Devgad,0.023,measured,Shirgaon (Shirgar),Unconfined,4.85,84,2000-01-15,2023-05-15
+MH2801c864b0,16.45,73.6667,Sindudurg,Kankavli,0.023,measured,Terela,Unconfined,14.1,82,2000-01-15,2023-05-15
+MHa95c24b58d,16.0028,73.825,Sindudurg,Kudal,0.023,measured,Vados,Unconfined,6.0,80,2000-01-15,2023-05-15
+MH917d5afcc3,16.4833,73.4167,Sindudurg,Devgad,0.023,measured,Vagothan,Unconfined,20.0,81,2000-01-15,2023-05-15
+MH24a4ea81cc,15.85,73.65,Sindudurg,Vengurla,0.023,measured,Vengurla,Unconfined,8.95,84,2000-01-15,2023-05-15
+MH7895f1f2ee,16.5489,73.3308,Sindudurg,Devgad,0.023,measured,Vijayadurga,Unconfined,9.5,81,2000-01-15,2023-05-15
+MHe0edb10e64,16.3903,73.5222,Sindudurg,Devgad,0.023,measured,Wareri,Unconfined,19.64,83,2000-01-15,2023-05-15
+MH5d946c2a69,15.9333,73.75,Sindudurg,Kudal,0.023,measured,Zarap,Unconfined,8.69,82,2000-01-15,2023-05-15
+MH7f905d2572,17.7333,75.3333,Solapur,Pandharpur,0.02,nearest_well,Ajoti,Unconfined,13.0,80,2000-01-15,2023-01-15
+MH87fc287d46,17.5333,76.2,Solapur,Akkalkot,0.02,nearest_well,Akkalkot,Unconfined,11.57,80,2000-01-15,2023-01-15
+MHcaec0837f5,18.2333,75.7,Solapur,Barshi,0.02,nearest_well,Barshi Town,Unconfined,14.0,75,2000-01-15,2023-05-15
+MHa20889708e,17.7167,75.2167,Solapur,Pandharpur,0.02,nearest_well,Bhandi-Shegaon,Unconfined,13.05,80,2000-01-15,2023-01-15
+MH642508b7be,18.2167,75.4,Solapur,Madha,0.02,nearest_well,Bitergaon Haveli,Unconfined,9.0,55,2005-01-15,2023-01-15
+MH0538ab29e3,18.2333,75.4,Solapur,Madha,0.02,nearest_well,,-,85.0,44,2000-01-15,2015-05-15
+MH48481f8eff,17.65,75.4167,Solapur,Pandharpur,0.02,nearest_well,Chale,-,12.0,51,2000-01-15,2014-11-15
+MH80187324c2,17.6,76.05,Solapur,Solapur South,0.02,nearest_well,Chincholi,Unconfined,14.0,83,2000-01-15,2023-01-15
+MHec68d06749,18.3167,75.7833,Solapur,Barshi,0.02,nearest_well,Dhanore,Unconfined,10.85,79,2000-01-15,2023-05-15
+MH6919c848e8,17.9333,74.6833,Solapur,Malshiras,0.02,nearest_well,Dharmapuri,Unconfined,9.0,80,2000-01-15,2023-05-15
+MH5b4986498a,17.5333,75.3833,Solapur,Mangalvedhe,0.02,nearest_well,Eklaspur,Unconfined,14.0,80,2000-01-15,2023-05-15
+MHc792d652f6,17.8417,75.5375,Solapur,Mohol,0.02,nearest_well,Hivre,Unconfined,17.0,78,2000-01-15,2023-05-15
+MHdf7d490592,17.6,75.6,Solapur,Mohol,0.02,nearest_well,Ichgaon,Unconfined,24.0,80,2000-01-15,2023-05-15
+MH300bf800ac,18.2583,75.1667,Solapur,Karmala,0.02,nearest_well,Jeur,Unconfined,9.0,74,2000-01-15,2023-01-15
+MH192fede3a8,17.2375,75.0028,Solapur,Sangole,0.02,nearest_well,Junoni,Unconfined,10.5,71,2000-01-15,2022-11-15
+MH194528ae0c,18.1333,75.2,Solapur,Karmala,0.02,nearest_well,Kandar,Unconfined,7.75,79,2000-01-15,2023-05-15
+MH8ba55f1748,18.4,75.2,Solapur,Karmala,0.02,nearest_well,Karmala,Unconfined,10.9,75,2000-01-15,2022-08-15
+MH46b63c24f9,17.7167,75.85,Solapur,Solapur North,0.02,nearest_well,Kegaon,Unconfined,9.03,71,2000-01-15,2023-05-15
+MH2fdba9d2c7,17.6083,75.1,Solapur,Sangole,0.02,nearest_well,Mahud (Bk),-,7.95,54,2000-01-15,2015-01-15
+MH1e38a8d70c,17.8667,74.9,Solapur,Malshiras,0.02,nearest_well,Malsiras,Unconfined,13.0,76,2000-01-15,2023-01-15
+MHdfccdf554d,18.0778,75.7875,Solapur,Barshi,0.02,nearest_well,Manegaon,Unconfined,15.11,81,2000-01-15,2023-05-15
+MHa14782292d,17.5167,75.45,Solapur,Mangalvedhe,0.02,nearest_well,Mangalvedha,Unconfined,21.9,78,2000-01-15,2023-01-15
+MH2007b4d07c,17.4306,75.5139,Solapur,Mangalvedhe,0.02,nearest_well,Marwade,Unconfined,13.0,81,2000-01-15,2023-01-15
+MH43c9bc99f2,17.15,74.95,Solapur,Sangole,0.02,nearest_well,Nagaj,Unconfined,12.0,63,2000-01-15,2023-05-15
+MH8bd3cd75dd,17.4167,76.1667,Solapur,Akkalkot,0.02,nearest_well,Nagansur,Unconfined,14.0,81,2000-01-15,2023-01-15
+MH7481951e0e,17.4569,75.8528,Solapur,Solapur South,0.02,nearest_well,Nandni,Unconfined,8.0,76,2000-01-15,2023-05-15
+MH4ed0e44b6c,17.8347,75.8514,Solapur,Solapur North,0.02,nearest_well,Nannaj,Unconfined,14.0,75,2000-01-15,2023-05-15
+MHfb4e8cbd14,17.7333,75.4333,Solapur,Pandharpur,0.02,nearest_well,Narayan Chincholi,Unconfined,6.5,77,2000-01-15,2023-05-15
+MH4d3f1b3894,18.1958,75.8875,Solapur,Barshi,0.02,nearest_well,Nari,Unconfined,12.1,75,2000-01-15,2023-05-15
+MHaea088921c,17.675,75.325,Solapur,Pandharpur,0.02,nearest_well,Pandharpur,Unconfined,11.43,78,2000-01-15,2023-05-15
+MH2ce982ce4a,18.3,75.8667,Solapur,Barshi,0.02,nearest_well,Pangri,Unconfined,9.2,71,2000-01-15,2023-05-15
+MH12d925b334,17.9542,75.2672,Solapur,Madha,0.02,nearest_well,Parite,Unconfined,12.4,76,2000-01-15,2023-05-15
+MHfe90316b29,17.6819,74.9669,Solapur,Malshiras,0.02,nearest_well,Piliv,Unconfined,9.7,77,2000-01-15,2023-01-15
+MH9dc5a5a933,17.3375,75.5222,Solapur,Mangalvedhe,0.02,nearest_well,Pout,Unconfined,9.0,54,2000-01-15,2023-01-15
+MH6c8958331a,17.6167,75.4,Solapur,Pandharpur,0.02,nearest_well,Ranzani,Unconfined,7.83,78,2000-01-15,2023-05-15
+MH88f274dba3,17.7833,75.4,Solapur,Pandharpur,0.02,nearest_well,Rople,Unconfined,22.0,76,2000-01-15,2023-05-15
+MH48d99de646,17.6944,75.0417,Solapur,Malshiras,0.02,nearest_well,Salmukh,Unconfined,8.05,81,2000-01-15,2023-01-15
+MH16f466f2b4,17.45,75.2,Solapur,Sangole,0.02,nearest_well,Sangola,Unconfined,14.0,82,2000-01-15,2023-05-15
+MHf82d073c07,17.9667,75.8333,Solapur,Barshi,0.02,nearest_well,Shelgaon,Unconfined,16.8,76,2000-01-15,2023-05-15
+MH81aabd82c4,17.9125,75.4333,Solapur,Mohol,0.02,nearest_well,Shetphal,Semi-confined,50.0,53,2000-05-15,2022-11-15
+MHe7d8a6d90f,17.5167,75.1333,Solapur,Sangole,0.02,nearest_well,Shivni,Unconfined,6.5,67,2000-01-15,2023-01-15
+MH00724c877a,17.6167,75.6333,Solapur,Mohol,0.02,nearest_well,Sohole,Unconfined,14.0,82,2000-01-15,2023-05-15
+MHfc1d408f4f,17.5917,75.8833,Solapur,Solapur North,0.02,nearest_well,Soregaon,Unconfined,16.62,75,2000-01-15,2023-05-15
+MH348dc6c69a,18.0292,75.1917,Solapur,Madha,0.02,nearest_well,Tembhurni,Unconfined,14.0,74,2000-01-15,2023-01-15
+MH4c4e28d327,17.4333,76.225,Solapur,Akkalkot,0.02,nearest_well,Udagi,Semi-confined,45.0,56,2003-08-15,2023-05-15
+MH39d1d84df2,17.7833,75.95,Solapur,Solapur South,0.02,nearest_well,Ule,Unconfined,11.4,75,2000-01-15,2023-05-15
+MHde95c2b83f,18.1833,75.5833,Solapur,Barshi,0.02,nearest_well,Uplai R.S.,Semi-confined,50.0,68,2000-05-15,2023-05-15
+MH7ecd98ba91,18.25,75.3333,Solapur,Karmala,0.02,nearest_well,Varkute,Unconfined,10.33,81,2000-01-15,2023-05-15
+MH848c0c07c4,17.8,75.05,Solapur,Malshiras,0.02,nearest_well,Velapur,Unconfined,9.0,80,2000-01-15,2023-05-15
+MH8fab366502,17.4333,75.2389,Solapur,Sangole,0.02,nearest_well,Wadhegaon,Unconfined,10.32,74,2000-01-15,2023-01-15
+MHef5c517f4a,17.3944,75.2111,Solapur,Sangole,0.02,nearest_well,Wasud,Semi-confined,81.0,43,2003-08-15,2023-05-15
+MH4b2c10fd8d,19.4667,73.1,Thane,Bhiwandi,0.02,district_modal,Ambadi,Unconfined,7.3,68,2000-01-15,2022-08-15
+MH0707caed87,19.3667,73.0833,Thane,Bhiwandi,0.02,measured,Angaon,Unconfined,5.5,78,2000-01-15,2023-01-15
+MH2b93dd495e,19.8833,73.1667,Thane,Jawhar,0.02,measured,Kasatwadi,Unconfined,5.05,78,2000-01-15,2023-01-15
+MHe08a0515e6,19.2833,72.95,Thane,Thane,0.02,measured,Bindarpada,Unconfined,6.8,84,2000-01-15,2023-05-15
+MH315b18c958,19.4667,73.3333,Thane,Shahapur,0.02,measured,Cherfully,Unconfined,6.0,81,2000-01-15,2023-05-15
+MH61f947d582,19.1111,73.0639,Thane,Thane,0.02,measured,Dahisar,Unconfined,6.5,74,2000-01-15,2023-05-15
+MH9719ad3c57,19.6667,73.0833,Thane,Vada,0.02,measured,Sapane Kh,Unconfined,8.0,84,2000-01-15,2023-05-15
+MH434d6fa490,19.575,73.1819,Thane,Vada,0.02,measured,Kambare,Unconfined,7.0,78,2000-01-15,2023-01-15
+MH77baa521d7,19.9111,73.1167,Thane,Vikramgad,0.02,measured,Karhe,Unconfined,5.3,80,2000-01-15,2023-01-15
+MH6a7b1bb9c1,19.2833,73.2667,Thane,Kalyan,0.02,measured,Kolimb,Unconfined,14.0,85,2000-01-15,2023-05-15
+MHa07f2e1462,19.25,73.3833,Thane,Murbad,0.02,district_modal,Murbad,Unconfined,4.7,78,2000-01-15,2023-05-15
+MH8f557b773c,19.4556,73.5333,Thane,Shahapur,0.02,measured,Nishanpada,Unconfined,6.7,79,2000-01-15,2023-05-15
+MH94d06bf915,19.3625,73.1722,Thane,Bhiwandi,0.02,district_modal,Padghe,Unconfined,5.25,78,2000-01-15,2023-05-15
+MH205b66a38f,19.6778,73.0111,Thane,Vada,0.02,measured,Kalamkhand,Unconfined,6.3,85,2000-01-15,2023-05-15
+MHd08553db75,20.0125,73.2319,Thane,Jawhar,0.02,measured,Vp Dadarkopara,Unconfined,8.0,78,2000-01-15,2023-01-15
+MH4794bf7d9a,19.4472,73.4389,Thane,Shahapur,0.02,measured,Sathgaon,Unconfined,7.25,82,2000-01-15,2023-05-15
+MH9c6ce8af46,19.8283,72.9583,Thane,Vikramgad,0.02,district_modal,Vilshet,Unconfined,10.0,82,2000-01-15,2023-05-15
+MH4abc59b177,19.7014,73.4903,Thane,Shahapur,0.02,district_modal,Talempada (Bihigaon),Unconfined,9.65,76,2000-01-15,2023-05-15
+MH3b5e0fb6b4,19.3069,73.6222,Thane,Murbad,0.02,district_modal,Tokavade (Tokoda),Unconfined,5.0,76,2000-01-15,2023-05-15
+MHecd957c533,19.7967,73.095,Thane,Vikramgad,0.02,measured,Suksale,Unconfined,7.0,84,2000-01-15,2023-05-15
+MH19b10bfd78,20.65,78.9292,Wardha,Samudrapur,0.02,measured,Ajda,Unconfined,7.8,84,2000-01-15,2023-05-15
+MH73e4d0b343,20.5489,78.6942,Wardha,Hinganghat,0.02,measured,Alipur,Unconfined,12.4,84,2000-01-15,2023-05-15
+MHa832722f12,20.85,78.5167,Wardha,Wardha,0.02,district_modal,Anji,Unconfined,10.5,77,2000-01-15,2023-01-15
+MH6cf5014880,21.2,78.1833,Wardha,Ashti,0.02,measured,Ashti,Unconfined,7.3,83,2000-01-15,2023-01-15
+MH675e7ab9ef,20.5717,78.4036,Wardha,Deoli,0.02,measured,Bhidi,Unconfined,10.5,83,2000-01-15,2023-05-15
+MHc2f10f7660,20.7333,78.45,Wardha,Wardha,0.02,measured,Dahegaon,Unconfined,16.0,78,2000-01-15,2023-05-15
+MH14eda9b7ee,20.7544,78.4853,Wardha,Wardha,0.02,measured,Dahigaon,Unconfined,7.5,83,2000-01-15,2023-01-15
+MH877b78d7d9,20.4667,78.7833,Wardha,Hinganghat,0.02,measured,Daroda,Unconfined,6.55,86,2000-01-15,2023-05-15
+MHde8618a1f1,20.65,78.4667,Wardha,Deoli,0.02,district_modal,Deoli,Unconfined,13.5,82,2000-01-15,2023-05-15
+MH735f08208a,21.2667,78.2333,Wardha,Ashti,0.02,measured,Dhadi,Unconfined,14.0,82,2000-01-15,2023-01-15
+MHf28413e309,20.6317,79.0578,Wardha,Samudrapur,0.02,measured,Dhondgaon,Unconfined,10.5,81,2000-01-15,2023-05-15
+MH3357b3ffc1,20.6583,79.1167,Wardha,Samudrapur,0.02,measured,Girad,Unconfined,12.0,86,2000-01-15,2023-05-15
+MHe6adc7967f,20.5489,78.585,Wardha,Deoli,0.02,measured,Giroli,Unconfined,10.2,86,2000-01-15,2023-05-15
+MH017461764a,20.55,78.8167,Wardha,Hinganghat,0.02,measured,Hinganghat,Unconfined,5.95,84,2000-01-15,2023-05-15
+MH12a4b9d710,20.9083,78.7167,Wardha,Seloo,0.02,measured,Hingni,Unconfined,11.0,83,2000-01-15,2023-01-15
+MH230de6fe9c,21.1181,78.3689,Wardha,Karanja,0.02,district_modal,Junapani,Unconfined,8.0,77,2000-01-15,2022-11-15
+MH68540c0114,20.85,78.8,Wardha,Seloo,0.02,district_modal,Keljhar,Unconfined,15.0,76,2000-01-15,2023-01-15
+MH68fc4803ba,20.7375,78.9256,Wardha,Samudrapur,0.02,measured,Khandali,Unconfined,10.2,81,2000-01-15,2023-01-15
+MHb453b4ee00,20.9167,78.4833,Wardha,Arvi,0.02,measured,Kharangana,Unconfined,8.0,84,2000-01-15,2023-01-15
+MH32b2952f90,20.655,78.775,Wardha,Hinganghat,0.02,measured,Madni (New),Unconfined,10.8,83,2000-01-15,2023-05-15
+MH14a5e2a97e,20.6917,78.4161,Wardha,Wardha,0.02,district_modal,Muradgaon (Balsare),Unconfined,9.0,60,2005-01-15,2022-11-15
+MH2d4e7983d0,21.1667,78.4333,Wardha,Karanja,0.02,measured,Nagalwadi,Unconfined,12.0,81,2000-01-15,2023-01-15
+MHa09057d916,20.3889,78.7353,Wardha,Hinganghat,0.02,measured,Pipri,Unconfined,12.6,86,2000-01-15,2023-05-15
+MHeeabb2da37,20.7167,78.3167,Wardha,Deoli,0.02,district_modal,Pulgaon,-,11.5,52,2000-01-15,2015-01-15
+MHa464435f9a,21.3083,78.2417,Wardha,Ashti,0.02,district_modal,Sahur,Unconfined,10.25,84,2000-01-15,2023-01-15
+MHfdb7071faa,20.5461,79.1064,Wardha,Samudrapur,0.02,measured,Sakhra,Unconfined,10.0,85,2000-01-15,2023-05-15
+MHa03dbc9332,20.6389,78.9639,Wardha,Samudrapur,0.02,measured,Samudrapur,Unconfined,9.65,86,2000-01-15,2023-05-15
+MH9de57c902e,20.5861,78.6083,Wardha,Deoli,0.02,district_modal,Sarul,-,10.55,45,2000-01-15,2012-01-15
+MHdf8d6dc653,20.7167,78.5667,Wardha,Wardha,0.02,district_modal,Sawangi,Unconfined,10.0,74,2000-01-15,2023-01-15
+MH2ac81e7109,20.5333,78.3833,Wardha,Deoli,0.02,district_modal,Sirpur,-,12.55,68,2000-01-15,2018-08-15
+MH1ca40cc3f3,20.6167,78.7167,Wardha,Wardha,0.02,measured,Sonegaon,Unconfined,16.5,77,2000-01-15,2023-05-15
+MH3dad666e38,20.8,78.7167,Wardha,Seloo,0.02,district_modal,Sukli,-,16.85,51,2000-01-15,2014-08-15
+MHfc1f48fd5b,20.7639,78.5236,Wardha,Wardha,0.02,measured,Tigaon,Unconfined,8.4,84,2000-01-15,2023-01-15
+MHf03bb2c31d,20.6583,78.5667,Wardha,Wardha,0.02,measured,Vadad,Unconfined,12.0,80,2000-01-15,2023-05-15
+MH0e77a80e15,20.6319,78.6097,Wardha,Wardha,0.02,district_modal,Vaygaon,-,10.6,43,2000-01-15,2012-11-15
+MHbd53932558,20.9972,78.3458,Wardha,Arvi,0.02,district_modal,Wadhona,-,16.0,58,2000-01-15,2016-05-15
+MH8e490830e6,20.5167,79.0417,Wardha,Samudrapur,0.02,measured,Wasi,Unconfined,10.15,84,2000-01-15,2023-05-15
+MHa11f3cfdbc,20.8139,78.5903,Wardha,Seloo,0.02,measured,Yelakeli,Unconfined,13.0,82,2000-01-15,2023-01-15
+MH1dadbed8c8,20.1833,77.2667,Washim,Washim,0.13,nearest_well,Bitoda (Bhoyar),Unconfined,12.5,80,2000-01-15,2023-01-15
+MH4444bf6d28,20.0083,76.8917,Washim,Risod,0.13,nearest_well,Chikli,Unconfined,9.75,83,2000-01-15,2023-01-15
+MH6cc758bbda,20.1,76.9,Washim,Risod,0.13,nearest_well,Dapuri,Unconfined,10.15,81,2000-01-15,2022-11-15
+MH9ff37838dc,20.7167,77.5861,Washim,Karanja,0.13,nearest_well,Dhanaj Khurd,Unconfined,11.0,73,2000-01-15,2023-01-15
+MHf4f3b16ab4,20.2625,77.4125,Washim,Mangrulpir,0.13,nearest_well,Jogaldari,Semi-confined,45.0,41,2000-01-15,2022-08-15
+MH501605911b,20.6139,77.5028,Washim,Karanja,0.13,nearest_well,Kamargaon,Unconfined,10.75,84,2000-01-15,2023-01-15
+MHbcda043249,20.4833,77.4833,Washim,Karanja,0.13,nearest_well,Karanja,Unconfined,13.0,77,2000-01-15,2022-11-15
+MH083651e412,20.2,76.8167,Washim,Risod,0.13,nearest_well,Kenwad,Unconfined,12.0,81,2000-01-15,2023-05-15
+MH5ebb7ff306,20.3278,77.1639,Washim,Malegaon,0.13,nearest_well,Kinhi Raja,Unconfined,9.5,82,2000-05-15,2023-01-15
+MH26496c9617,19.9153,76.625,Washim,Risod,0.02,nearest_well,Loni,Unconfined,12.95,83,2000-01-15,2023-01-15
+MH3baaccbae6,20.2333,76.9833,Washim,Malegaon,0.13,nearest_well,Malegaon,-,11.9,64,2000-01-15,2022-11-15
+MHc5b4b5c139,20.3122,77.3364,Washim,Mangrulpir,0.13,nearest_well,Mangrulpir,Unconfined,40.0,40,2011-08-15,2023-01-15
+MH623d10f230,20.3333,76.9417,Washim,Malegaon,0.13,nearest_well,Medshi,Unconfined,10.9,87,2000-01-15,2023-01-15
+MH0350775d2a,19.9667,76.7833,Washim,Risod,0.02,nearest_well,Risod,Unconfined,11.8,81,2000-01-15,2023-01-15
+MH1b6ae50881,20.05,76.9833,Washim,Risod,0.13,nearest_well,Rithad,Unconfined,16.0,79,2000-01-15,2023-01-15
+MH670cd84e88,20.2667,77.4,Washim,Mangrulpir,0.13,nearest_well,Sakhar Doha,Unconfined,14.0,82,2000-01-15,2023-01-15
+MH7c4f4dfbeb,20.1931,77.3528,Washim,Mangrulpir,0.13,nearest_well,Sangaon,Unconfined,12.4,83,2000-01-15,2023-01-15
+MHd144a1c71f,20.1458,77.45,Washim,Manora,0.13,nearest_well,Sendurjan Adhao,Unconfined,11.8,79,2000-01-15,2023-01-15
+MH2a26d32e79,20.525,77.4667,Washim,Karanja,0.13,nearest_well,Shaha,Unconfined,14.25,81,2000-01-15,2023-01-15
+MHf0c0b3bb6f,20.3694,77.2486,Washim,Mangrulpir,0.13,nearest_well,Shelu Bazar,-,10.1,51,2000-01-15,2017-11-15
+MHaffc49c867,20.5861,77.4431,Washim,Karanja,0.13,nearest_well,Vilegaon (Kherda),Unconfined,7.45,77,2000-01-15,2023-01-15
+MHf47407ed40,20.3667,77.3333,Washim,Mangrulpir,0.13,nearest_well,Wada,Unconfined,16.0,64,2000-01-15,2023-05-15
+MHdb2c430576,20.1167,77.1417,Washim,Washim,0.13,nearest_well,Washim,Unconfined,12.2,83,2000-01-15,2023-05-15
+MHad3f3e2446,20.1667,78.15,Yavatmal,Yavatmal,0.02,nearest_well,Akolabazar,Unconfined,12.0,82,2000-01-15,2023-05-15
+MH635c3aac8d,20.0667,77.95,Yavatmal,Digras,0.02,nearest_well,Arni,-,12.0,54,2000-01-15,2015-11-15
+MH9072a03907,20.0667,77.9667,Yavatmal,Digras,0.02,nearest_well,Arni,Semi-confined,45.0,52,2000-01-15,2023-05-15
+MHfcae960680,20.55,78.1667,Yavatmal,Babulgaon,0.02,nearest_well,Babhulgaon,-,9.05,57,2000-01-15,2016-05-15
+MHf4e805aa0a,20.3872,78.1986,Yavatmal,Yavatmal,0.02,nearest_well,Bhari,Unconfined,40.0,40,2011-08-15,2023-05-15
+MH8fabe6a66e,20.3417,77.8667,Yavatmal,Darwha,0.02,nearest_well,Bori (Arab),Semi-confined,48.0,56,2000-01-15,2023-05-15
+MH1f52af3421,20.4222,78.2736,Yavatmal,Kalamb,0.02,nearest_well,Chaparda,Unconfined,8.0,84,2000-01-15,2023-05-15
+MHf854ccbfb4,20.3114,77.7706,Yavatmal,Darwha,0.02,nearest_well,Darwha,Unconfined,40.0,40,2011-08-15,2023-05-15
+MHdfe552264d,20.5292,77.925,Yavatmal,Ner,0.02,nearest_well,Dhanaj (Manekwada),Unconfined,10.25,81,2000-01-15,2023-05-15
+MH36623c4fd3,19.8583,77.875,Yavatmal,Mahagaon,0.02,nearest_well,Dhanoda,Unconfined,11.65,82,2000-01-15,2023-05-15
+MHbdb9cc35bf,20.1,77.7167,Yavatmal,Digras,0.02,nearest_well,Digras,Unconfined,9.8,84,2000-01-15,2023-05-15
+MHe5b9ab1cc0,20.1333,78.3167,Yavatmal,Ghatanji,0.02,nearest_well,Ghatanji,Unconfined,10.5,77,2000-01-15,2023-05-15
+MH059bbe157b,19.9833,77.5833,Yavatmal,Pusad,0.13,nearest_well,Ghatwadi,Unconfined,9.0,76,2000-01-15,2022-11-15
+MH2b8fb5d042,19.8167,77.5833,Yavatmal,Pusad,0.02,nearest_well,Harsi,Unconfined,11.5,73,2000-01-15,2022-11-15
+MH9df3d7dcad,20.0833,78.3167,Yavatmal,Ghatanji,0.02,nearest_well,Injhala,Unconfined,14.12,80,2000-01-15,2023-05-15
+MH215a683b28,20.3625,78.0167,Yavatmal,Ner,0.02,nearest_well,Jamwadi,Unconfined,7.35,82,2000-01-15,2023-05-15
+MH5464d9b3e3,20.3167,78.3,Yavatmal,Kalamb,0.02,nearest_well,Jodmoha,Unconfined,11.35,83,2000-01-15,2023-05-15
+MH97642e10bd,20.45,78.3333,Yavatmal,Kalamb,0.02,nearest_well,Kalamb,Unconfined,14.35,81,2000-01-15,2023-05-15
+MH06720b9780,20.1333,78.6025,Yavatmal,Kelapur,0.02,nearest_well,Karanji,Unconfined,12.0,51,2005-01-15,2023-05-15
+MH05745c2c35,20.2417,78.1833,Yavatmal,Yavatmal,0.02,nearest_well,Kolambi,Unconfined,9.0,83,2000-01-15,2023-05-15
+MH04110d82f3,20.5306,78.2778,Yavatmal,Kalamb,0.02,nearest_well,Kotha,Unconfined,11.5,81,2000-01-15,2023-05-15
+MH2cf4483e80,20.3583,77.9167,Yavatmal,Ner,0.02,nearest_well,Ladkhed,-,11.55,53,2000-01-15,2016-05-15
+MHac237030fe,19.9333,77.9167,Yavatmal,Digras,0.02,nearest_well,Lonbhel,Unconfined,9.0,83,2000-01-15,2023-05-15
+MH860d2403ce,20.4,78.2,Yavatmal,Yavatmal,0.02,nearest_well,Madkona,Unconfined,13.76,81,2000-01-15,2023-05-15
+MH556f8be811,20.0833,77.8333,Yavatmal,Digras,0.02,nearest_well,Mahagaon,Unconfined,11.5,78,2000-01-15,2023-05-15
+MH56dd120d0a,20.3278,78.0583,Yavatmal,Ner,0.02,nearest_well,Mandeo,Unconfined,13.95,80,2000-01-15,2023-05-15
+MH063fd9aa8c,20.2,77.9833,Yavatmal,Yavatmal,0.02,nearest_well,Mangrule,Unconfined,15.3,79,2000-01-15,2023-05-15
+MH99cfcc05fd,20.2167,78.85,Yavatmal,Maregaon,0.02,nearest_well,Mardi,Unconfined,8.0,80,2000-01-15,2023-05-15
+MH8b1536f6cd,20.1,78.8167,Yavatmal,Maregaon,0.02,nearest_well,Maregaon,Unconfined,13.0,70,2000-01-15,2023-05-15
+MHf36e8d9a07,19.9583,77.3667,Yavatmal,Pusad,0.13,nearest_well,Marwadi Khurd,Unconfined,9.35,79,2000-01-15,2023-05-15
+MH6eed2106c4,20.2167,78.4667,Yavatmal,Kelapur,0.02,nearest_well,Mohada,Unconfined,13.5,81,2000-01-15,2023-05-15
+MH99c58f0fc8,20.2,77.8833,Yavatmal,Ner,0.02,nearest_well,Mohgaon Kasba,Unconfined,10.0,79,2000-01-15,2022-05-15
+MHa4ad0bc1a3,20.5056,77.7903,Yavatmal,Ner,0.13,nearest_well,Mojhar,Unconfined,6.0,83,2000-01-15,2023-05-15
+MHcaf9b546ec,20.5425,77.7908,Yavatmal,Ner,0.13,nearest_well,Mojhar,Unconfined,19.45,46,2000-01-15,2023-05-15
+MH1aa26b2f17,19.9833,78.5,Yavatmal,Kelapur,0.02,nearest_well,Pahapal,Unconfined,10.45,84,2000-01-15,2023-05-15
+MH5e6f7688b1,20.6,78.05,Yavatmal,Babulgaon,0.02,nearest_well,Pahur,Unconfined,14.2,83,2000-01-15,2023-05-15
+MH8f0e4a90ed,20.0167,78.55,Yavatmal,Kelapur,0.02,nearest_well,Pandharkawada,Unconfined,7.9,81,2000-01-15,2023-05-15
+MH90175dd1d6,19.9889,78.3417,Yavatmal,Ghatanji,0.02,nearest_well,Parwa,Unconfined,10.0,84,2000-01-15,2023-05-15
+MHb2fdc4804f,19.7208,77.8792,Yavatmal,Mahagaon,0.02,nearest_well,Phul Sawangi,-,10.85,47,2000-01-15,2015-08-15
+MH42fd1c826e,19.9333,77.6,Yavatmal,Pusad,0.02,nearest_well,Pusad,Unconfined,8.5,82,2000-01-15,2023-05-15
+MH5fb1600063,20.4211,78.5147,Yavatmal,Ralegaon,0.02,nearest_well,Ralegaon,Unconfined,22.35,40,2011-08-15,2023-05-15
+MH453175c3cb,20.4978,78.0667,Yavatmal,Babulgaon,0.02,nearest_well,Savar,Unconfined,10.7,82,2000-01-15,2023-05-15
+MH5b15429b94,19.9558,78.1125,Yavatmal,Ghatanji,0.02,nearest_well,Sawali,Semi-confined,50.05,59,2000-01-15,2023-05-15
+MH1886158e86,20.3167,77.7667,Yavatmal,Darwha,0.02,nearest_well,Selodi,Unconfined,12.0,80,2000-01-15,2023-05-15
+MH71bee86194,20.075,78.25,Yavatmal,Ghatanji,0.02,nearest_well,Siroli,Unconfined,40.0,41,2011-08-15,2023-05-15
+MH0ba571cd3a,20.3583,78.2417,Yavatmal,Yavatmal,0.02,nearest_well,Talegaon,Unconfined,8.1,81,2000-01-15,2023-05-15
+MH41570a2451,20.3708,78.0542,Yavatmal,Ner,0.02,nearest_well,Umarda (Nursary),Unconfined,14.0,82,2000-01-15,2023-05-15
+MH5373016c7a,20.1917,77.7717,Yavatmal,Digras,0.02,nearest_well,Vai (Lingi),Unconfined,9.0,76,2000-01-15,2023-05-15
+MH9f685e9b6d,20.3833,78.1167,Yavatmal,Yavatmal,0.02,nearest_well,Wadgaon,Unconfined,12.7,81,2000-01-15,2023-05-15
+MH99f201b732,20.305,78.6292,Yavatmal,Ralegaon,0.02,nearest_well,Wadhona,Unconfined,7.45,84,2000-01-15,2023-05-15
