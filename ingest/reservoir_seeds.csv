@@ -1,0 +1,14 @@
+# Hand-verified aggregate anchors for the 2026 season.
+# Every row traces to a named public source. Nothing here is invented.
+# live_storage_pct is the source of truth; storage_mcm is derived from
+# capacity in 04_reservoirs.py so the two can never drift apart.
+entity_id,date,live_storage_pct,source_note
+MUM_ALL,2026-05-15,23.00,RMSI climate blog Jul 2026 - BMC imposes first 10% city-wide cut
+MUM_ALL,2026-06-16,10.35,RMSI climate blog - restrictions extended to industrial/commercial users
+MUM_ALL,2026-06-20,8.68,RMSI blog / Mumbai Live - lowest for this date in three years
+MUM_ALL,2026-06-23,8.34,RMSI blog - BMC begins drawing reserve stock
+MUM_ALL,2026-06-30,6.93,JALAAKAR poster sourced to BMC Hydraulic Engineers Dept - 3-year low
+MUM_ALL,2026-07-25,53.38,JALAAKAR poster - BMC Hydraulic Engineers Dept
+MUM_ALL,2026-08-03,90.06,JALAAKAR poster - BMC Hydraulic Engineers Dept
+MUM_ALL,2026-08-07,88.50,mumbailakewaterlevel.in - BMC 06:00 report
+PUN_ALL,2026-08-07,96.60,mumbailakewaterlevel.in/pune-dam-water-levels - WRD/Pravah

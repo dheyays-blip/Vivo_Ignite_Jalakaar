@@ -9,7 +9,8 @@ Two devs. Speed matters more than ceremony, but three rules are non-negotiable.
 |---|---|
 | `ingest/01_figshare.py`, `02_wells.py`, `05_interpolate.py` | **A** |
 | `ingest/00_schema.sql`, `db.py`, `03_openmeteo.py`, `04_reservoirs.py`, `06_features.py` | **B** |
-| `notebooks/` | **B** |
+| `ingest/reservoir_seeds.csv` | **B** |
+| `notebooks/`, `tools/` | **B** |
 | `config.yaml`, `README.md`, `CONTRIBUTING.md` | ⚠️ shared — message before editing |
 
 Need a change in the other person's file? Message them. This one rule prevents
