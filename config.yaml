@@ -27,7 +27,17 @@ dates:
   history: max_available
   gw_end: 2023-08-15         # last real groundwater observation
   end_date: 2026-08-07       # weather + reservoirs run to present
-  history_floor: 1990-01-01  # [B] floor for weather requests; nothing older
+  # Recession rates are fitted from a well's FULL record (all 24 years of dry
+  # intervals — 69k observations, cheap). Only the daily curve is materialised
+  # from here, which takes gw_daily from ~8.1M rows to ~3.4M and keeps
+  # 06_features inside memory. Train still spans 2013->2020: ~32 quarterly
+  # rounds including 7 pre-monsoon Mays, which matters because the demo
+  # scenario (30 June) is pre-monsoon.
+  daily_start: 2013-01-01
+  # Weather before this is fetched and never read: gw_daily starts 2013-01-01
+  # and the longest lag/rolling window is 90d (120d buffer). Flooring here cuts
+  # each Open-Meteo call from 8,793 days to 4,058.
+  history_floor: 2012-09-03  # was 1990-01-01 [B]; nothing older is ever read
 
 seasons:                     # month -> season
   pre_monsoon:  [3, 4, 5]
@@ -48,7 +58,11 @@ sources:
   figshare_doi: 10.6084/m9.figshare.29293877.v3
   openmeteo_archive: https://archive-api.open-meteo.com/v1/archive
   openmeteo_sleep_s: 0.5
-  coord_dedupe_deg: 0.1
+  # 0.25 deg == ERA5's native archive resolution. At 0.1 deg the 940 wells need
+  # 817 cells; at 0.25 they need 363. Wells up to ~28 km apart then share one
+  # rainfall series — a real but small accuracy cost, and the alternative was a
+  # 9-12 hour fetch. Drop back to 0.1 if you ever have the time budget.
+  coord_dedupe_deg: 0.25
   # [B] added 7 Aug — request hardening for 03_openmeteo.py
   openmeteo_timeout_s: 60
   openmeteo_max_retries: 4

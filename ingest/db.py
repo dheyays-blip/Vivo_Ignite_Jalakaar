@@ -118,6 +118,12 @@ class _Config:
         return str(self._get("dates", "gw_end"))
 
     @property
+    def daily_start(self) -> str:
+        """First date materialised into gw_daily. Recession fitting still uses
+        the full observation record — this only trims the output curve."""
+        return str(self._get("dates", "daily_start", default="2000-01-01"))
+
+    @property
     def end_date(self) -> str:
         return str(self._get("dates", "end_date"))
 
@@ -215,6 +221,26 @@ DEFAULT_DB = None  # resolved lazily via cfg.db_path; kept for import stability
 # --------------------------------------------------------------------------
 # connection
 # --------------------------------------------------------------------------
+def _migrate(con: sqlite3.Connection) -> None:
+    """Add columns to tables that already exist.
+
+    `CREATE TABLE IF NOT EXISTS` is a no-op on an existing database, so new
+    columns in 00_schema.sql would otherwise never appear and upsert() would
+    silently drop that data. Additive only — never drops or retypes.
+    """
+    wanted = {
+        "wells": [("sy_source", "TEXT"), ("well_depth", "REAL")],
+    }
+    for table, cols in wanted.items():
+        have = {r[1] for r in con.execute(f"PRAGMA table_info({table})")}
+        if not have:
+            continue                                # table not created yet
+        for name, decl in cols:
+            if name not in have:
+                con.execute(f"ALTER TABLE {table} ADD COLUMN {name} {decl}")
+                print(f"  [db] migrated: {table}.{name} added", file=sys.stderr)
+
+
 @contextmanager
 def connect(db_path: str | Path | None = None, readonly: bool = False):
     """Open the DB, apply the schema (idempotent), yield the connection.
@@ -229,6 +255,7 @@ def connect(db_path: str | Path | None = None, readonly: bool = False):
     else:
         con = sqlite3.connect(path)
         con.executescript(SCHEMA_PATH.read_text())
+        _migrate(con)
 
     con.row_factory = sqlite3.Row
     con.execute("PRAGMA foreign_keys = ON")
@@ -248,6 +275,12 @@ def table_columns(con: sqlite3.Connection, table: str) -> list[str]:
     return [r[1] for r in con.execute(f"PRAGMA table_info({table})")]
 
 
+def primary_key(con: sqlite3.Connection, table: str) -> list[str]:
+    """PK column names in declaration order. Empty list if the table has none."""
+    rows = [r for r in con.execute(f"PRAGMA table_info({table})") if r[5]]
+    return [r[1] for r in sorted(rows, key=lambda r: r[5])]
+
+
 # --------------------------------------------------------------------------
 # writing
 # --------------------------------------------------------------------------
@@ -260,9 +293,17 @@ def upsert(
 ) -> int:
     """Insert a DataFrame into `table`, keyed on the table's PRIMARY KEY.
 
-    mode='replace'  -> INSERT OR REPLACE  (re-runs overwrite; the default,
+    mode='replace'  -> INSERT ... ON CONFLICT(pk) DO UPDATE  (the default,
                        because every ingest script must be re-runnable)
     mode='ignore'   -> INSERT OR IGNORE   (first write wins)
+
+    ⚠️  'replace' does NOT use SQLite's INSERT OR REPLACE. That statement is a
+    DELETE followed by an INSERT, so with PRAGMA foreign_keys=ON and
+    ON DELETE CASCADE it silently destroys child rows. Verified: re-upserting
+    an IDENTICAL `wells` row took gw_observations 13 -> 0 and gw_daily 1 -> 0,
+    with no error raised; re-running 04_reservoirs.py took the seeded June-2026
+    reservoir anchors 3 -> 0. ON CONFLICT DO UPDATE mutates in place instead.
+    Do not "simplify" this back to INSERT OR REPLACE.
 
     Extra DataFrame columns not present in the table are dropped with a
     warning; missing columns are left NULL. Dates/bools are normalised.
@@ -283,11 +324,19 @@ def upsert(
     use = [c for c in cols if c in df.columns]
     out = _normalise(df[use].copy())
 
-    verb = "INSERT OR REPLACE" if mode == "replace" else "INSERT OR IGNORE"
-    sql = (
-        f"{verb} INTO {table} ({', '.join(use)}) "
-        f"VALUES ({', '.join('?' * len(use))})"
-    )
+    head = f"INTO {table} ({', '.join(use)}) VALUES ({', '.join('?' * len(use))})"
+    if mode == "ignore":
+        sql = f"INSERT OR IGNORE {head}"
+    else:
+        pk = primary_key(con, table)
+        setters = ", ".join(f"{c}=excluded.{c}" for c in use if c not in pk)
+        if not pk:                       # no PK -> nothing to conflict on
+            sql = f"INSERT {head}"
+        elif not setters:                # every column is part of the PK
+            sql = f"INSERT {head} ON CONFLICT({', '.join(pk)}) DO NOTHING"
+        else:
+            sql = (f"INSERT {head} ON CONFLICT({', '.join(pk)}) "
+                   f"DO UPDATE SET {setters}")
 
     rows = list(out.itertuples(index=False, name=None))
     n = 0

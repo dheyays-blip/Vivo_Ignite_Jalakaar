@@ -56,6 +56,7 @@ DAILY_VARS = [
     "temperature_2m_max",
     "relative_humidity_2m_mean",
 ]
+FETCH_SOIL = True          # set False by --no-soil; see fetch_cell()
 HOURLY_VARS = [
     "soil_moisture_0_to_7cm",
     "soil_moisture_7_to_28cm",
@@ -122,9 +123,14 @@ def fetch_cell(session, lat: float, lon: float, start: str,
         "start_date": start,
         "end_date": end,
         "daily": ",".join(DAILY_VARS),
-        "hourly": ",".join(HOURLY_VARS),
         "timezone": cfg.openmeteo_timezone,
     }
+    # Open-Meteo meters by DATA VOLUME, not request count. Hourly soil moisture
+    # over 24 years is 217,440 values per variable per cell — ~95% of the cost
+    # of a call, and it 429'd after 6 of 817 cells. _parse() already fills the
+    # soil_moist columns with NA when the response has no 'hourly' block.
+    if FETCH_SOIL:
+        params["hourly"] = ",".join(HOURLY_VARS)
 
     last_err = None
     for attempt in range(cfg.openmeteo_max_retries):
@@ -143,7 +149,10 @@ def fetch_cell(session, lat: float, lon: float, start: str,
             wait = 2 ** attempt * 3
             print(f"    {type(e).__name__} — retry in {wait}s", file=sys.stderr)
             time.sleep(wait)
-    raise RuntimeError(f"Open-Meteo failed for ({lat},{lon}): {last_err}")
+    # Non-fatal: one bad cell must not cost you the other 816. The caller skips
+    # it, reports it at the end, and a re-run picks it up from the parquet cache.
+    print(f"    GIVING UP on ({lat},{lon}): {last_err}", file=sys.stderr)
+    return None
 
 
 def _parse(js: dict) -> pd.DataFrame:
@@ -264,7 +273,14 @@ def main():
     ap.add_argument("--offline", action="store_true",
                     help="skip the network, rebuild weather_daily from parquet cache")
     ap.add_argument("--no-load", action="store_true", help="fetch only, skip the DB write")
+    ap.add_argument("--no-soil", action="store_true",
+                    help="omit hourly soil moisture — ~95%% cheaper per call, "
+                         "required for long histories or you will hit HTTP 429")
     args = ap.parse_args()
+    global FETCH_SOIL
+    FETCH_SOIL = not args.no_soil
+    if args.no_soil:
+        print('[vars] hourly soil moisture OFF — soil_moist columns will be NULL')
 
     end = args.end or str(cfg.end_date)
     RAW_DIR.mkdir(parents=True, exist_ok=True)
@@ -309,6 +325,7 @@ def main():
     with log_run("03_openmeteo.py", rows_in=len(pts)) as run:
         # ---------------- fetch ----------------
         frames: dict[tuple, pd.DataFrame] = {}
+        failed: list[tuple] = []
         n_fetched = n_reused = 0
         for i, row in grid.iterrows():
             key = (row.grid_lat, row.grid_lon)
@@ -333,6 +350,10 @@ def main():
             print(f"  [{i+1}/{len(grid)}] {key} {start}→{cell_end} "
                   f"({row.n_members} well{'s' if row.n_members > 1 else ''})")
             df = fetch_cell(session, key[0], key[1], start, cell_end)
+            if df is None:                      # rate-limited or dead cell
+                failed.append(key)
+                time.sleep(cfg.openmeteo_sleep_s)
+                continue
             df.to_parquet(path, index=False)
             frames[key] = df
             n_fetched += 1
@@ -344,6 +365,10 @@ def main():
 
         print(f"\n[fetch] {n_fetched} cells pulled, {n_reused} reused from parquet, "
               f"{len(frames)}/{len(grid)} available")
+        if failed:
+            print(f"  {len(failed)} cells failed. Re-run the same command — "
+                  f"completed cells load from the parquet cache, so it resumes "
+                  f"where it stopped.", file=sys.stderr)
         if len(frames) < len(grid):
             print("  WARNING: some cells missing — weather_daily will have gaps.",
                   file=sys.stderr)

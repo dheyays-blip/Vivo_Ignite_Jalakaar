@@ -1,0 +1,5 @@
+well_id,lat,lon,district,taluka,specific_yield,sy_source,village,aquifer_type,well_depth,n_observations,first_obs,last_obs
+MH12421cd79d,20.2042,73.6792,Nashik,Dindori,0.02,nearest_well,Chachadgaon,Unconfined,10.1,79,2000-01-15,2023-05-15
+MH202bff19b1,20.2,73.8167,Nashik,Dindori,0.02,nearest_well,Dindori,Unconfined,15.0,78,2000-05-15,2023-05-15
+MHe4ef5230ff,20.1767,73.7,Nashik,Dindori,0.02,nearest_well,Nalegaon,Unconfined,12.0,79,2000-01-15,2023-01-15
+MH9af62c89d9,20.3292,73.8833,Nashik,Dindori,0.02,nearest_well,Vani,Unconfined,8.07,70,2000-01-15,2023-01-15

@@ -173,32 +173,6 @@ def attach_sy(reg: pd.DataFrame, donors: pd.DataFrame) -> pd.DataFrame:
 
 
 # -------------------------------------------------------------------- A3 load
-def safe_upsert_wells(con, df: pd.DataFrame) -> int:
-    """Write `wells` WITHOUT triggering the ON DELETE CASCADE.
-
-    ⚠️  Do not replace this with db.upsert(mode='replace') until B has patched it.
-    SQLite's INSERT OR REPLACE is DELETE-then-INSERT. With foreign_keys=ON and
-    ON DELETE CASCADE on gw_observations/gw_daily, re-upserting an IDENTICAL
-    wells row silently destroys every child row for that well — verified:
-    13 observations + 1 daily row went to 0 and 0, with no error raised.
-
-    That would mean any re-run of this script after A4 wipes the entire
-    interpolation output. ON CONFLICT DO UPDATE mutates in place instead.
-
-    Remove this once ingest/db.py exposes mode='update'.
-    """
-    from ingest.db import table_columns, _normalise
-
-    cols = [c for c in table_columns(con, "wells") if c in df.columns]
-    setters = ", ".join(f"{c}=excluded.{c}" for c in cols if c != "well_id")
-    sql = (f"INSERT INTO wells ({', '.join(cols)}) "
-           f"VALUES ({', '.join('?' * len(cols))}) "
-           f"ON CONFLICT(well_id) DO UPDATE SET {setters}")
-    rows = list(_normalise(df[cols].copy()).itertuples(index=False, name=None))
-    con.executemany(sql, rows)
-    return len(rows)
-
-
 def load_sqlite(reg: pd.DataFrame, long: pd.DataFrame) -> None:
     """A3 — load wells + gw_observations. Order matters: FK requires wells first."""
     from ingest.db import connect, upsert, summary, log_run, cfg
@@ -208,7 +182,9 @@ def load_sqlite(reg: pd.DataFrame, long: pd.DataFrame) -> None:
 
     with log_run("02_wells.py", rows_in=len(reg)) as run:
         with connect() as con:
-            n_w = safe_upsert_wells(con, reg)
+            # db.upsert now uses ON CONFLICT DO UPDATE, so writing the parent
+            # table no longer cascade-deletes gw_observations / gw_daily.
+            n_w = upsert(con, "wells", reg)
             n_o = upsert(con, "gw_observations", obs)
             run.rows_out = n_w + n_o
             print(f"\n[db] wells            {n_w:,}")

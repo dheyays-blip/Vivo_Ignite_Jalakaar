@@ -26,7 +26,12 @@ CREATE TABLE IF NOT EXISTS wells (
     taluka          TEXT,
     village         TEXT,
     specific_yield  REAL,               -- from figshare; level -> volume
+    sy_source       TEXT,               -- 'measured' | 'district_modal' | 'nearest_well'
+                                        -- only 271 of 940 wells are measured; 413 are
+                                        -- transplanted from a donor a median 83.5 km
+                                        -- away. Without this the Sy is unauditable.
     aquifer_type    TEXT,
+    well_depth      REAL,               -- metres; level_mbgl should not exceed it
     n_observations  INTEGER,
     first_obs       TEXT,               -- DATE
     last_obs        TEXT,               -- DATE
