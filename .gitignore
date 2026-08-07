@@ -24,3 +24,9 @@ venv/
 !data/interim/.gitkeep
 !data/interim/mh_wells.csv
 !data/interim/reservoirs.csv
+
+# [B] added 8 Aug
+reports/
+data/*.db-wal
+data/*.db-shm
+data/test_*.db
