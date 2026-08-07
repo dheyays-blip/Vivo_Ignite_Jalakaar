@@ -27,6 +27,7 @@ dates:
   history: max_available
   gw_end: 2023-08-15         # last real groundwater observation
   end_date: 2026-08-07       # weather + reservoirs run to present
+  history_floor: 1990-01-01  # [B] floor for weather requests; nothing older
 
 seasons:                     # month -> season
   pre_monsoon:  [3, 4, 5]
@@ -48,9 +49,32 @@ sources:
   openmeteo_archive: https://archive-api.open-meteo.com/v1/archive
   openmeteo_sleep_s: 0.5
   coord_dedupe_deg: 0.1
+  # [B] added 7 Aug — request hardening for 03_openmeteo.py
+  openmeteo_timeout_s: 60
+  openmeteo_max_retries: 4
+  openmeteo_timezone: Asia/Kolkata
+
+# ---------------------------------------------------------------------------
+# [B] added 7 Aug for 03/04/06. Nothing above this line was changed except the
+# four lines marked [B]. Feature-engineering knobs live here rather than inside
+# 06_features.py so the ML track can retune them without editing ingest code.
+# ---------------------------------------------------------------------------
+features:
+  target_horizon_days: 30    # predict level at t+30
+  lags: [7, 15, 30, 60, 90]
+  rolling_windows: [7, 30, 90]
+  rain_day_mm: 2.5           # threshold for days_since_last_rain
+  monsoon_start_month: 6     # cum_monsoon_rainfall resets 1 June
+
+urban:
+  # The reservoir series is ~1 season of published aggregates — far too short
+  # to train on. Every urban row is labelled 'test' so it can never leak into
+  # a training set. Rural splits above are unaffected.
+  all_test: true
 
 paths:
   raw: data/raw
   interim: data/interim
   db: data/jalaakar.db
   cache: .cache/http
+  reports: reports          # [B] validate.py writes plots here
