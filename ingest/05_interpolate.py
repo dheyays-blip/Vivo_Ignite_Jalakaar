@@ -141,13 +141,19 @@ def interpolate_well(wid: str, o: pd.DataFrame, depth: float | None,
     dist = np.abs(np.arange(len(idx))[:, None] - obs_idx[None, :]).min(axis=1)
     is_obs = np.zeros(len(idx), dtype=int)
     is_obs[obs_idx] = 1
-    # observations are never altered by the clip
+
+    # Round the reconstructed values, THEN write the real readings back in
+    # unrounded. Doing it the other way round left 21 of 28,717 observed rows
+    # differing from gw_observations by ~2e-6 m — harmless float32 noise, but
+    # `is_observed` is the column the whole honesty argument rests on, so it
+    # should be bit-exact rather than nearly exact.
+    level = np.round(level, 4)
     level[obs_idx] = o.set_index("date").loc[idx[obs_idx], "level_mbgl"].to_numpy()
 
     out = pd.DataFrame({
         "well_id": wid,
         "date": idx,
-        "level_mbgl": np.round(level, 4),
+        "level_mbgl": level,
         "is_observed": is_obs,
         "confidence": np.round(np.exp(-dist / TAU_DAYS), 4),
     })

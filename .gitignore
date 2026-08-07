@@ -30,3 +30,6 @@ reports/
 data/*.db-wal
 data/*.db-shm
 data/test_*.db
+
+# derived training artefacts — regenerate with tools/export_parquet.py
+data/parquet/

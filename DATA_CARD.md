@@ -1,6 +1,6 @@
 # JALAAKAR — DATA CARD
 
-**Generated:** 2026-08-08 00:38 · **Source DB:** `jalaakar.db`
+**Generated:** 2026-08-08 00:55 · **Source DB:** `FROZEN_20260808_0054.db`
 **Demo taluka:** Dindori, Nashik
 
 **Scenario date:** 2026-06-30 (pre-monsoon)
@@ -32,7 +32,7 @@ This file is generated from the database by `tools/data_card.py`. Do not edit it
 
 - **28,717 of 3,250,606 daily groundwater rows (0.88%) are genuine measurements.** The rest are interpolated.
 - `gw_daily.is_observed` separates the two. Every accuracy number must be computed against `is_observed = 1` rows only.
-- **Interpolation MAE (held-out every 4th observation): 1.32 m.**
+- **Interpolation MAE: NOT YET RECORDED.** Dev A owes this (task A5). Re-run with `--mae <value>` before the freeze.
 - Urban rows carry `reservoir_daily.source`: `interpolated` 77, `manual` 9.
 
 > The sentence to say out loud: *"We reconstruct daily levels from each well's own seasonal cycle plus a linearly interpolated anomaly. We validated four methods against 1,088 held-out readings and shipped the lowest-error one. Rainfall-driven recession curves scored worse, so we don't use them for reconstruction — rainfall still feeds the forecasting model as a feature."*
