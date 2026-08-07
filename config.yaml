@@ -19,9 +19,14 @@ geography:
     lon_max: 80.9
 
 dates:
-  last5_start: 2021-07-01    # is_last_5y flag boundary
-  history: max_available     # pull everything, flag the last 5 years
-  end_date: 2026-08-07
+  # Groundwater observations actually run 2000-01 -> 2023-08 (CGWB measures 4x/yr:
+  # Jan, May, Aug, Nov). May-20 and May-21 are 100% null — COVID killed both
+  # pre-monsoon rounds. Revised 7 Aug after A1/A2; original values assumed
+  # coverage to 2026, which does not exist in any available source.
+  last5_start: 2018-08-01    # 5 years back from the TRUE end date, not from today
+  history: max_available
+  gw_end: 2023-08-15         # last real groundwater observation
+  end_date: 2026-08-07       # weather + reservoirs run to present
 
 seasons:                     # month -> season
   pre_monsoon:  [3, 4, 5]
@@ -30,9 +35,13 @@ seasons:                     # month -> season
   rabi:         [12, 1, 2]
 
 splits:                      # chronological, NEVER random
-  train_end: 2024-06-30
-  val_end:   2025-06-30
-  test_end:  2026-06-30
+  # Revised 7 Aug to fit real coverage. The original 2024/2025/2026 boundaries
+  # produced EMPTY val and test sets — silently, with no error.
+  train_end: 2020-11-30      # ~83 quarterly rounds, 2000-2020
+  val_end:   2022-06-30      # Jan-21, Aug-21, Nov-21, Jan-22, May-22
+  test_end:  2023-08-31      # Aug-22, Nov-22, Jan-23, May-23, Aug-23
+  # Test deliberately contains a May (pre-monsoon) round — same season as the
+  # 30 Jun 2026 demo scenario.
 
 sources:
   figshare_doi: 10.6084/m9.figshare.29293877.v3
