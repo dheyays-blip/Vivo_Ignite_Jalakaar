@@ -1,0 +1,26 @@
+# --- heavy / regenerable data: never commit ---
+data/raw/*
+data/interim/*.parquet
+data/*.db
+.cache/
+*.sqlite
+*.sqlite3
+
+# --- python ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+.python-version
+
+# --- os / editor ---
+.DS_Store
+.vscode/
+.idea/
+
+# --- committed exceptions: small, text, diffable ---
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/interim/mh_wells.csv
+!data/interim/reservoirs.csv

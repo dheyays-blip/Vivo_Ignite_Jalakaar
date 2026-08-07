@@ -1,0 +1,47 @@
+# JALAAKAR — ingestion config
+# SHARED FILE. Agree changes with the other dev before editing.
+
+project: jalaakar
+
+scenario:
+  date: 2026-06-30          # pre-monsoon demo scenario
+  demo_taluka: Dindori
+  demo_district: Nashik
+
+geography:
+  state: Maharashtra
+  # accepted spelling variants when filtering source data
+  state_aliases: [Maharashtra, MAHARASHTRA, Maharastra, MAHARASTRA, maharashtra]
+  bbox:                      # lat/lon bounding box
+    lat_min: 15.6
+    lat_max: 22.1
+    lon_min: 72.6
+    lon_max: 80.9
+
+dates:
+  last5_start: 2021-07-01    # is_last_5y flag boundary
+  history: max_available     # pull everything, flag the last 5 years
+  end_date: 2026-08-07
+
+seasons:                     # month -> season
+  pre_monsoon:  [3, 4, 5]
+  monsoon:      [6, 7, 8, 9]
+  post_monsoon: [10, 11]
+  rabi:         [12, 1, 2]
+
+splits:                      # chronological, NEVER random
+  train_end: 2024-06-30
+  val_end:   2025-06-30
+  test_end:  2026-06-30
+
+sources:
+  figshare_doi: 10.6084/m9.figshare.29293877.v3
+  openmeteo_archive: https://archive-api.open-meteo.com/v1/archive
+  openmeteo_sleep_s: 0.5
+  coord_dedupe_deg: 0.1
+
+paths:
+  raw: data/raw
+  interim: data/interim
+  db: data/jalaakar.db
+  cache: .cache/http
