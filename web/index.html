@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jalaakar — Predict your water. Prepare.</title>
+<meta name="description" content="Jalaakar is an AI layer on Maharashtra's Water 7/12 system that warns rural farmers and urban housing societies 30 days before their water runs out — over WhatsApp, in Marathi, Hindi or English, at zero hardware cost.">
+<meta name="theme-color" content="#0b2136">
+
+<meta property="og:title" content="Jalaakar — Predict your water. Prepare.">
+<meta property="og:description" content="30 days of advance warning before the water runs out. WhatsApp alerts in three languages, zero hardware cost.">
+<meta property="og:type" content="website">
+
+<link rel="preload" href="assets/fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234fb4f0' d='M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============================ NAV ============================ -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a class="brand" href="#top" aria-label="Jalaakar home">
+      <svg class="brand__drop" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z"/></svg>
+      <span class="brand__text">
+        <span class="brand__name">JAL<em>AAKAR</em></span>
+        <span class="brand__sub"><span lang="mr">जलाकार</span> — &ldquo;The Shape of Water&rdquo;</span>
+      </span>
+    </a>
+
+    <nav class="nav__links" id="navLinks" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#problem">Problem</a>
+      <a href="#demo">Live Demo</a>
+      <a href="#guide">Guide</a>
+      <a href="#impact">Impact</a>
+      <div class="nav__auth-mobile">
+        <a class="nav__signin" href="signup.html#login">Sign in</a>
+        <a class="btn btn--sm btn--primary" href="signup.html">Sign up</a>
+      </div>
+    </nav>
+
+    <div class="nav__auth">
+      <a class="nav__signin" href="signup.html#login">Sign in</a>
+      <a class="btn btn--sm btn--primary" href="signup.html">Sign up</a>
+    </div>
+
+    <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============================ HERO ============================ -->
+<section class="hero" id="top">
+  <div class="hero__art" aria-hidden="true">
+    <img src="assets/cracked-earth.svg" alt="" class="hero__art-img">
+    <div class="hero__art-fade"></div>
+  </div>
+
+  <div class="hero__inner">
+    <div class="hero__copy">
+      <span class="pill">Predict <i>&bull;</i> Alert <i>&bull;</i> Act</span>
+
+      <h1 class="hero__title">
+        Predict your<br>water.<br>
+        <em>Prepare.</em>
+      </h1>
+
+      <p class="hero__lede">
+        An AI system that notifies rural farmers and urban housing societies
+        when their water will run out, <strong>30 days before it happens</strong> —
+        through mediums like WhatsApp in Marathi, Hindi, or English,
+        and at zero hardware cost.
+      </p>
+
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="#demo">View Live Demo</a>
+        <a class="btn btn--ghost" href="#problem">See the problem</a>
+      </div>
+    </div>
+
+    <aside class="newscard" aria-label="Latest advancements">
+      <div class="newscard__head">
+        <span class="newscard__eyebrow">Latest advancements</span>
+        <span class="newscard__toggle" role="img" aria-label="Live"><i></i></span>
+      </div>
+      <p class="newscard__label">News</p>
+      <p class="newscard__body">
+        It is an AI layer built upon Maharashtra&rsquo;s <strong>Water 7/12</strong> system,
+        recently announced by Hon. Minister Chandrashekhar Bawankule on May&nbsp;25,&nbsp;2026.
+      </p>
+      <span class="newscard__dot" aria-hidden="true"></span>
+    </aside>
+  </div>
+</section>
+
+<!-- ============================ SETUP / DEMO ============================ -->
+<section class="section setup" id="demo">
+  <div class="wrap">
+    <p class="eyebrow">Live Demo</p>
+    <h2 class="h2">Simple Setup promising results.</h2>
+
+    <div class="setup__grid">
+
+      <ol class="layers" reveal-group>
+        <li class="layer">
+          <span class="layer__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4.5 12.5 11 6l7 7-6.5 6.5-7-7Z" opacity=".55"/><path d="m2 20 4-4M14.5 3.5l6 6M17 2l5 5M9 8l7 7"/><circle cx="12" cy="12" r="1.6"/></svg>
+          </span>
+          <div>
+            <h3 class="layer__title">Layer 1 <span>&bull;</span> Satellite</h3>
+            <p>NASA <strong>GRACE-FO</strong> underground water mass, monthly. ML downscaling to taluka resolution.</p>
+          </div>
+        </li>
+        <li class="layer">
+          <span class="layer__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9.5" r="2.2"/><path d="M3 19c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M15.5 19c0-2 1-3.4 3-3.6"/></svg>
+          </span>
+          <div>
+            <h3 class="layer__title">Layer 2 <span>&bull;</span> Community</h3>
+            <p><strong>Bhujal App</strong> + WhatsApp Jal Mitra. Borewell depth in under a minute; a Bayesian filter validates each report.</p>
+          </div>
+        </li>
+        <li class="layer">
+          <span class="layer__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V10m4.7 10V10m4.6 10V10M19 20V10M2.5 10 12 4l9.5 6"/></svg>
+          </span>
+          <div>
+            <h3 class="layer__title">Layer 3 <span>&bull;</span> Government</h3>
+            <p><strong>GSDA</strong> borewell records (5 yrs), BMC/PMC reservoir feeds — free, public training backbone.</p>
+          </div>
+        </li>
+      </ol>
+
+      <!-- Pure-CSS laptop with a live-ish dashboard inside -->
+      <figure class="laptop" reveal>
+        <div class="laptop__lid">
+          <div class="laptop__screen">
+            <div class="dash">
+              <div class="dash__top">
+                <div>
+                  <p class="dash__hello">Welcome back, Ramesh</p>
+                  <p class="dash__meta">Dindori Taluka &bull; Nashik &bull; well MH-NSK-0412</p>
+                </div>
+                <span class="dash__avatar" aria-hidden="true">R</span>
+              </div>
+
+              <div class="dash__scorecard">
+                <p class="dash__scorelabel">Your water stress score</p>
+                <p class="dash__score"><span class="count" data-count-to="87">87</span></p>
+                <p class="dash__scorestate">Critical <i>&bull;</i> 30 days to empty</p>
+                <div class="dash__bar"><span style="--w:87%"></span></div>
+                <div class="dash__scale"><em>0 safe</em><em>100 critical</em></div>
+              </div>
+
+              <div class="dash__row">
+                <div class="dash__stat">
+                  <p class="dash__stat-num">120</p>
+                  <p class="dash__stat-cap">days remaining</p>
+                </div>
+                <div class="dash__stat dash__stat--warn">
+                  <p class="dash__stat-num">2</p>
+                  <p class="dash__stat-cap">alerts pending</p>
+                </div>
+              </div>
+
+              <p class="dash__section">Recent notifications</p>
+              <ul class="dash__notes">
+                <li><i></i><span>Level fell 1.2&nbsp;m this fortnight</span></li>
+                <li><i></i><span>Switch to drip before 12 Jul</span></li>
+              </ul>
+
+              <a class="dash__cta" href="#demo">Try the live demo <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="laptop__base"><span class="laptop__notch"></span></div>
+        <figcaption class="sr-only">Mockup of the Jalaakar farmer dashboard showing a stress score of 87 and 30 days to empty.</figcaption>
+      </figure>
+    </div>
+
+    <!-- ------- Six-step pipeline ------- -->
+    <p class="eyebrow eyebrow--mt">Six-Step Pipeline</p>
+    <ol class="pipeline" reveal-group>
+      <li class="pipeline__step"><span class="pipeline__n">01</span><h3>Measure</h3><p>Bhujal or WhatsApp</p></li>
+      <li class="pipeline__step"><span class="pipeline__n">02</span><h3>Validate</h3><p>Bayesian Filter</p></li>
+      <li class="pipeline__step"><span class="pipeline__n">03</span><h3>Predict</h3><p>XGBoost + LSTM</p></li>
+      <li class="pipeline__step"><span class="pipeline__n">04</span><h3>Score</h3><p>0&ndash;100 Stress Score</p></li>
+      <li class="pipeline__step"><span class="pipeline__n">05</span><h3>Alert</h3><p>WhatsApp &bull; 3 languages</p></li>
+      <li class="pipeline__step pipeline__step--last"><span class="pipeline__n">06</span><h3>Log</h3><p>Aqua Credits &bull; Water 7/12</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================ PROBLEM ============================ -->
+<section class="section problem" id="problem">
+  <span class="problem__mark" aria-hidden="true">?</span>
+
+  <div class="wrap">
+    <p class="eyebrow">Problem</p>
+    <h2 class="h2 problem__h2">A crisis that swings faster than anyone can react to without warning.</h2>
+
+    <h3 class="h3">Mumbai, 2026: six weeks that made the case</h3>
+
+    <ol class="timeline" reveal-group>
+      <li class="timeline__row">
+        <span class="timeline__date">16 Jun</span>
+        <p class="timeline__text">Storage at <b>10.35%</b>. BMC orders 20% cuts to industrial and commercial users.</p>
+        <span class="tag tag--unverified" title="Not yet confirmed against a primary source">unverified</span>
+      </li>
+      <li class="timeline__row timeline__row--crit">
+        <span class="timeline__date">23 Jun</span>
+        <p class="timeline__text">Critical low of <b>8.34%</b> &mdash; groundwater becomes emergency backup.</p>
+        <span class="tag tag--unverified" title="Not yet confirmed against a primary source">unverified</span>
+      </li>
+      <li class="timeline__row">
+        <span class="timeline__date">25 Jun</span>
+        <p class="timeline__text">Monsoon rain lifts statewide storage to <b>53.38%</b>.</p>
+        <span class="tag tag--unverified" title="Not yet confirmed against a primary source">unverified</span>
+      </li>
+      <li class="timeline__row timeline__row--crit">
+        <span class="timeline__date">30 Jun</span>
+        <p class="timeline__text">Mumbai&rsquo;s seven lakes bottom out at <b>6.93%</b> &mdash; the figure the whole pitch rests on.</p>
+        <span class="tag tag--ok" title="BMC Hydraulic Engineer&#39;s Department">verified &bull; BMC</span>
+      </li>
+      <li class="timeline__row timeline__row--good">
+        <span class="timeline__date">07 Aug</span>
+        <p class="timeline__text">Mumbai&rsquo;s seven lakes refill to <b>88.50%</b>. Pune&rsquo;s five dams sit at <b>96.60%</b>.</p>
+        <span class="tag tag--ok" title="mumbailakewaterlevel.in; Maharashtra WRD / Pravah">verified &bull; WRD</span>
+      </li>
+    </ol>
+
+    <h3 class="h3 h3--mt">It&rsquo;s not just Mumbai!</h3>
+
+    <div class="regions" reveal-group>
+      <article class="region region--amber">
+        <h4>Marathwada</h4>
+        <p>25.44% &rarr; 69.11% in one week &mdash; several dams were near zero earlier this summer.</p>
+      </article>
+      <article class="region">
+        <h4>North Gujarat</h4>
+        <p>Borewells now ~600&nbsp;ft deep, falling 9&ndash;20&nbsp;ft every year.</p>
+      </article>
+      <article class="region">
+        <h4>Bengaluru South</h4>
+        <p>~15&nbsp;m drop in just 4 months (Dec&nbsp;2023 &ndash; Apr&nbsp;2024).</p>
+      </article>
+      <article class="region region--red">
+        <h4>National Scale</h4>
+        <p>730 CGWB units (10.8%) already over-exploited.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ GUIDE ============================ -->
+<section class="section guide" id="guide">
+  <div class="wrap">
+    <p class="eyebrow">Guide</p>
+    <h2 class="h2">A walkthrough of my journey ;D</h2>
+
+    <!-- Lite YouTube facade: no iframe until clicked. Set data-video-id to publish. -->
+    <div class="video" id="video" data-video-id="" reveal>
+      <button class="video__play" type="button" aria-label="Play the walkthrough video">
+        <svg viewBox="0 0 68 48" aria-hidden="true">
+          <path class="video__play-bg" d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.7a8.6 8.6 0 0 0-6 6A89 89 0 0 0 0 24a89 89 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.7a8.6 8.6 0 0 0 6-6A89 89 0 0 0 68 24a89 89 0 0 0-1.5-16.3z"/>
+          <path class="video__play-tri" d="M27 34.3 45.5 24 27 13.7z"/>
+        </svg>
+      </button>
+      <p class="video__hint">Walkthrough coming soon &mdash; drop a YouTube ID into <code>data-video-id</code> to go live.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ IMPACT ============================ -->
+<section class="section impact" id="impact">
+  <div class="wrap">
+    <p class="eyebrow">Impact</p>
+    <h2 class="h2">What happens when a community gets 30 days instead of zero days?!</h2>
+
+    <div class="impact__grid" reveal-group>
+      <article class="ic">
+        <span class="ic__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 21c0-5 3-9 8-10-1 5-4 8-8 10Z"/><path d="M12 21c0-5-3-9-8-10 1 5 4 8 8 10Z" opacity=".55"/><path d="M12 21v-6"/></svg>
+        </span>
+        <h3>Farmers</h3>
+        <p>30 days to switch irrigation, avoiding crop loss.</p>
+      </article>
+      <article class="ic">
+        <span class="ic__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V6l7-3 7 3v15"/><path d="M9 21v-4h6v4M9 9h2M13 9h2M9 13h2M13 13h2"/></svg>
+        </span>
+        <h3>Societies</h3>
+        <p>Plan tanker orders early, skip the &#8377;3,000 emergency rate.</p>
+      </article>
+      <article class="ic">
+        <span class="ic__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h4a1.8 1.8 0 0 1 0 3.6h-3a1.8 1.8 0 0 0 0 3.6h4"/></svg>
+        </span>
+        <h3>Aqua Credits</h3>
+        <p>Earned per verified water-saving action; redeemable for tax rebates.</p>
+      </article>
+      <article class="ic">
+        <span class="ic__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.8 4 5.7 4 9s-1.4 6.2-4 9c-2.6-2.8-4-5.7-4-9s1.4-6.2 4-9Z"/></svg>
+        </span>
+        <h3>Scale</h3>
+        <p>43,228 CGWB wells usable nationally, at no extra cost.</p>
+      </article>
+    </div>
+
+    <!-- ------- The swing ------- -->
+    <div class="swing" reveal>
+      <p class="swing__cap">Mumbai reservoir storage &bull; the swing that inspired <b>Jalaakar</b></p>
+      <p class="swing__nums">
+        <span class="swing__lo"><span class="count" data-count-to="6.93" data-decimals="2">6.93</span>%</span>
+        <span class="swing__arrow" aria-hidden="true">&rarr;</span>
+        <span class="swing__hi"><span class="count" data-count-to="88.5" data-decimals="2">88.50</span>%</span>
+      </p>
+      <p class="swing__sub">30 June 2026 to 7 August 2026 &mdash; roughly six weeks</p>
+      <p class="swing__src">Source: BMC Hydraulic Engineer&rsquo;s Dept.; mumbailakewaterlevel.in</p>
+    </div>
+
+    <!-- ------- Big 30 ------- -->
+    <div class="big" reveal>
+      <p class="big__num"><span class="count" data-count-to="30">30</span></p>
+      <p class="big__cap">days advance warning</p>
+    </div>
+
+    <!-- ------- Stat row ------- -->
+    <ul class="stats" reveal-group>
+      <li class="stat"><p class="stat__num">&#8377;&nbsp;3000</p><p class="stat__cap">per tanker cost in Pune (Jun 2026)</p></li>
+      <li class="stat"><p class="stat__num">730</p><p class="stat__cap">CGWB units over-exploited</p></li>
+      <li class="stat"><p class="stat__num">33%</p><p class="stat__cap">monitored wells declining nationally</p></li>
+      <li class="stat"><p class="stat__num">&#8377;&nbsp;0</p><p class="stat__cap">deployed system cost (open data)</p></li>
+      <li class="stat"><p class="stat__num">&#8377;&nbsp;2645</p><p class="stat__cap">validation rig cost (prototype)</p></li>
+    </ul>
+
+    <p class="badges">vivo Ignite 2026 &middot; Tech for Good &middot; SDG 6 &middot; SDG 2 &middot; SDG 13</p>
+
+    <div class="author">
+      <span class="author__avatar" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+      </span>
+      <p class="author__name">Dheyay Shah</p>
+      <p class="author__meta">Grade IX &bull; RMG Maheshwari English School, Surat</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="foot">
+  <div class="wrap foot__inner">
+    <p class="foot__left">
+      <svg class="foot__drop" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z"/></svg>
+      &copy; 2026, JAL<em>AAKAR</em> <span lang="mr">जलाकार</span> &middot; The Shape of Water
+    </p>
+    <nav class="foot__nav" aria-label="Footer">
+      <a href="#problem">Problem</a>
+      <a href="#demo">Live Demo</a>
+      <a href="#guide">Guide</a>
+      <a href="#impact">Impact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

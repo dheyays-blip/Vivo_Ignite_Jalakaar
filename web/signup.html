@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create your Jalaakar account</title>
+<meta name="description" content="Sign up for Jalaakar and get WhatsApp water alerts 30 days ahead, in Marathi, Hindi or English.">
+<meta name="theme-color" content="#0b2136">
+
+<link rel="preload" href="assets/fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234fb4f0' d='M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav is-stuck">
+  <div class="nav__inner">
+    <a class="brand" href="index.html" aria-label="Jalaakar home">
+      <svg class="brand__drop" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z"/></svg>
+      <span class="brand__text">
+        <span class="brand__name">JAL<em>AAKAR</em></span>
+        <span class="brand__sub"><span lang="mr">जलाकार</span> — &ldquo;The Shape of Water&rdquo;</span>
+      </span>
+    </a>
+    <nav class="nav__links" id="navLinks" aria-label="Primary">
+      <a href="index.html#problem">Problem</a>
+      <a href="index.html#demo">Live Demo</a>
+      <a href="index.html#guide">Guide</a>
+      <a href="index.html#impact">Impact</a>
+      <div class="nav__auth-mobile">
+        <a class="nav__signin" href="#login">Sign in</a>
+      </div>
+    </nav>
+    <div class="nav__auth">
+      <a class="nav__signin" href="#login">Sign in</a>
+    </div>
+    <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main class="auth" id="main">
+  <div class="auth__blob auth__blob--1" aria-hidden="true"></div>
+  <div class="auth__blob auth__blob--2" aria-hidden="true"></div>
+  <svg class="auth__drop" viewBox="0 0 200 260" aria-hidden="true">
+    <path d="M100 8s78 96 78 148a78 78 0 1 1-156 0C22 104 100 8 100 8Z"/>
+    <path d="M100 62s46 60 46 92a46 46 0 1 1-92 0c0-32 46-92 46-92Z"/>
+  </svg>
+
+  <div class="auth__card">
+    <h1 class="auth__title">Create your Jal<em>aakar</em> account</h1>
+    <p class="auth__sub">Know your water. Get alerts 30 days ahead.</p>
+
+    <form id="signupForm" novalidate>
+
+      <!-- ---------- role ---------- -->
+      <fieldset class="field" style="border:0;padding:0;margin-inline:0">
+        <legend class="field__label">Who are you signing up as?</legend>
+        <div class="roles">
+          <label class="role">
+            <input type="radio" name="role" value="farmer" checked>
+            <span class="role__box">Farmer / Villager <span class="role__radio" aria-hidden="true"></span></span>
+          </label>
+          <label class="role">
+            <input type="radio" name="role" value="society-manager">
+            <span class="role__box">Housing Society Manager <span class="role__radio" aria-hidden="true"></span></span>
+          </label>
+          <label class="role">
+            <input type="radio" name="role" value="society-resident">
+            <span class="role__box">Society Resident <span class="role__radio" aria-hidden="true"></span></span>
+          </label>
+          <label class="role">
+            <input type="radio" name="role" value="government">
+            <span class="role__box">Government Official <span class="role__radio" aria-hidden="true"></span></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <!-- ---------- details ---------- -->
+      <div class="field">
+        <label class="field__label" for="fullName">Full Name</label>
+        <input class="field__input" id="fullName" name="fullName" type="text"
+               placeholder="Dheyay Shah" autocomplete="name" required>
+        <span class="field__error" data-error-for="fullName"></span>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="phone">Phone Number <span style="font-weight:400;color:var(--ink-3)">(for WhatsApp alerts)</span></label>
+        <input class="field__input" id="phone" name="phone" type="tel"
+               placeholder="+91-7017X XXXXX" autocomplete="tel" inputmode="tel" required>
+        <span class="field__error" data-error-for="phone"></span>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="place" id="placeLabel">Village / Society / Department</label>
+        <input class="field__input" id="place" name="place" type="text"
+               placeholder="Dindori Taluka, Nashik" autocomplete="address-level2" required>
+        <span class="field__error" data-error-for="place"></span>
+      </div>
+
+      <!-- ---------- language ---------- -->
+      <fieldset class="field" style="border:0;padding:0;margin-inline:0">
+        <legend class="field__label">Preferred Alert Language</legend>
+        <div class="langs">
+          <label class="lang">
+            <input type="radio" name="lang" value="mr" checked>
+            <span class="lang__box" lang="mr">मराठी</span>
+          </label>
+          <label class="lang">
+            <input type="radio" name="lang" value="hi">
+            <span class="lang__box" lang="hi">हिंदी</span>
+          </label>
+          <label class="lang">
+            <input type="radio" name="lang" value="en">
+            <span class="lang__box">English</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <p class="auth__note" id="govNote">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.6" stroke-linecap="round"/></svg>
+        <span>Government Official accounts require department verification before dashboard access is granted. <em>(feature yet to be implemented)</em></span>
+      </p>
+
+      <div class="auth__submit">
+        <button class="btn" type="submit">Create Account</button>
+        <p class="auth__alt" id="login">Already have an account? <a href="#login">Log in</a></p>
+      </div>
+
+      <p class="auth__done" id="done" role="status"></p>
+    </form>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__inner">
+    <p class="foot__left">
+      <svg class="foot__drop" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z"/></svg>
+      &copy; 2026, JAL<em>AAKAR</em> <span lang="mr">जलाकार</span> &middot; The Shape of Water
+    </p>
+    <nav class="foot__nav" aria-label="Footer">
+      <a href="index.html#problem">Problem</a>
+      <a href="index.html#demo">Live Demo</a>
+      <a href="index.html#guide">Guide</a>
+      <a href="index.html#impact">Impact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
