@@ -1,0 +1,46 @@
+{
+  "AR(lags only)": {
+    "mae": 1.721,
+    "n": 2584,
+    "coef": {
+      "const": 0.547,
+      "lag_1": 0.236,
+      "lag_2": 0.066,
+      "lag_3": 0.205,
+      "lag_4": 0.396
+    }
+  },
+  "AR + climatology": {
+    "mae": 1.709,
+    "n": 2584,
+    "coef": {
+      "const": -0.27,
+      "lag_1": 0.119,
+      "lag_2": 0.034,
+      "lag_3": 0.028,
+      "lag_4": -0.002,
+      "clim": 0.871
+    }
+  },
+  "climatology only": {
+    "mae": 1.828,
+    "n": 2584,
+    "coef": {
+      "const": 0.008,
+      "clim": 1.003
+    }
+  },
+  "last reading only": {
+    "mae": 2.413,
+    "n": 2584,
+    "coef": {
+      "const": 1.977,
+      "lag_1": 0.651
+    }
+  },
+  "_comparison": {
+    "xgboost_mean_mae": 1.4076666666666666,
+    "best_sequence": "AR + climatology",
+    "lags": 4
+  }
+}

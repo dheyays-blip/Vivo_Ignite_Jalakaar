@@ -27,15 +27,17 @@ delivered. With them, they go out through the Twilio sandbox:
 from __future__ import annotations
 
 from pathlib import Path
+from datetime import date as _date
 from typing import Literal, Optional
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from . import alerts as alerts_mod
+from . import community
 from . import figures as figures_mod
 from . import places as places_mod
 from . import scoring
@@ -64,6 +66,33 @@ class SignupIn(BaseModel):
     lang: Literal["mr", "hi", "en"] = "mr"
 
 
+def _valid_date(s: Optional[str], field: str = "on") -> Optional[str]:
+    """Reject a malformed date at the edge, not three frames deep.
+
+    BUG: `?on=2023-02-30` returned HTTP 500. The guard in rural_score compares
+    dates as STRINGS, so an impossible date that sorts before the last
+    observation slipped past it and reached date.fromisoformat(), which raised
+    ValueError into an unhandled 500. Anyone typing a date into the URL bar
+    could produce a stack trace.
+    """
+    if s is None or s == "":
+        return None
+    try:
+        return _date.fromisoformat(s).isoformat()
+    except ValueError:
+        raise HTTPException(
+            422, f"{field}={s!r} is not a valid date. Use YYYY-MM-DD.") from None
+
+
+def _valid_horizon(h: int) -> int:
+    """BUG: horizon_d=-30 produced a 'forecast' with a target date in the past,
+    and horizon_d=0 forecast the present. Both scored happily."""
+    if h < 1 or h > 365:
+        raise HTTPException(
+            422, f"horizon_d must be between 1 and 365 days, got {h}.")
+    return h
+
+
 @app.get("/api/health")
 def health():
     out = {"ok": True, "app_db": True}
@@ -90,7 +119,8 @@ def get_figures():
 
 # ---- places --------------------------------------------------------------
 @app.get("/api/places")
-def get_places(q: str = Query(min_length=2), limit: int = 10):
+def get_places(q: str = Query(min_length=2),
+               limit: int = Query(10, ge=1, le=100)):
     return {"query": q, "results": places_mod.search(q, limit)}
 
 
@@ -157,7 +187,9 @@ def signup(body: SignupIn):
 
     card = None
     if entity_id:
-        card = scoring.score_for(entity_type, entity_id)
+        # 4.5 — the very first card a user sees must already be in the
+        # language they just chose, not English with a language label on it.
+        card = scoring.score_for(entity_type, entity_id, lang=body.lang)
 
     return {
         "user_id": user_id,
@@ -173,7 +205,8 @@ def signup(body: SignupIn):
 
 # ---- score ---------------------------------------------------------------
 @app.get("/api/score/{user_id}")
-def score_for_user(user_id: str, on: Optional[str] = None, horizon_d: int = 30):
+def score_for_user(user_id: str, on: Optional[str] = None, horizon_d: int = 30,
+                   lang: Optional[str] = None):
     with app_db() as con:
         u = con.execute("SELECT * FROM users WHERE user_id=?", (user_id,)).fetchone()
     if not u:
@@ -183,25 +216,61 @@ def score_for_user(user_id: str, on: Optional[str] = None, horizon_d: int = 30):
         return {"status": "unresolved", "user": _public(u),
                 "reason": f"{u['place_raw']!r} did not resolve to a known "
                           f"taluka, village or city. Use /api/places to pick one."}
-    card = scoring.score_for(u["entity_type"], u["entity_id"], on, horizon_d)
+    # 4.5 — default to the language the user chose at signup.
+    card = scoring.score_for(u["entity_type"], u["entity_id"],
+                             _valid_date(on), _valid_horizon(horizon_d),
+                             lang or u["lang"])
     return {"user": _public(u), "card": card}
 
 
 @app.get("/api/score")
 def score_direct(entity_type: str, entity_id: str,
-                 on: Optional[str] = None, horizon_d: int = 30):
-    return scoring.score_for(entity_type, entity_id, on, horizon_d)
+                 on: Optional[str] = None, horizon_d: int = 30,
+                 lang: str = "en"):
+    return scoring.score_for(entity_type, entity_id, _valid_date(on),
+                             _valid_horizon(horizon_d), lang)
 
 
 @app.get("/api/timeline")
-def timeline(entity_id: str, limit: int = 400):
-    """Storage / score series for the dashboard chart."""
+def timeline(entity_id: str, entity_type: str = "reservoir",
+             limit: int = Query(400, ge=1, le=2000), lang: str = "en"):
+    """Score history — 4.8.
+
+    Urban reads the precomputed series. Rural is scored on demand at each of
+    that entity's REAL observation dates, because those are the only dates a
+    rural score can honestly exist for; interpolating a score history between
+    quarterly readings would draw a smooth line through nothing.
+    """
+    if entity_type == "reservoir":
+        with pipeline_db() as con:
+            rows = con.execute(
+                "SELECT date, live_storage_pct, score, band, inputs_source "
+                "FROM urban_stress WHERE entity_id=? ORDER BY date LIMIT ?",
+                (entity_id, limit)).fetchall()
+        return {"entity_id": entity_id, "track": "urban",
+                "points": [dict(r) for r in rows]}
+
+    wells = scoring._wells_for(entity_type, entity_id)
+    if not wells:
+        raise HTTPException(404, f"No wells for {entity_type} {entity_id}")
+    ph = ",".join("?" * len(wells))
     with pipeline_db() as con:
-        rows = con.execute(
-            "SELECT date, live_storage_pct, score, band, inputs_source "
-            "FROM urban_stress WHERE entity_id=? ORDER BY date LIMIT ?",
-            (entity_id, limit)).fetchall()
-    return {"entity_id": entity_id, "points": [dict(r) for r in rows]}
+        dates = [r["d"] for r in con.execute(
+            f"SELECT DISTINCT obs_date d FROM gw_observations "
+            f"WHERE well_id IN ({ph}) ORDER BY obs_date DESC LIMIT ?",
+            wells + [limit]).fetchall()]
+
+    pts = []
+    for d in sorted(dates):
+        c = scoring.rural_score(entity_type, entity_id, d, lang=lang)
+        if c.get("status") == "ok":
+            pts.append({"date": d, "score": c["score"], "band": c["band"],
+                        "colour": c["colour"],
+                        "forecast_level": c["headline"]["value"],
+                        "days_to_crisis": c["days_to_crisis"]})
+    return {"entity_id": entity_id, "track": "rural", "points": pts,
+            "note": "one point per real CGWB observation date; CGWB measures "
+                    "roughly four times a year"}
 
 
 # ---- alerts --------------------------------------------------------------
@@ -209,6 +278,82 @@ class AlertIn(BaseModel):
     user_id: str
     on: Optional[str] = None
     force: bool = False
+
+
+# ---- community reports: Measure (2.1) + Validate (2.2) --------------------
+class ReportIn(BaseModel):
+    level_mbgl: float = Field(ge=0, le=300)
+    well_id: Optional[str] = None
+    taluka: Optional[str] = None
+    place: Optional[str] = None
+    phone: Optional[str] = None
+    user_id: Optional[str] = None
+    reported_for: Optional[str] = None
+
+
+@app.post("/api/reports", status_code=201)
+def submit_report(body: ReportIn):
+    """A Jal Mitra borewell reading. Validated before it is trusted."""
+    res = community.submit(
+        body.level_mbgl, source="web", well_id=body.well_id,
+        taluka=body.taluka, place=body.place,
+        phone=(normalise_phone(body.phone) if body.phone else None),
+        user_id=body.user_id,
+        when=_valid_date(body.reported_for, "reported_for"))
+    if not res.get("ok"):
+        raise HTTPException(422, res.get("message", "Could not resolve place."))
+    return res
+
+
+@app.get("/api/reports")
+def list_reports(well_id: Optional[str] = None, phone: Optional[str] = None,
+                 limit: int = Query(50, ge=1, le=500)):
+    return {"reports": community.history(well_id, phone, limit)}
+
+
+@app.post("/api/whatsapp/webhook")
+async def whatsapp_webhook(request: Request):
+    """Twilio inbound. Returns TwiML so the reply goes straight back.
+
+    Twilio posts application/x-www-form-urlencoded with From and Body.
+    Kept dependency-free and synchronous: one message in, one reply out, no
+    queue to go wrong live on stage.
+    """
+    # Parsed by hand rather than via request.form(), which asserts on
+    # python-multipart being installed. One fewer package to be missing on
+    # demo day, and Twilio's payload is plain urlencoded anyway. JSON is
+    # accepted too so the endpoint can be driven from curl or Postman.
+    raw = (await request.body()).decode("utf-8", "replace")
+    ctype = request.headers.get("content-type", "")
+    if "json" in ctype:
+        import json as _json
+        try:
+            data = _json.loads(raw or "{}")
+        except ValueError:
+            data = {}
+    else:
+        from urllib.parse import parse_qs
+        data = {k: v[0] for k, v in parse_qs(raw, keep_blank_values=True).items()}
+
+    frm = str(data.get("From") or data.get("from") or "")
+    body = str(data.get("Body") or data.get("body") or "")
+    phone = frm.replace("whatsapp:", "").strip()
+    if not phone:
+        raise HTTPException(422, "No From on the inbound message.")
+
+    out = community.handle_message(phone, body)
+    reply = (out["reply"].replace("&", "&amp;").replace("<", "&lt;")
+             .replace(">", "&gt;"))
+    return Response(
+        content=f'<?xml version="1.0" encoding="UTF-8"?>'
+                f"<Response><Message>{reply}</Message></Response>",
+        media_type="application/xml")
+
+
+@app.post("/api/whatsapp/simulate")
+def whatsapp_simulate(phone: str, body: str):
+    """The same flow without Twilio, so the demo works offline."""
+    return community.handle_message(normalise_phone(phone), body)
 
 
 @app.get("/api/alerts/templates")
@@ -237,7 +382,8 @@ def send_alert(body: AlertIn):
 
 
 @app.get("/api/alerts/log")
-def alert_log(user_id: Optional[str] = None, limit: int = 50):
+def alert_log(user_id: Optional[str] = None,
+              limit: int = Query(50, ge=1, le=500)):
     with app_db() as con:
         if user_id:
             rows = con.execute("SELECT * FROM alert_log WHERE user_id=? "
@@ -264,7 +410,7 @@ def _user_and_card(user_id: str, on: Optional[str]):
     u = dict(u)
     if not u["entity_id"]:
         raise HTTPException(409, "This user's place has not been resolved yet.")
-    card = scoring.score_for(u["entity_type"], u["entity_id"], on)
+    card = scoring.score_for(u["entity_type"], u["entity_id"], _valid_date(on))
     if card.get("status") != "ok":
         raise HTTPException(409, card.get("reason", "No score available."))
     return u, card

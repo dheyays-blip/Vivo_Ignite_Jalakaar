@@ -148,6 +148,108 @@ def run() -> int:
     check("53.38 retracted",
           any("53.38" in str(x["value"]) for x in f["retracted"]))
 
+    # ---- 4.5 language tag ------------------------------------------------
+    mr = c.get("/api/score?entity_type=taluka&entity_id=Baglan"
+               "&on=2023-05-15&lang=mr").json()
+    check("score card carries language",
+          mr["lang"] == "mr" and mr["lang_name"] == "MARATHI"
+          and mr["band_label"] != mr["band"])
+    check("signup card uses chosen language",
+          (c.post("/api/signup", json={
+              "role": "farmer", "name": "Lang Test", "phone": "9800000011",
+              "place": "Baglan", "lang": "mr"}).json()
+           .get("score") or {}).get("lang_name") == "MARATHI")
+
+    # ---- 4.8 rural history ----------------------------------------------
+    tl = c.get("/api/timeline?entity_type=taluka&entity_id=Baglan&limit=8").json()
+    check("rural score history", tl["track"] == "rural" and len(tl["points"]) > 1)
+
+    # ---- 2.1 Measure -----------------------------------------------------
+    wa = "/api/whatsapp/simulate?phone=9876500123&body="
+    check("wa asks for place when unknown",
+          c.post(wa + "hi").json()["action"] == "ask_place")
+    check("wa resolves a taluka",
+          c.post(wa + "Baglan").json()["action"] == "ask_depth")
+    rep = c.post(wa + "17.4").json()
+    check("wa records a reading",
+          rep["action"] == "report" and rep["report"]["status"] == "accepted")
+    check("wa SCORE works", c.post(wa + "SCORE").json()["action"] == "score")
+    check("wa BOOK works", c.post(wa + "BOOK").json()["action"] == "book")
+
+    tw = c.post("/api/whatsapp/webhook",
+                content="From=whatsapp%3A%2B919876500999&Body=HELP",
+                headers={"Content-Type": "application/x-www-form-urlencoded"})
+    check("twilio webhook returns TwiML",
+          tw.status_code == 200 and "<Message>" in tw.text)
+
+    # ---- 2.2 Validate ----------------------------------------------------
+    deep = c.post(wa + "450").json()
+    check("validator rejects the impossible",
+          deep["report"]["status"] == "rejected")
+    check("report log records the verdict",
+          len(c.get("/api/reports").json()["reports"]) >= 2)
+
+    # ---- regressions: bugs found in the adversarial pass, 8 Aug -----------
+    # Each of these was a live defect. Left as named tests so a refactor that
+    # reintroduces one fails loudly instead of quietly.
+
+    # was HTTP 500: an impossible date sorts before last_obs as a STRING, so
+    # the guard let it through to date.fromisoformat()
+    check("invalid date -> 422 not 500", all(
+        c.get(f"/api/score?entity_type=taluka&entity_id=Baglan&on={d}"
+              ).status_code == 422
+        for d in ("2023-02-30", "2023-00-01", "not-a-date", "2022-99-01")))
+
+    # was HTTP 200: negative horizon produced a target date in the past
+    check("bad horizon -> 422", all(
+        c.get(f"/api/score?entity_type=taluka&entity_id=Baglan"
+              f"&on=2023-05-15&horizon_d={h}").status_code == 422
+        for h in (0, -30, 999999)))
+    check("valid horizon still 200",
+          c.get("/api/score?entity_type=taluka&entity_id=Baglan"
+                "&on=2023-05-15&horizon_d=30").status_code == 200)
+
+    c.post("/api/signup", json={"role": "farmer", "name": "Regression Farmer",
+                                "phone": "9811111111", "place": "Baglan",
+                                "lang": "en"})
+    wr = "/api/whatsapp/simulate?phone=9811111111&body="
+
+    # was: the BOOK prompt says "reply 1, 2 or 3" and that reply was stored
+    # as a 1 m groundwater reading
+    c.post(wr + "BOOK")
+    pick = c.post(wr + "1").json()
+    check("BOOK reply is not a depth reading",
+          pick["action"] == "booked" and "report" not in pick)
+
+    # was: any message containing a digit became a reading
+    ward = c.post(wr + "Ward%2012%20Baglan").json()
+    check("place with digits is not a depth reading", "report" not in ward)
+
+    good = c.post(wr + "17.4").json()
+    check("a bare number is still a reading",
+          good.get("report", {}).get("level_mbgl") == 17.4)
+
+    # was: first message of a village name replied "which village?"
+    check("village as first message resolves",
+          c.post("/api/whatsapp/simulate?phone=9844444444&body=Baglan"
+                 ).json()["action"] == "ask_depth")
+
+    # was: unknown lang returned the raw enum "ACT NOW" instead of a label
+    check("unknown lang falls back to English label",
+          c.get("/api/score?entity_type=taluka&entity_id=Baglan"
+                "&on=2023-05-15&lang=zz").json()["band_label"] == "Act now")
+
+    check("limit bounds enforced", all(
+        c.get(f"/api/timeline?entity_id=MUM_ALL&limit={n}").status_code == 422
+        for n in (0, -5, 100000)))
+
+    # parameterised SQL — these must be treated as ordinary strings
+    inj = c.get("/api/score", params={"entity_type": "taluka",
+                                      "entity_id": "'; DROP TABLE wells;--"})
+    check("sql injection is inert",
+          inj.status_code == 200
+          and c.get("/api/health").json()["wells"] == 940)
+
     check("places typeahead", len(c.get("/api/places?q=dind").json()["results"]) >= 2)
     check("timeline", len(c.get("/api/timeline?entity_id=MUM_ALL").json()["points"]) == 85)
     check("static site", c.get("/").status_code == 200)

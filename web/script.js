@@ -359,20 +359,79 @@
         lang:  langEl ? langEl.value : 'mr'
       };
 
-      // No backend yet — surface the payload so the demo can show what
-      // would be POSTed to /api/signup.
-      console.info('[jalaakar] signup payload', payload);
+      var langName = { mr: 'Marathi', hi: 'Hindi', en: 'English' }[payload.lang];
+      var btn = form.querySelector('button[type="submit"]');
+      var restore = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Creating…'; }
 
-      if (done) {
-        var langName = { mr: 'Marathi', hi: 'Hindi', en: 'English' }[payload.lang];
-        done.textContent =
-          'Thanks, ' + payload.name.split(' ')[0] + '. ' +
-          (payload.role === 'government'
-            ? 'Your department verification request has been queued.'
-            : 'Your first ' + langName + ' alert will reach ' + payload.phone + ' within 24 hours.');
+      function finish(msg, isError) {
+        if (btn) { btn.disabled = false; btn.textContent = restore; }
+        if (!done) return;
+        done.textContent = msg;
+        done.classList.toggle('auth__done--error', !!isError);
         done.classList.add('is-on');
-        done.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'center' });
+        done.scrollIntoView({
+          behavior: prefersReduced ? 'auto' : 'smooth', block: 'center'
+        });
       }
+
+      fetch((window.JALAAKAR_API || '') + '/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (r) {
+          return r.json().then(function (d) { return { ok: r.ok, status: r.status, d: d }; });
+        })
+        .then(function (res) {
+          if (!res.ok) {
+            /* The API is the authority on duplicates and on phone shape, so
+               its message goes back to the field it belongs to rather than
+               being paraphrased. */
+            var detail = (res.d && res.d.detail) || 'Something went wrong.';
+            if (typeof detail !== 'string') detail = 'Please check your details.';
+            if (res.status === 409 || /number/i.test(detail)) {
+              setError(phoneInput, detail);
+              phoneInput.focus();
+              return finish(detail, true);
+            }
+            return finish(detail, true);
+          }
+
+          var d = res.d;
+          window.JALAAKAR_USER = d;
+
+          if (d.resolution !== 'ok') {
+            /* Registration succeeded but the place did not resolve. Say so —
+               a farmer silently subscribed to nothing is worse than an error. */
+            return finish(
+              'Account created, but we could not match "' + payload.place +
+              '" to a monitored taluka yet. We will follow up before your ' +
+              'first alert.', true);
+          }
+
+          var msg = 'Thanks, ' + payload.name.split(' ')[0] + '. You are ' +
+                    'subscribed to ' + d.entity.label + '.';
+          if (d.requires_verification) {
+            msg += ' Department verification is queued before dashboard access.';
+          } else if (d.score && d.score.status === 'ok') {
+            msg += ' Current water stress score: ' + d.score.score + '/100 — ' +
+                   (d.score.band_label || d.score.band) + '.' +
+                   (d.score.days_to_crisis != null
+                      ? ' About ' + d.score.days_to_crisis + ' days to crisis.'
+                      : '') +
+                   ' Alerts will arrive in ' + langName + ' on ' + d.phone + '.';
+          } else {
+            msg += ' Alerts will arrive in ' + langName + ' on ' + d.phone + '.';
+          }
+          finish(msg, false);
+        })
+        .catch(function () {
+          /* Offline or backend down. Do not claim an account was created. */
+          console.info('[jalaakar] signup payload (not sent)', payload);
+          finish('We could not reach the Jalaakar service just now, so your ' +
+                 'account was not created. Please try again in a moment.', true);
+        });
     });
   })();
 

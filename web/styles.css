@@ -887,3 +887,40 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em}
   color:var(--ink-3);
 }
 .demo__model--on{color:var(--green)}
+.auth__done--error{color:var(--amber)}
+
+/* ==========================================================================
+   18. ABOUT (index.html #about)
+   The nav linked here for weeks with nothing at the other end.
+   ========================================================================== */
+.about{background:var(--navy-850)}
+.about__grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(28px,5vw,64px);align-items:start;
+}
+.about__col p{font-size:.9rem;line-height:1.8;color:var(--ink-2)}
+.about__col p + p{margin-top:14px}
+.about__col strong{color:var(--ink)}
+.about__list{display:grid;gap:9px;margin-bottom:6px}
+.about__list li{
+  position:relative;padding-left:22px;
+  font-size:.86rem;line-height:1.65;color:var(--ink-2);
+}
+.about__list li::before{
+  content:"";position:absolute;left:0;top:.62em;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--blue-400);opacity:.8;
+}
+.about__list a{color:var(--blue-400);font-weight:600}
+.about__list a:hover{text-decoration:underline}
+.about__meta{
+  margin-top:18px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:.78rem!important;line-height:1.7!important;color:var(--ink-3)!important;
+}
+.about__meta .tag{display:inline-block;vertical-align:baseline}
+
+@media (max-width:900px){
+  .about__grid{grid-template-columns:1fr}
+}
+.video__hint a{color:var(--blue-400);font-weight:600}
+.video__hint a:hover{text-decoration:underline}

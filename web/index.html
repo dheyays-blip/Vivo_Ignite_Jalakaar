@@ -27,7 +27,7 @@
       <svg class="brand__drop" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z"/></svg>
       <span class="brand__text">
         <span class="brand__name">JAL<em>AAKAR</em></span>
-        <span class="brand__sub"><span lang="mr">जलाकार</span> — &ldquo;The Shape of Water&rdquo;</span>
+        <span class="brand__sub"><span lang="mr">जलाकार</span> &mdash; &ldquo;The Shape of Water&rdquo;</span>
       </span>
     </a>
 
@@ -97,6 +97,66 @@
       </p>
       <span class="newscard__dot" aria-hidden="true"></span>
     </aside>
+  </div>
+</section>
+
+<!-- ============================ ABOUT ============================
+     The nav has always linked to #about; the section never existed, so the
+     link was dead. Rather than delete the link, this is the section it was
+     promising — and the site badly needed one plain-language answer to
+     "what is this, and how much of it is real?"
+     ============================================================== -->
+<section class="section about" id="about">
+  <div class="wrap">
+    <p class="eyebrow">About</p>
+    <h2 class="h2">What Jalaakar is, and what it isn&rsquo;t yet.</h2>
+
+    <div class="about__grid">
+      <div class="about__col">
+        <h3 class="h3">The idea</h3>
+        <p>
+          India&rsquo;s water data already exists. The Central Ground Water Board
+          measures thousands of wells, BMC publishes lake levels every morning,
+          IMD publishes rainfall. What none of it does is <strong>tell you what
+          happens next</strong> &mdash; and by the time a borewell fails, the
+          crop is already in the ground.
+        </p>
+        <p>
+          Jalaakar is a prediction layer over that public data. It forecasts
+          where the water will be, turns the forecast into a
+          <strong>0&ndash;100 stress score</strong>, and sends a WhatsApp
+          warning in Marathi, Hindi or English before the water runs out.
+          No sensors, no hardware, no app to install.
+        </p>
+      </div>
+
+      <div class="about__col">
+        <h3 class="h3">What is actually running</h3>
+        <ul class="about__list">
+          <li><strong>940 wells</strong>, 68,994 quality-controlled CGWB readings across 34 districts</li>
+          <li><strong>12 reservoirs</strong>, BMC and Pune Irrigation Department, current to yesterday</li>
+          <li><strong>3.8M rows</strong> of NASA POWER daily weather</li>
+          <li>A trained forecaster: <strong>1.39&nbsp;m error at 7 days</strong>, 24% better than a seasonal baseline</li>
+          <li>Scores for <strong>all 247 talukas</strong> &mdash; try one on the <a href="demo.html">live demo</a></li>
+        </ul>
+
+        <h3 class="h3 h3--mt">What is not built</h3>
+        <p>
+          GRACE-FO satellite downscaling, the Bhujal App community layer, GSDA
+          telemetry and Aqua Credits are <strong>Stage&nbsp;2</strong>. They are
+          on the roadmap, not in the system, and nothing on this site claims
+          otherwise. Taluka-level downscaling of GRACE-FO in particular is an
+          open research problem.
+        </p>
+        <p class="about__meta">
+          Built by <strong>Dheyay Shah</strong>, Grade IX, RMG Maheshwari
+          English School, Surat &mdash; for vivo Ignite 2026, Tech for Good.
+          Targets SDG 6, 2 and 13. Every figure on this site is either measured
+          here, sourced to a named publisher, or tagged
+          <span class="tag tag--unverified">unsourced</span>.
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -297,7 +357,11 @@
           <path class="video__play-tri" d="M27 34.3 45.5 24 27 13.7z"/>
         </svg>
       </button>
-      <p class="video__hint">Walkthrough coming soon &mdash; drop a YouTube ID into <code>data-video-id</code> to go live.</p>
+      <!-- DEV: put the YouTube ID in data-video-id on #video above to arm this.
+           The hint below is what a visitor sees until then, so keep it
+           audience-facing — the previous copy told judges to edit an attribute. -->
+      <p class="video__hint">Walkthrough video coming soon. In the meantime, the
+        <a href="demo.html">live demo</a> runs on the real data.</p>
     </div>
   </div>
 </section>

@@ -16,27 +16,33 @@
 
 <a class="skip-link" href="#main">Skip to content</a>
 
-<header class="nav is-stuck">
+<header class="nav is-stuck" id="nav">
   <div class="nav__inner">
     <a class="brand" href="index.html" aria-label="Jalaakar home">
       <svg class="brand__drop" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z"/></svg>
       <span class="brand__text">
         <span class="brand__name">JAL<em>AAKAR</em></span>
-        <span class="brand__sub"><span lang="mr">जलाकार</span> — &ldquo;The Shape of Water&rdquo;</span>
+        <span class="brand__sub"><span lang="mr">जलाकार</span> &mdash; &ldquo;The Shape of Water&rdquo;</span>
       </span>
     </a>
+
     <nav class="nav__links" id="navLinks" aria-label="Primary">
+      <a href="index.html#about">About</a>
       <a href="index.html#problem">Problem</a>
       <a href="demo.html">Live Demo</a>
       <a href="index.html#guide">Guide</a>
       <a href="index.html#impact">Impact</a>
       <div class="nav__auth-mobile">
-        <a class="nav__signin" href="#login">Sign in</a>
+        <a class="nav__signin" href="signup.html#login">Sign in</a>
+        <a class="btn btn--sm btn--primary" href="signup.html" aria-current="page">Sign up</a>
       </div>
     </nav>
+
     <div class="nav__auth">
-      <a class="nav__signin" href="#login">Sign in</a>
+      <a class="nav__signin" href="signup.html#login">Sign in</a>
+      <a class="btn btn--sm btn--primary" href="signup.html" aria-current="page">Sign up</a>
     </div>
+
     <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
       <span></span><span></span><span></span>
     </button>

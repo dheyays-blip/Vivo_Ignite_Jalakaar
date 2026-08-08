@@ -25,8 +25,67 @@ from __future__ import annotations
 
 from datetime import date, timedelta
 
+import json
+from functools import lru_cache
+from pathlib import Path
+
 from . import model as model_mod
 from .appdb import pipeline_db
+
+ROOT = Path(__file__).resolve().parent.parent
+
+# --------------------------------------------------------------------------
+# 4.5 — the score card carries its own language. The poster's sample card
+# prints MARATHI on it, so the band has to be renderable in the user's
+# language, not just in English with a language label bolted on.
+# --------------------------------------------------------------------------
+BAND_LABELS = {
+    "SAFE":    {"en": "Safe",      "mr": "सुरक्षित", "hi": "सुरक्षित"},
+    "MONITOR": {"en": "Monitor",   "mr": "लक्ष ठेवा", "hi": "निगरानी रखें"},
+    "ACT NOW": {"en": "Act now",   "mr": "त्वरित कृती", "hi": "तुरंत कार्रवाई"},
+}
+LANG_NAMES = {"en": "ENGLISH", "mr": "MARATHI", "hi": "HINDI"}
+
+
+def _label(band: str, lang: str) -> str:
+    """Band in the requested language, English if that language is unknown."""
+    row = BAND_LABELS.get(band)
+    if not row:
+        return band
+    return row.get(lang) or row["en"]
+
+
+# --------------------------------------------------------------------------
+# 3.9 — prediction interval.
+#
+# Empirical, not parametric. ml/06_intervals.py measures the absolute-error
+# quantiles per horizon on held-out CGWB readings and writes them here; a
+# +/- band derived from actual observed error is defensible in a way that a
+# Gaussian assumption over quarterly groundwater data is not.
+#
+# If the file is absent, no interval is returned at all. An interval invented
+# from a default constant is worse than none, because it looks measured.
+# --------------------------------------------------------------------------
+@lru_cache(maxsize=1)
+def _intervals() -> dict:
+    p = ROOT / "reports" / "intervals.json"
+    if not p.exists():
+        return {}
+    try:
+        return json.loads(p.read_text())
+    except ValueError:
+        return {}
+
+
+def interval_for(horizon_d: int, method: str) -> dict | None:
+    iv = _intervals()
+    key = "xgboost" if "xgboost" in method else "climatology"
+    band = (iv.get(key) or {}).get(str(horizon_d))
+    if not band:
+        return None
+    return {"plus_minus_m": band["p80"], "coverage": 0.80,
+            "p50_m": band.get("p50"), "p95_m": band.get("p95"),
+            "n": band.get("n"), "source": "empirical, held-out CGWB readings"}
 
 CLIM_METHOD = "rural-stress-1.0/climatology"
 CRISIS_PERCENTILE = 0.90        # "crisis" = deeper than 90% of this well's history
@@ -60,7 +119,8 @@ def rural_band(score: float) -> tuple[str, str]:
 
 
 # --------------------------------------------------------------------------
-def urban_score(entity_id: str, on: str | None = None) -> dict:
+def urban_score(entity_id: str, on: str | None = None,
+                lang: str = "en") -> dict:
     with pipeline_db() as con:
         if on:
             row = con.execute(
@@ -99,6 +159,12 @@ def urban_score(entity_id: str, on: str | None = None) -> dict:
         "method": r["method_version"],
         "provenance": r["inputs_source"],
         "data_through": r["date"],
+        "lang": lang,
+        "lang_name": LANG_NAMES.get(lang, "ENGLISH"),
+        # BUG: an unknown lang fell through to the raw band ("ACT NOW"), so a
+        # bad ?lang= produced different casing from ?lang=en ("Act now").
+        # Fall back to the ENGLISH label, not to the enum value.
+        "band_label": _label(r["band"], lang),
     }
 
 
@@ -113,7 +179,8 @@ def _wells_for(entity_type: str, entity_id: str) -> list[str]:
 
 
 def rural_score(entity_type: str, entity_id: str,
-                on: str | None = None, horizon_d: int = 30) -> dict:
+                on: str | None = None, horizon_d: int = 30,
+                lang: str = "en") -> dict:
     """Score a well or taluka at a date, forecasting `horizon_d` ahead.
 
     `on` is the ORIGIN date — when the forecast is made. The score describes
@@ -261,6 +328,11 @@ def rural_score(entity_type: str, entity_id: str,
                   "note": "ACT NOW cutoff fitted on val for >=80% recall "
                           "(ml/04_operating_point.py), not the poster's 71"},
         "provenance": "cgwb_observations",
+        "lang": lang,
+        "lang_name": LANG_NAMES.get(lang, "ENGLISH"),
+        "band_label": _label(name, lang),
+        "interval": interval_for(horizon_d,
+                                 model_mod.METHOD if used_model else CLIM_METHOD),
         "data_through": max(w["last_obs_date"] for w in per_well),
     }
 
@@ -277,10 +349,10 @@ def _season_of(month: int) -> str:
 
 # --------------------------------------------------------------------------
 def score_for(entity_type: str, entity_id: str, on: str | None = None,
-              horizon_d: int = 30) -> dict:
+              horizon_d: int = 30, lang: str = "en") -> dict:
     if entity_type == "reservoir":
-        return urban_score(entity_id, on)
+        return urban_score(entity_id, on, lang)
     if entity_type in ("well", "taluka"):
-        return rural_score(entity_type, entity_id, on, horizon_d)
+        return rural_score(entity_type, entity_id, on, horizon_d, lang)
     return {"status": "no_data", "entity_id": entity_id,
             "reason": f"unknown entity_type {entity_type!r}"}
