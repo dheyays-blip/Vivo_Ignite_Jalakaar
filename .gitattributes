@@ -1,9 +1,7 @@
 # Normalise line endings so Mac/Linux/Windows don't fight
 * text=auto eol=lf
-
 # Notebooks: diff as text but never auto-merge (JSON merges are unresolvable)
 *.ipynb -merge
-
 # Binary / generated — never diff these
 *.parquet binary
 *.db      binary
@@ -11,3 +9,4 @@
 *.jpg     binary
 *.pdf     binary
 *.xlsx    binary
+data/parquet/*.parquet filter=lfs diff=lfs merge=lfs -text
