@@ -34,7 +34,7 @@
     <nav class="nav__links" id="navLinks" aria-label="Primary">
       <a href="#about">About</a>
       <a href="#problem">Problem</a>
-      <a href="#demo">Live Demo</a>
+      <a href="demo.html">Live Demo</a>
       <a href="#guide">Guide</a>
       <a href="#impact">Impact</a>
       <div class="nav__auth-mobile">
@@ -80,7 +80,7 @@
       </p>
 
       <div class="hero__cta">
-        <a class="btn btn--primary" href="#demo">View Live Demo</a>
+        <a class="btn btn--primary" href="demo.html">View Live Demo</a>
         <a class="btn btn--ghost" href="#problem">See the problem</a>
       </div>
     </div>
@@ -103,98 +103,119 @@
 <!-- ============================ SETUP / DEMO ============================ -->
 <section class="section setup" id="demo">
   <div class="wrap">
-    <p class="eyebrow">Live Demo</p>
+    <p class="eyebrow">The System</p>
     <h2 class="h2">Simple Setup promising results.</h2>
+    <p class="demo__lede" style="margin-bottom:clamp(28px,4vw,44px)">
+      Three data layers, running today. Want to try it on your own taluka?
+      <a href="demo.html" style="color:var(--blue-400);font-weight:600">Open the live demo &rarr;</a>
+    </p>
 
     <div class="setup__grid">
 
       <ol class="layers" reveal-group>
         <li class="layer">
           <span class="layer__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M4.5 12.5 11 6l7 7-6.5 6.5-7-7Z" opacity=".55"/><path d="m2 20 4-4M14.5 3.5l6 6M17 2l5 5M9 8l7 7"/><circle cx="12" cy="12" r="1.6"/></svg>
-          </span>
-          <div>
-            <h3 class="layer__title">Layer 1 <span>&bull;</span> Satellite</h3>
-            <p>NASA <strong>GRACE-FO</strong> underground water mass, monthly. ML downscaling to taluka resolution.</p>
-          </div>
-        </li>
-        <li class="layer">
-          <span class="layer__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9.5" r="2.2"/><path d="M3 19c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M15.5 19c0-2 1-3.4 3-3.6"/></svg>
-          </span>
-          <div>
-            <h3 class="layer__title">Layer 2 <span>&bull;</span> Community</h3>
-            <p><strong>Bhujal App</strong> + WhatsApp Jal Mitra. Borewell depth in under a minute; a Bayesian filter validates each report.</p>
-          </div>
-        </li>
-        <li class="layer">
-          <span class="layer__icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V10m4.7 10V10m4.6 10V10M19 20V10M2.5 10 12 4l9.5 6"/></svg>
           </span>
           <div>
-            <h3 class="layer__title">Layer 3 <span>&bull;</span> Government</h3>
-            <p><strong>GSDA</strong> borewell records (5 yrs), BMC/PMC reservoir feeds — free, public training backbone.</p>
+            <h3 class="layer__title">Groundwater <span>&bull;</span> built</h3>
+            <p><strong>940 CGWB wells</strong> across 34 Maharashtra districts &mdash; <strong>68,994</strong> quality-controlled readings, 2000&ndash;2023. Peer-reviewed source, <span class="nowrap">CC BY 4.0</span>.</p>
+          </div>
+        </li>
+        <li class="layer">
+          <span class="layer__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 15c2-4 6-4 8 0s6 4 8 0M4 9c2-4 6-4 8 0s6 4 8 0"/></svg>
+          </span>
+          <div>
+            <h3 class="layer__title">Reservoirs <span>&bull;</span> built</h3>
+            <p><strong>BMC</strong> and <strong>Pune Irrigation Dept</strong> daily storage for 12 water bodies. Every figure carries a source URL &mdash; live to yesterday.</p>
+          </div>
+        </li>
+        <li class="layer">
+          <span class="layer__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/><circle cx="12" cy="12" r="3.4"/></svg>
+          </span>
+          <div>
+            <h3 class="layer__title">Weather <span>&bull;</span> built</h3>
+            <p><strong>NASA POWER</strong> daily rainfall and temperature per well, <strong>3.8M rows</strong>; ERA5 for the reservoirs. Evapotranspiration derived FAO-56.</p>
           </div>
         </li>
       </ol>
+
+      <p class="layers__note">
+        <strong>Not built yet, and not claimed:</strong> GRACE-FO satellite downscaling,
+        the Bhujal App community layer, and GSDA telemetry are Stage&nbsp;2. Taluka-level
+        downscaling of GRACE-FO is an open research problem, not an afternoon&rsquo;s work.
+        Everything above is running today.
+      </p>
 
       <!-- Pure-CSS laptop with a live-ish dashboard inside -->
       <figure class="laptop" reveal>
         <div class="laptop__lid">
           <div class="laptop__screen">
-            <div class="dash">
+            <!-- Hydrated from GET /api/score?entity_type=taluka&entity_id=Baglan
+                 &on=2023-05-15 (script.js block 10). The values below are the
+                 real API response, hardcoded as an offline fallback — nothing
+                 here is invented. Scenario date is 2023-05-15 because CGWB
+                 observations end 2023-08-15; there is no 2026 rural reading. -->
+            <div class="dash" data-dash>
               <div class="dash__top">
                 <div>
                   <p class="dash__hello">Welcome back, Ramesh</p>
-                  <p class="dash__meta">Dindori Taluka &bull; Nashik &bull; well MH-NSK-0412</p>
+                  <p class="dash__meta" data-dash="meta">Baglan Taluka &bull; Nashik &bull; 5 wells</p>
                 </div>
                 <span class="dash__avatar" aria-hidden="true">R</span>
               </div>
 
               <div class="dash__scorecard">
                 <p class="dash__scorelabel">Your water stress score</p>
-                <p class="dash__score"><span class="count" data-count-to="87">87</span></p>
-                <p class="dash__scorestate">Critical <i>&bull;</i> 30 days to empty</p>
-                <div class="dash__bar"><span style="--w:87%"></span></div>
+                <p class="dash__score"><span class="count" data-count-to="78" data-dash="score">78</span></p>
+                <p class="dash__scorestate" data-dash="state">Act now <i>&bull;</i> 255 days to crisis</p>
+                <div class="dash__bar"><span style="--w:78%" data-dash="bar"></span></div>
                 <div class="dash__scale"><em>0 safe</em><em>100 critical</em></div>
               </div>
 
               <div class="dash__row">
                 <div class="dash__stat">
-                  <p class="dash__stat-num">120</p>
-                  <p class="dash__stat-cap">days remaining</p>
+                  <p class="dash__stat-num" data-dash="stat1num">17.3</p>
+                  <p class="dash__stat-cap" data-dash="stat1cap">m forecast depth</p>
                 </div>
                 <div class="dash__stat dash__stat--warn">
-                  <p class="dash__stat-num">2</p>
-                  <p class="dash__stat-cap">alerts pending</p>
+                  <p class="dash__stat-num" data-dash="stat2num">120</p>
+                  <p class="dash__stat-cap" data-dash="stat2cap">days since last reading</p>
                 </div>
               </div>
 
-              <p class="dash__section">Recent notifications</p>
-              <ul class="dash__notes">
-                <li><i></i><span>Level fell 1.2&nbsp;m this fortnight</span></li>
-                <li><i></i><span>Switch to drip before 12 Jul</span></li>
+              <p class="dash__section">What the data says</p>
+              <ul class="dash__notes" data-dash="notes">
+                <li><i></i><span>Well MHca23b0a192 at 9.20&nbsp;m &mdash; deepest of 5</span></li>
+                <li><i></i><span>Forecast for 14 Jun 2023, made 15 May</span></li>
               </ul>
 
-              <a class="dash__cta" href="#demo">Try the live demo <span aria-hidden="true">&rarr;</span></a>
+              <a class="dash__cta" href="demo.html">Try the live demo <span aria-hidden="true">&rarr;</span></a>
             </div>
           </div>
         </div>
         <div class="laptop__base"><span class="laptop__notch"></span></div>
-        <figcaption class="sr-only">Mockup of the Jalaakar farmer dashboard showing a stress score of 87 and 30 days to empty.</figcaption>
+        <figcaption class="sr-only">Jalaakar farmer dashboard for Baglan Taluka, Nashik, showing a water stress score of 78 out of 100, band Act Now, forecast depth 17.3 metres below ground, made on 15 May 2023 for 14 June 2023 from real Central Ground Water Board readings.</figcaption>
       </figure>
     </div>
 
     <!-- ------- Six-step pipeline ------- -->
     <p class="eyebrow eyebrow--mt">Six-Step Pipeline</p>
     <ol class="pipeline" reveal-group>
-      <li class="pipeline__step"><span class="pipeline__n">01</span><h3>Measure</h3><p>Bhujal or WhatsApp</p></li>
-      <li class="pipeline__step"><span class="pipeline__n">02</span><h3>Validate</h3><p>Bayesian Filter</p></li>
-      <li class="pipeline__step"><span class="pipeline__n">03</span><h3>Predict</h3><p>XGBoost + LSTM</p></li>
+      <li class="pipeline__step"><span class="pipeline__n">01</span><h3>Ingest</h3><p>CGWB &bull; BMC &bull; NASA POWER</p></li>
+      <li class="pipeline__step"><span class="pipeline__n">02</span><h3>Reconstruct</h3><p>Quarterly &rarr; daily, 1.32&nbsp;m MAE</p></li>
+      <li class="pipeline__step"><span class="pipeline__n">03</span><h3>Predict</h3><p>XGBoost, 1.39&nbsp;m at 7&nbsp;days</p></li>
       <li class="pipeline__step"><span class="pipeline__n">04</span><h3>Score</h3><p>0&ndash;100 Stress Score</p></li>
       <li class="pipeline__step"><span class="pipeline__n">05</span><h3>Alert</h3><p>WhatsApp &bull; 3 languages</p></li>
-      <li class="pipeline__step pipeline__step--last"><span class="pipeline__n">06</span><h3>Log</h3><p>Aqua Credits &bull; Water 7/12</p></li>
+      <li class="pipeline__step pipeline__step--last"><span class="pipeline__n">06</span><h3>Log</h3><p>Aqua Credits &mdash; Stage&nbsp;2</p></li>
     </ol>
+    <p class="stats__note" style="margin-top:18px">
+      Steps 01&ndash;05 run today. <strong>LSTM was not shipped:</strong> with quarterly
+      readings and a 77-day average gap, sequence models had nothing extra to learn,
+      and we chose to report that rather than add one for the diagram&rsquo;s sake.
+    </p>
   </div>
 </section>
 
@@ -209,51 +230,54 @@
     <h3 class="h3">Mumbai, 2026: six weeks that made the case</h3>
 
     <ol class="timeline" reveal-group>
+      <!-- Values and provenance tags are hydrated from GET /api/figures when the
+           backend is up; the markup below is the offline fallback and must stay
+           in sync with ingest/reservoir_seeds.csv. See script.js block 0. -->
       <li class="timeline__row">
         <span class="timeline__date">16 Jun</span>
-        <p class="timeline__text">Storage at <b>10.35%</b>. BMC orders 20% cuts to industrial and commercial users.</p>
-        <span class="tag tag--unverified" title="Not yet confirmed against a primary source">unverified</span>
+        <p class="timeline__text">Storage at <b data-fig="mumbai_16Jun2026">10.35%</b>. BMC orders 20% cuts to industrial and commercial users.</p>
+        <span class="tag tag--unverified" data-fig-tag="mumbai_16Jun2026" title="Secondhand — RMSI climate blog, not read off a BMC page">unverified</span>
       </li>
       <li class="timeline__row timeline__row--crit">
         <span class="timeline__date">23 Jun</span>
-        <p class="timeline__text">Critical low of <b>8.34%</b> &mdash; groundwater becomes emergency backup.</p>
-        <span class="tag tag--unverified" title="Not yet confirmed against a primary source">unverified</span>
+        <p class="timeline__text">Critical low of <b data-fig="mumbai_23Jun2026">8.34%</b> &mdash; groundwater becomes emergency backup.</p>
+        <span class="tag tag--ok" data-fig-tag="mumbai_23Jun2026" title="Free Press Journal, reporting the BMC Hydraulic Engineer&#39;s 06:00 bulletin">verified &bull; FPJ</span>
       </li>
-      <li class="timeline__row">
-        <span class="timeline__date">25 Jun</span>
-        <p class="timeline__text">Monsoon rain lifts statewide storage to <b>53.38%</b>.</p>
-        <span class="tag tag--unverified" title="Not yet confirmed against a primary source">unverified</span>
+      <li class="timeline__row timeline__row--crit">
+        <span class="timeline__date">29 Jun</span>
+        <p class="timeline__text">Mumbai&rsquo;s seven lakes bottom out at <b data-fig="mumbai7Lakes_29Jun2026">6.93%</b> &mdash; the figure the whole pitch rests on. About one lakh million litres left.</p>
+        <span class="tag tag--ok" data-fig-tag="mumbai7Lakes_29Jun2026" title="Free Press Journal, 30 Jun 2026 — table captioned &quot;Water Stock As On June 29&quot;">verified &bull; FPJ</span>
       </li>
       <li class="timeline__row timeline__row--crit">
         <span class="timeline__date">30 Jun</span>
-        <p class="timeline__text">Mumbai&rsquo;s seven lakes bottom out at <b>6.93%</b> &mdash; the figure the whole pitch rests on.</p>
-        <span class="tag tag--ok" title="BMC Hydraulic Engineer&#39;s Department">verified &bull; BMC</span>
+        <p class="timeline__text">Still falling: <b data-fig="mumbai7Lakes_30Jun2026">6.75%</b> &mdash; 97,666 ML against a capacity of 14,47,363 ML.</p>
+        <span class="tag tag--ok" data-fig-tag="mumbai7Lakes_30Jun2026" title="Mid-Day, citing BMC data">verified &bull; Mid-Day</span>
       </li>
       <li class="timeline__row timeline__row--good">
         <span class="timeline__date">07 Aug</span>
-        <p class="timeline__text">Mumbai&rsquo;s seven lakes refill to <b>88.50%</b>. Pune&rsquo;s five dams sit at <b>96.60%</b>.</p>
-        <span class="tag tag--ok" title="mumbailakewaterlevel.in; Maharashtra WRD / Pravah">verified &bull; WRD</span>
+        <p class="timeline__text">Mumbai&rsquo;s seven lakes refill to <b data-fig="mumbai7Lakes_07Aug2026">88.50%</b>. Pune&rsquo;s five dams sit at <b data-fig="pune5Dams_07Aug2026">96.60%</b>.</p>
+        <span class="tag tag--ok" data-fig-tag="mumbai7Lakes_07Aug2026" title="BMC Hydraulic Engineer&#39;s Department via mumbailakewaterlevel.in; Maharashtra WRD / Pravah">verified &bull; BMC</span>
       </li>
     </ol>
 
     <h3 class="h3 h3--mt">It&rsquo;s not just Mumbai!</h3>
 
     <div class="regions" reveal-group>
+      <article class="region region--red">
+        <h4>Baglan, Nashik</h4>
+        <p>Scores <strong>78/100 &mdash; Act now</strong> on real CGWB readings. Deepest well at 9.2&nbsp;m and falling.</p>
+      </article>
       <article class="region region--amber">
+        <h4>Across Maharashtra</h4>
+        <p>Of 164 talukas scored pre-monsoon: <strong>2 critical, 85 monitor, 77 safe</strong>. Stress is concentrated, not everywhere.</p>
+      </article>
+      <article class="region">
         <h4>Marathwada</h4>
-        <p>25.44% &rarr; 69.11% in one week &mdash; several dams were near zero earlier this summer.</p>
+        <p>25.44% &rarr; 69.11% in one week. <span class="tag tag--unverified">unsourced</span></p>
       </article>
       <article class="region">
         <h4>North Gujarat</h4>
-        <p>Borewells now ~600&nbsp;ft deep, falling 9&ndash;20&nbsp;ft every year.</p>
-      </article>
-      <article class="region">
-        <h4>Bengaluru South</h4>
-        <p>~15&nbsp;m drop in just 4 months (Dec&nbsp;2023 &ndash; Apr&nbsp;2024).</p>
-      </article>
-      <article class="region region--red">
-        <h4>National Scale</h4>
-        <p>730 CGWB units (10.8%) already over-exploited.</p>
+        <p>Borewells ~600&nbsp;ft deep, falling 9&ndash;20&nbsp;ft a year. <span class="tag tag--unverified">unsourced</span></p>
       </article>
     </div>
   </div>
@@ -297,7 +321,7 @@
           <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V6l7-3 7 3v15"/><path d="M9 21v-4h6v4M9 9h2M13 9h2M9 13h2M13 13h2"/></svg>
         </span>
         <h3>Societies</h3>
-        <p>Plan tanker orders early, skip the &#8377;3,000 emergency rate.</p>
+        <p>Plan tanker orders early, skip the &#8377;3,000 emergency rate. <span class="tag tag--unverified" title="Widely reported but not traced to a primary source">unsourced</span></p>
       </article>
       <article class="ic">
         <span class="ic__icon" aria-hidden="true">
@@ -311,7 +335,7 @@
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.8 4 5.7 4 9s-1.4 6.2-4 9c-2.6-2.8-4-5.7-4-9s1.4-6.2 4-9Z"/></svg>
         </span>
         <h3>Scale</h3>
-        <p>43,228 CGWB wells usable nationally, at no extra cost.</p>
+        <p>940 Maharashtra wells running today. The same pipeline reads any CGWB well &mdash; no new hardware, no new cost.</p>
       </article>
     </div>
 
@@ -334,12 +358,36 @@
     </div>
 
     <!-- ------- Stat row ------- -->
+    <!-- Measured on this repo's own data. Every number here is reproducible:
+         python ml/01_baseline.py && python ml/02_xgboost.py
+                                  && python ml/04_operating_point.py
+         Held-out set = 2,584 real CGWB readings the model never saw. -->
+    <h3 class="h3 h3--mt">What we actually measured</h3>
+    <ul class="stats stats--measured" reveal-group>
+      <li class="stat"><p class="stat__num">1.39&nbsp;m</p><p class="stat__cap">forecast error at 7 days (MAE)</p></li>
+      <li class="stat"><p class="stat__num">1.41&nbsp;m</p><p class="stat__cap">forecast error at 30 days &mdash; barely worse</p></li>
+      <li class="stat"><p class="stat__num">+24%</p><p class="stat__cap">better than a seasonal-average baseline</p></li>
+      <li class="stat"><p class="stat__num">77%</p><p class="stat__cap">of real crises caught, 510 held-out cases</p></li>
+      <li class="stat"><p class="stat__num">2,584</p><p class="stat__cap">held-out CGWB readings, never trained on</p></li>
+    </ul>
+
+    <p class="stats__note">
+      Error is flat from 7 to 30 days because the last CGWB reading is
+      <strong>77 days old on average</strong> &mdash; staleness dominates, not
+      forecast horizon. That is the measured case for community reporting: one
+      fresh reading moves this number more than any model change.
+      <br>
+      Catching 77% of crises costs false alarms; we chose that trade deliberately
+      and the curve is in <code>reports/operating_point.json</code>.
+    </p>
+
+    <h3 class="h3 h3--mt">Context</h3>
     <ul class="stats" reveal-group>
-      <li class="stat"><p class="stat__num">&#8377;&nbsp;3000</p><p class="stat__cap">per tanker cost in Pune (Jun 2026)</p></li>
-      <li class="stat"><p class="stat__num">730</p><p class="stat__cap">CGWB units over-exploited</p></li>
-      <li class="stat"><p class="stat__num">33%</p><p class="stat__cap">monitored wells declining nationally</p></li>
-      <li class="stat"><p class="stat__num">&#8377;&nbsp;0</p><p class="stat__cap">deployed system cost (open data)</p></li>
-      <li class="stat"><p class="stat__num">&#8377;&nbsp;2645</p><p class="stat__cap">validation rig cost (prototype)</p></li>
+      <li class="stat"><p class="stat__num">940</p><p class="stat__cap">wells ingested, 68,994 real readings</p></li>
+      <li class="stat"><p class="stat__num">&#8377;&nbsp;0</p><p class="stat__cap">deployed system cost (open data only)</p></li>
+      <li class="stat"><p class="stat__num">&#8377;&nbsp;3000</p><p class="stat__cap">per tanker in Pune <span class="tag tag--unverified">unsourced</span></p></li>
+      <li class="stat"><p class="stat__num">730</p><p class="stat__cap">CGWB units over-exploited <span class="tag tag--unverified">unsourced</span></p></li>
+      <li class="stat"><p class="stat__num">33%</p><p class="stat__cap">monitored wells declining <span class="tag tag--unverified">unsourced</span></p></li>
     </ul>
 
     <p class="badges">vivo Ignite 2026 &middot; Tech for Good &middot; SDG 6 &middot; SDG 2 &middot; SDG 13</p>
@@ -365,7 +413,7 @@
     </p>
     <nav class="foot__nav" aria-label="Footer">
       <a href="#problem">Problem</a>
-      <a href="#demo">Live Demo</a>
+      <a href="demo.html">Live Demo</a>
       <a href="#guide">Guide</a>
       <a href="#impact">Impact</a>
     </nav>

@@ -26,10 +26,30 @@ venv/
 !data/interim/reservoirs.csv
 
 # [B] added 8 Aug
-reports/
+# NOTE the trailing /* rather than /. A bare `reports/` makes git skip the
+# directory entirely, so the negations below can never fire — the same trap
+# that blocked data/parquet on 8 Aug.
+reports/*
+# Metrics are small, text, diffable, the landing page quotes them and
+# api/verify_model.py reads them. Plots stay out.
+# NB: gitignore has no trailing comments — a `#` mid-line is part of the
+# pattern, which silently breaks the rule. Comments go on their own line.
+!reports/*.json
 data/*.db-wal
 data/*.db-shm
+# app.db rollback journal — user signups, never commit
+data/*.db-journal
 data/test_*.db
+# bind-mount debris, not ours
+data/.fuse_hidden*
+
+# --- trained models ---
+# The served model is committed: the demo will not produce a model-backed
+# score without it, and a clone on another laptop the morning of the demo is
+# exactly when you find that out. 3.5 MB, well under GitHub's limit.
+# Experiment variants are not — regenerate with ml/02_xgboost.py.
+models/*
+!models/xgb_causal.json
 
 # derived training artefacts — regenerate with tools/export_parquet.py
 data/parquet/*

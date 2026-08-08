@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live demo — Jalaakar water stress score</title>
+<meta name="description" content="Pick a district and taluka and see a real water stress score computed from Central Ground Water Board readings.">
+<meta name="theme-color" content="#0b2136">
+
+<link rel="preload" href="assets/fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234fb4f0' d='M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav is-stuck">
+  <div class="nav__inner">
+    <a class="brand" href="index.html" aria-label="Jalaakar home">
+      <svg class="brand__drop" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z"/></svg>
+      <span class="brand__text">
+        <span class="brand__name">JAL<em>AAKAR</em></span>
+        <span class="brand__sub"><span lang="mr">जलाकार</span> — &ldquo;The Shape of Water&rdquo;</span>
+      </span>
+    </a>
+    <nav class="nav__links" id="navLinks" aria-label="Primary">
+      <a href="index.html#problem">Problem</a>
+      <a href="demo.html" aria-current="page">Live Demo</a>
+      <a href="index.html#guide">Guide</a>
+      <a href="index.html#impact">Impact</a>
+    </nav>
+    <div class="nav__auth"><a class="nav__signin" href="signup.html">Sign up</a></div>
+    <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main class="demo" id="main">
+  <div class="wrap">
+
+    <p class="eyebrow">Live Demo</p>
+    <h1 class="h2">Score any taluka in Maharashtra.</h1>
+    <p class="demo__lede">
+      Nothing here is pre-computed. Pick a place and the score is calculated from
+      <strong>68,994 Central Ground Water Board readings</strong> across
+      <strong>940 wells</strong> &mdash; the same data and the same formula the
+      alerts run on.
+    </p>
+
+    <!-- ---------- track switch ---------- -->
+    <div class="demo__tabs" role="tablist" aria-label="Which track to score">
+      <button class="demo__tab is-on" id="tabRural" role="tab" aria-selected="true" data-track="rural">
+        Rural &mdash; borewells
+      </button>
+      <button class="demo__tab" id="tabUrban" role="tab" aria-selected="false" data-track="urban">
+        Urban &mdash; city reservoirs
+      </button>
+    </div>
+
+    <div class="demo__grid">
+
+      <!-- ================= controls ================= -->
+      <section class="demo__panel" aria-label="Choose a place">
+
+        <!-- rural -->
+        <div class="demo__pane is-on" data-pane="rural">
+          <label class="field__label" for="district">District</label>
+          <select class="field__input" id="district">
+            <option value="">Loading…</option>
+          </select>
+
+          <label class="field__label field__label--mt" for="taluka">Taluka</label>
+          <select class="field__input" id="taluka" disabled>
+            <option value="">Choose a district first</option>
+          </select>
+          <p class="demo__hint" id="talukaHint"></p>
+
+          <p class="demo__scenario">
+            <strong>Scenario date: 15 May 2023</strong>, pre-monsoon.<br>
+            CGWB publishes four readings a year and the record ends 15 Aug 2023,
+            so this is the most recent real pre-monsoon round. The system
+            refuses to invent a 2026 rural score &mdash; try it and it says so.
+          </p>
+        </div>
+
+        <!-- urban -->
+        <div class="demo__pane" data-pane="urban">
+          <label class="field__label" for="city">City supply system</label>
+          <select class="field__input" id="city">
+            <option value="MUM_ALL">Mumbai — all 7 lakes</option>
+            <option value="PUN_KHW">Pune — Khadakwasla chain</option>
+            <option value="PUN_ALL">Pune — all 5 dams</option>
+          </select>
+
+          <label class="field__label field__label--mt" for="urbanDate">Date</label>
+          <select class="field__input" id="urbanDate">
+            <option value="">Latest available</option>
+            <option value="2026-06-29">29 Jun 2026 — the crisis</option>
+            <option value="2026-07-21">21 Jul 2026 — monsoon refilling</option>
+            <option value="2026-08-03">3 Aug 2026 — season peak</option>
+          </select>
+
+          <p class="demo__scenario">
+            <strong>This one is live.</strong> BMC and the Pune Irrigation
+            Department publish daily, so the urban track runs to yesterday.
+            Score Mumbai today and it returns <strong>SAFE</strong> &mdash; the
+            reservoirs really are full. Then set it to 29 June and watch the
+            same system return <strong>ACT NOW</strong>.
+          </p>
+        </div>
+
+        <button class="btn demo__go" id="go" disabled>Calculate stress score</button>
+      </section>
+
+      <!-- ================= result ================= -->
+      <section class="demo__panel demo__panel--result" aria-live="polite" aria-atomic="false">
+
+        <!-- idle -->
+        <div class="demo__state is-on" data-state="idle">
+          <svg class="demo__idle-drop" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z"/>
+          </svg>
+          <p>Choose a place and press calculate.</p>
+        </div>
+
+        <!-- working -->
+        <div class="demo__state" data-state="busy">
+          <p class="demo__stage" id="stage">Starting…</p>
+          <div class="demo__prog"><span id="progBar"></span></div>
+          <p class="demo__prog-pct" id="progPct">0%</p>
+        </div>
+
+        <!-- score -->
+        <div class="demo__state" data-state="done">
+          <p class="demo__place" id="rPlace"></p>
+          <p class="demo__fallback" id="rFallback" style="display:none"></p>
+          <p class="demo__model" id="rModel" style="display:none"></p>
+
+          <div class="meter" id="meter">
+            <svg viewBox="0 0 200 116" aria-hidden="true">
+              <path class="meter__track" d="M16 104a84 84 0 0 1 168 0"/>
+              <path class="meter__fill" id="meterFill" d="M16 104a84 84 0 0 1 168 0"/>
+            </svg>
+            <p class="meter__num"><span id="rScore">0</span><em>/100</em></p>
+            <p class="meter__band" id="rBand"></p>
+          </div>
+          <div class="meter__scale"><em>0 safe</em><em id="sc1">40</em><em id="sc2">70</em><em>100 critical</em></div>
+
+          <ul class="demo__facts" id="rFacts"></ul>
+
+          <details class="demo__break">
+            <summary>How this score was built</summary>
+            <ul id="rBreak"></ul>
+            <p class="demo__method" id="rMethod"></p>
+          </details>
+        </div>
+
+        <!-- refused -->
+        <div class="demo__state" data-state="none">
+          <p class="demo__none-title">No honest score available</p>
+          <p class="demo__none-why" id="rReason"></p>
+          <p class="demo__none-note">
+            The system will not extrapolate past the last real measurement.
+            That refusal is the feature.
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <p class="demo__foot">
+      Rural scores use <code>rural-stress-1.0/climatology</code>; urban uses
+      <code>urban-stress-1.0</code>. Bands 0&ndash;40 safe, 41&ndash;70 monitor,
+      71&ndash;100 act now. Forecast error measured at
+      <strong>1.39&nbsp;m at 7 days</strong> on 2,584 held-out CGWB readings,
+      24% better than a seasonal-average baseline.
+    </p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__inner">
+    <p class="foot__left">
+      <svg class="foot__drop" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z"/></svg>
+      &copy; 2026, JAL<em>AAKAR</em> <span lang="mr">जलाकार</span> &middot; The Shape of Water
+    </p>
+    <nav class="foot__nav" aria-label="Footer">
+      <a href="index.html#problem">Problem</a>
+      <a href="demo.html">Live Demo</a>
+      <a href="index.html#guide">Guide</a>
+      <a href="index.html#impact">Impact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="demo.js"></script>
+</body>
+</html>

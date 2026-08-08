@@ -30,34 +30,60 @@ webfont loading in some browsers.
 
 ## Notes on the numbers
 
-The status doc lists three figures confirmed against primary sources.
-Those are the ones used here:
+**The numbers on this page are no longer maintained here.** When the backend
+is running, `script.js` fetches `GET /api/figures` and rewrites every element
+carrying a `data-fig` attribute, along with its provenance tag. The API derives
+those values from `ingest/reservoir_seeds.csv`, which is the same file the
+ingest pipeline loads — so a correction to the data corrects the site, and the
+two cannot drift.
 
-| Figure | Value | Source |
-|---|---|---|
-| Mumbai, all 7 lakes, 30 Jun 2026 | **6.93%** | BMC Hydraulic Engineer's Dept. |
-| Mumbai, all 7 lakes, 7 Aug 2026 | **88.50%** | mumbailakewaterlevel.in |
-| Pune, all 5 dams, 7 Aug 2026 | **96.60%** | Maharashtra WRD / Pravah |
+The values in the markup are a **fallback** for when the API is unreachable
+(useful on venue wifi). If they disagree with the API, the console prints the
+mismatch and tells you to fix `index.html`.
 
-The Canva design used **8.34%**, **10.35%** and **90.06%** in places. Those
-three, plus the 25 Jun statewide 53.38%, are **not** in the verified set.
-They are still on the page but carry an `unverified` tag in the timeline, and
-`script.js` logs a console warning listing how many remain. Either confirm
-them against a source or cut them before the 11 Aug demo — the provenance
-table lives at the top of `script.js` (`window.JALAAKAR_FIGURES` at runtime).
+Current set, after the 8 Aug re-sourcing:
 
-The swing headline reads **6.93% → 88.50%**, both verified, rather than the
-mixed pair on the poster.
+| Figure | Value | Source | Status |
+|---|---|---|---|
+| Mumbai, 7 lakes, **29** Jun 2026 | **6.93%** | Free Press Journal / BMC Hydraulic Engineer | verified |
+| Mumbai, 7 lakes, 30 Jun 2026 | **6.75%** | Mid-Day, citing BMC | verified |
+| Mumbai, 7 lakes, 23 Jun 2026 | **8.34%** | Free Press Journal | verified |
+| Mumbai, 7 lakes, 16 Jun 2026 | **10.35%** | RMSI climate blog | **unverified** |
+| Mumbai, 7 lakes, 7 Aug 2026 | **88.50%** | mumbailakewaterlevel.in / BMC | verified |
+| Pune, all 5 dams, 7 Aug 2026 | **96.60%** | Maharashtra WRD / Pravah | verified |
+
+Two corrections worth knowing about, because both were on this page:
+
+- **6.93% is 29 June, not 30 June.** FPJ's table is captioned *"Water Stock As
+  On June 29"*; the article ran on the 30th. The 30 June reading is 6.75%.
+- **53.38% (25 Jun, "statewide") has been deleted.** It cited the Jalaakar
+  poster only, and BMC's own record contradicts it — 77.62% on 24 Jul and
+  88.40% on 27 Jul. A 53% reading cannot sit between them. A tombstone comment
+  in `script.js` records this so nobody re-adds it.
+
+Only **10.35%** is still unverified. It carries the `unverified` tag, and
+`script.js` logs a console warning while any remain.
+
+The swing headline reads **6.93% → 88.50%**, both verified.
 
 ## Things left to wire up
 
 - **Walkthrough video** — the Guide section renders a click-to-load YouTube
   facade (no iframe, no third-party cookies until clicked). Add the video id
   to `data-video-id` on `#video` in `index.html` to arm it.
-- **Signup backend** — the form validates fully client-side and logs the
-  payload it *would* POST to `/api/signup`. Nothing is persisted.
+- ~~**Signup backend**~~ — done. `POST /api/signup` in `api/` accepts exactly
+  the payload `script.js` was already logging, applies the same phone
+  validation, and resolves the free-text place to a real taluka, village or
+  city aggregate. Run it with `uvicorn api.main:app --port 8000`, which also
+  serves this folder.
+  The form itself still submits client-side only — wiring the `fetch` call is
+  the remaining step.
 - **Live demo** — the dashboard in the laptop is a static CSS mockup with
-  representative values, not live model output.
+  representative values, not live model output. `GET /api/score` now returns
+  real cards; the mockup has not been wired to it yet.
+  Note the mockup shows **Dindori, score 87, Critical**. Scored on real CGWB
+  readings Dindori comes out **31/100, SAFE** — 137th of 164 talukas. **Baglan
+  Taluka, also in Nashik, scores 78 / ACT NOW** and is the honest substitution.
 - **Byline** — the footer credits Dheyay Shah, per the Canva design.
 
 ## Implementation notes

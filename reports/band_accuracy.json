@@ -1,0 +1,116 @@
+{
+  "overall": {
+    "xgboost": {
+      "n": 7752,
+      "exact_band": 0.7767,
+      "within_one_band": 0.9876,
+      "act_now_recall": 0.4388,
+      "act_now_precision": 0.5178,
+      "misses": 298,
+      "false_alarms": 217,
+      "confusion": {
+        "SAFE": {
+          "SAFE": 4441,
+          "MONITOR": 440,
+          "ACT NOW": 72
+        },
+        "MONITOR": {
+          "SAFE": 776,
+          "MONITOR": 1347,
+          "ACT NOW": 226
+        },
+        "ACT NOW": {
+          "SAFE": 24,
+          "MONITOR": 193,
+          "ACT NOW": 233
+        }
+      }
+    },
+    "climatology": {
+      "n": 7752,
+      "exact_band": 0.7051,
+      "within_one_band": 0.9865,
+      "act_now_recall": 0.5198,
+      "act_now_precision": 0.4201,
+      "misses": 255,
+      "false_alarms": 381,
+      "confusion": {
+        "SAFE": {
+          "SAFE": 3891,
+          "MONITOR": 342,
+          "ACT NOW": 63
+        },
+        "MONITOR": {
+          "SAFE": 1308,
+          "MONITOR": 1299,
+          "ACT NOW": 192
+        },
+        "ACT NOW": {
+          "SAFE": 42,
+          "MONITOR": 339,
+          "ACT NOW": 276
+        }
+      }
+    },
+    "last_reading": {
+      "n": 7752,
+      "exact_band": 0.5789,
+      "within_one_band": 0.9052,
+      "act_now_recall": 0.3164,
+      "act_now_precision": 0.1734,
+      "misses": 363,
+      "false_alarms": 801,
+      "confusion": {
+        "SAFE": {
+          "SAFE": 3612,
+          "MONITOR": 1056,
+          "ACT NOW": 150
+        },
+        "MONITOR": {
+          "SAFE": 1044,
+          "MONITOR": 708,
+          "ACT NOW": 213
+        },
+        "ACT NOW": {
+          "SAFE": 585,
+          "MONITOR": 216,
+          "ACT NOW": 168
+        }
+      }
+    }
+  },
+  "by_horizon": {
+    "7": {
+      "n": 2584,
+      "exact_band": 0.7809597523219814,
+      "within_one_band": 0.9876160990712074,
+      "act_now_recall": 0.4180790960451977,
+      "act_now_precision": 0.5362318840579711,
+      "misses": 103,
+      "false_alarms": 64
+    },
+    "15": {
+      "n": 2584,
+      "exact_band": 0.7728328173374613,
+      "within_one_band": 0.9876160990712074,
+      "act_now_recall": 0.4350282485875706,
+      "act_now_precision": 0.5167785234899329,
+      "misses": 100,
+      "false_alarms": 72
+    },
+    "30": {
+      "n": 2584,
+      "exact_band": 0.7763157894736842,
+      "within_one_band": 0.9876160990712074,
+      "act_now_recall": 0.4632768361581921,
+      "act_now_precision": 0.5030674846625767,
+      "misses": 95,
+      "false_alarms": 81
+    }
+  },
+  "actual_distribution": {
+    "SAFE": 5241,
+    "MONITOR": 1980,
+    "ACT NOW": 531
+  }
+}

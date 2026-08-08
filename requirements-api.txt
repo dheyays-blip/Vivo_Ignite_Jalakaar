@@ -1,0 +1,14 @@
+# JALAAKAR API — install into the existing .venv
+#   pip install -r requirements-api.txt
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pydantic>=2.6
+# optional: only needed to actually deliver WhatsApp messages.
+# without it, alerts are rendered and logged, never faked as sent.
+twilio>=9.0
+
+# test only — fastapi's TestClient is a thin wrapper over an HTTP client that
+# starlette does not bundle. Recent starlette wants httpx2; older versions
+# want httpx and warn about it. Install whichever your starlette asks for;
+# neither is needed to RUN the server, only to run api/test_smoke.py.
+httpx2; python_version >= "3.9"

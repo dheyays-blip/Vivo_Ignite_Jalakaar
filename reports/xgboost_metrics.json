@@ -1,0 +1,116 @@
+{
+  "target": "delta_clim",
+  "params": {
+    "objective": "reg:absoluteerror",
+    "eta": 0.03,
+    "max_depth": 6,
+    "min_child_weight": 8,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "lambda": 2.0,
+    "tree_method": "hist",
+    "seed": 42
+  },
+  "features": [
+    "horizon_d",
+    "last_obs_level",
+    "days_since_obs",
+    "prev_obs_level",
+    "prev_obs_gap_d",
+    "obs_trend_m_per_day",
+    "last_obs_anomaly",
+    "rain_since_obs",
+    "et0_since_obs",
+    "rain_7d",
+    "rain_30d",
+    "rain_90d",
+    "et0_30d",
+    "days_since_last_rain",
+    "cum_monsoon_rainfall",
+    "temp_max",
+    "rh_mean",
+    "month",
+    "doy",
+    "season",
+    "specific_yield",
+    "well_depth",
+    "lat",
+    "lon",
+    "clim_season",
+    "clim_well"
+  ],
+  "weather_only": false,
+  "model_path": "models/xgb_causal.json",
+  "best_iteration": 508,
+  "importance": {
+    "last_obs_anomaly": 0.10430167659234713,
+    "season": 0.07896768446802035,
+    "month": 0.07844400275585894,
+    "doy": 0.061411823561058766,
+    "prev_obs_gap_d": 0.04495445758074275,
+    "specific_yield": 0.04132827013224537,
+    "days_since_obs": 0.04100487413259651,
+    "lon": 0.03833084583170718,
+    "et0_30d": 0.036209599418126036,
+    "prev_obs_level": 0.03232139148283717,
+    "rain_90d": 0.03206854734235567,
+    "cum_monsoon_rainfall": 0.032006605107255816,
+    "rh_mean": 0.0318550802776857,
+    "clim_well": 0.03182942091615392,
+    "obs_trend_m_per_day": 0.03112383907423007
+  },
+  "results": {
+    "val": {
+      "n": 11511,
+      "mae": 1.319,
+      "rmse": 2.341,
+      "bias": 0.39,
+      "by_horizon": {
+        "7": {
+          "n": 3837,
+          "mae": 1.318,
+          "rmse": 2.341,
+          "bias": 0.391
+        },
+        "15": {
+          "n": 3837,
+          "mae": 1.31,
+          "rmse": 2.331,
+          "bias": 0.385
+        },
+        "30": {
+          "n": 3837,
+          "mae": 1.33,
+          "rmse": 2.352,
+          "bias": 0.396
+        }
+      }
+    },
+    "test": {
+      "n": 7752,
+      "mae": 1.408,
+      "rmse": 2.319,
+      "bias": 0.339,
+      "by_horizon": {
+        "7": {
+          "n": 2584,
+          "mae": 1.391,
+          "rmse": 2.306,
+          "bias": 0.31
+        },
+        "15": {
+          "n": 2584,
+          "mae": 1.419,
+          "rmse": 2.329,
+          "bias": 0.376
+        },
+        "30": {
+          "n": 2584,
+          "mae": 1.413,
+          "rmse": 2.321,
+          "bias": 0.332
+        }
+      }
+    }
+  }
+}

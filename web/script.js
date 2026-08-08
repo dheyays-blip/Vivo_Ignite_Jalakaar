@@ -17,16 +17,25 @@
      confirmed or cut before the 11 Aug demo.
      -------------------------------------------------------------------- */
   var FIGURES = {
-    mumbai7Lakes_30Jun2026: { value: 6.93,  unit: '%', verified: true,
-      source: "BMC Hydraulic Engineer's Department" },
+    mumbai7Lakes_29Jun2026: { value: 6.93,  unit: '%', verified: true,
+      source: 'Free Press Journal / BMC Hydraulic Engineer' },
+    mumbai7Lakes_30Jun2026: { value: 6.75,  unit: '%', verified: true,
+      source: 'Mid-Day, citing BMC data' },
     mumbai7Lakes_07Aug2026: { value: 88.50, unit: '%', verified: true,
       source: 'mumbailakewaterlevel.in' },
     pune5Dams_07Aug2026:    { value: 96.60, unit: '%', verified: true,
       source: 'Maharashtra WRD / Pravah' },
 
     mumbai_16Jun2026:       { value: 10.35, unit: '%', verified: false, source: null },
-    mumbai_23Jun2026:       { value: 8.34,  unit: '%', verified: false, source: null },
-    statewide_25Jun2026:    { value: 53.38, unit: '%', verified: false, source: null },
+    mumbai_23Jun2026:       { value: 8.34,  unit: '%', verified: true,
+      source: 'Free Press Journal / BMC Hydraulic Engineer' },
+
+    /* RETRACTED 8 Aug 2026 — kept as a tombstone so nobody re-adds it.
+       statewide_25Jun2026 = 53.38% cited the Jalaakar poster only, and BMC's
+       own record contradicts it: 77.62% on 24 Jul, 88.40% on 27 Jul. A 53%
+       reading cannot sit between them.
+       mumbai7Lakes_30Jun2026 was 6.93%. Right number, wrong date — FPJ's table
+       is captioned "Water Stock As On June 29". 30 Jun is 6.75%. */
 
     warningWindowDays:      { value: 30,    unit: 'days',  verified: true, source: 'product spec' },
     tankerCostPune:         { value: 3000,  unit: 'INR',   verified: false, source: null },
@@ -290,8 +299,16 @@
     function validatePhone(f) {
       var digits = f.value.replace(/\D/g, '');
       if (!digits) return setError(f, 'We need a number to send WhatsApp alerts to.');
-      // Indian mobile: 10 digits, optionally prefixed with 91 or 091
-      var local = digits.replace(/^(0?91|0)/, '');
+
+      // Strip the country code by LENGTH, never by prefix. 91 is a real Indian
+      // mobile prefix as well as the country code, so /^(0?91|0)/ turns a valid
+      // 9123456780 into 8 digits and rejects it. Keep this identical to
+      // normalise_phone() in api/appdb.py.
+      var local = digits;
+      if (digits.length === 13 && digits.indexOf('091') === 0)      local = digits.slice(3);
+      else if (digits.length === 12 && digits.indexOf('91') === 0)  local = digits.slice(2);
+      else if (digits.length === 11 && digits.indexOf('0') === 0)   local = digits.slice(1);
+
       if (local.length !== 10 || !/^[6-9]/.test(local)) {
         return setError(f, 'Enter a 10-digit Indian mobile number.');
       }
@@ -370,6 +387,166 @@
         'unverified. Confirm against a primary source or cut them before the demo. ' +
         'See window.JALAAKAR_FIGURES.'
       );
+    }
+  })();
+
+  /* ------------------------------------------------------------------ */
+  /* 9. Hydrate figures from the API                                     */
+  /*                                                                     */
+  /* The values above are a FALLBACK, not the source of truth. They were */
+  /* wrong once already — 6.93% was labelled 30 June when it is 29 June, */
+  /* and a retracted 53.38% sat on the page for days. Two hand-kept      */
+  /* copies of the same number will always drift, so when the backend is */
+  /* reachable the page renders whatever the data says.                  */
+  /*                                                                     */
+  /* Fails silently and keeps the markup if the API is down: the venue   */
+  /* wifi is not something to bet a demo on.                             */
+  /* ------------------------------------------------------------------ */
+  (function hydrateFigures() {
+    if (!window.fetch) return;
+    var base = (window.JALAAKAR_API || '') + '/api/figures';
+
+    fetch(base, { headers: { Accept: 'application/json' } })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (data) {
+        var figs = data.figures || {};
+        window.JALAAKAR_FIGURES = figs;
+        window.JALAAKAR_FIGURES_META = {
+          summary: data.summary, retracted: data.retracted, live: true
+        };
+
+        var patched = 0, mismatched = [];
+        $$('[data-fig]').forEach(function (el) {
+          var f = figs[el.getAttribute('data-fig')];
+          if (!f || f.value == null) return;
+          var shown = parseFloat(el.textContent.replace(/[^0-9.]/g, ''));
+          var next = f.value.toFixed(2) + (f.unit === '%' ? '%' : '');
+          if (Math.abs(shown - f.value) > 0.005) {
+            mismatched.push(el.getAttribute('data-fig') + ': page ' + shown +
+                            ' vs data ' + f.value);
+          }
+          el.textContent = next;
+          patched++;
+        });
+
+        $$('[data-fig-tag]').forEach(function (el) {
+          var f = figs[el.getAttribute('data-fig-tag')];
+          if (!f) return;
+          var ok = !!f.verified;
+          el.classList.toggle('tag--ok', ok);
+          el.classList.toggle('tag--unverified', !ok);
+          el.textContent = ok ? 'verified • ' + shortSource(f.source_org)
+                              : 'unverified';
+          if (f.source_url) el.title = f.source_org + ' — ' + f.source_url;
+          else if (f.source_org) el.title = f.source_org;
+        });
+
+        console.info('[jalaakar] figures hydrated from API (' + patched +
+                     ' values). ' + (data.summary
+                       ? data.summary.total_anchors + ' anchors, ' +
+                         (data.summary.unverified || []).length + ' unverified.'
+                       : ''));
+        if (mismatched.length) {
+          console.warn('[jalaakar] markup disagreed with the data — the page ' +
+                       'has been corrected, now fix index.html:\n  ' +
+                       mismatched.join('\n  '));
+        }
+      })
+      .catch(function () {
+        window.JALAAKAR_FIGURES_META = { live: false };
+        console.info('[jalaakar] /api/figures unreachable — using the ' +
+                     'hardcoded fallback figures. Fine for an offline demo.');
+      });
+
+    function shortSource(s) {
+      if (!s) return 'source';
+      if (/free press/i.test(s)) return 'FPJ';
+      if (/mid-?day/i.test(s)) return 'Mid-Day';
+      if (/bmc/i.test(s)) return 'BMC';
+      if (/wrd/i.test(s)) return 'WRD';
+      if (/punekar/i.test(s)) return 'Punekar';
+      if (/bridge/i.test(s)) return 'TBC';
+      return s.split(/[\s\/]/)[0];
+    }
+  })();
+
+  /* ------------------------------------------------------------------ */
+  /* 10. Live dashboard                                                  */
+  /*                                                                     */
+  /* The laptop used to show an invented card: Dindori, 87, Critical,    */
+  /* "30 days to empty", well MH-NSK-0412. Scored on real CGWB readings  */
+  /* Dindori is 31/100 SAFE and ranks 137th of 164 talukas, and that     */
+  /* well ID does not exist. Baglan — same district — genuinely scores   */
+  /* 78 ACT NOW, so that is what the demo shows.                         */
+  /*                                                                     */
+  /* Scenario date is 2023-05-15: CGWB observations end 2023-08-15, so   */
+  /* there is no honest rural score for 2026. The API refuses to invent  */
+  /* one, which is the correct behaviour and worth saying out loud.      */
+  /* ------------------------------------------------------------------ */
+  (function liveDashboard() {
+    var root = $('[data-dash]');
+    if (!root || !window.fetch) return;
+
+    var q = '/api/score?entity_type=taluka&entity_id=Baglan&on=2023-05-15';
+    fetch((window.JALAAKAR_API || '') + q, { headers: { Accept: 'application/json' } })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (card) {
+        if (!card || card.status !== 'ok') throw new Error(card && card.reason);
+        window.JALAAKAR_CARD = card;
+
+        var d = card.detail || {};
+        var slot = function (n) { return $('[data-dash="' + n + '"]'); };
+        var set  = function (n, v) { var el = slot(n); if (el) el.textContent = v; };
+
+        set('meta', card.entity_label.replace(' Taluka, ', ' Taluka • ') +
+                    ' • ' + d.wells_scored + ' wells');
+        set('score', card.score);
+        set('state', titleCase(card.band) + ' • ' +
+                     (card.days_to_crisis != null
+                        ? card.days_to_crisis + ' days to crisis'
+                        : 'no crisis projected'));
+        var bar = slot('bar');
+        if (bar) bar.style.setProperty('--w', card.score + '%');
+
+        set('stat1num', Number(card.headline.value).toFixed(1));
+        set('stat1cap', 'm forecast depth');
+        set('stat2num', d.days_since_last_reading);
+        set('stat2cap', 'days since last reading');
+
+        var notes = slot('notes');
+        if (notes) {
+          notes.innerHTML = '';
+          [ 'Well ' + d.driving_well + ' at ' +
+              Number(d.last_obs_level).toFixed(2) + ' m — deepest of ' +
+              d.wells_scored,
+            'Forecast for ' + fmt(card.target_date) + ', made ' + fmt(card.date)
+          ].forEach(function (t) {
+            var li = document.createElement('li');
+            li.innerHTML = '<i></i><span></span>';
+            li.lastChild.textContent = t;
+            notes.appendChild(li);
+          });
+        }
+
+        console.info('[jalaakar] dashboard live from API:', card.entity_label,
+                     card.score, card.band, '(' + card.method + ')');
+      })
+      .catch(function (e) {
+        console.info('[jalaakar] /api/score unreachable — dashboard showing ' +
+                     'the last real API response, hardcoded in index.html. ' +
+                     (e && e.message ? '(' + e.message + ')' : ''));
+      });
+
+    function titleCase(s) {
+      return String(s || '').toLowerCase().replace(/(^|\s)\w/g, function (m) {
+        return m.toUpperCase();
+      });
+    }
+    function fmt(iso) {
+      var M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      var p = String(iso || '').split('-');
+      return p.length === 3 ? (+p[2]) + ' ' + M[+p[1] - 1] + ' ' + p[0] : iso;
     }
   })();
 
