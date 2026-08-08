@@ -212,6 +212,79 @@ CREATE INDEX IF NOT EXISTS idx_stress_date ON urban_stress(date);
 CREATE INDEX IF NOT EXISTS idx_stress_band ON urban_stress(band);
 
 -- ---------------------------------------------------------------------
+-- 7c. features_causal — the forecasting table. ADDITIVE, 8 Aug.
+--
+--     WHY THIS EXISTS, AND WHY `features` MUST NOT BE USED FOR FORECASTING
+--     ------------------------------------------------------------------
+--     `features.level`, `level_lag_*` and `level_change_*` all read from
+--     gw_daily. gw_daily INTERPOLATES BETWEEN real observations, so the
+--     reconstructed level at time t was built partly from the observation
+--     at t+30 — the value being predicted. ml/01_baseline.py measures the
+--     damage: persistence off gw_daily scores 0.22 m MAE at +7d against
+--     2.54 m for last-real-reading persistence. That gap is leakage.
+--
+--     Every column below is computable from information available AT
+--     ORIGIN TIME and nothing later. One row per (well, origin, horizon);
+--     the label is always a genuine CGWB reading, never an interpolation.
+--
+--     `features` remains correct for the urban track and for anything that
+--     is not a forecast. It is not deleted, it is not for this.
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS features_causal (
+    well_id              TEXT NOT NULL REFERENCES wells(well_id) ON DELETE CASCADE,
+    origin_date          TEXT NOT NULL,      -- when the forecast is made
+    target_date          TEXT NOT NULL,      -- a REAL observation date
+    horizon_d            INTEGER NOT NULL,   -- target_date - origin_date
+
+    -- state, from real observations only
+    last_obs_level       REAL,               -- last real reading at or before origin
+    days_since_obs       INTEGER,
+    prev_obs_level       REAL,               -- the reading before that
+    prev_obs_gap_d       INTEGER,
+    obs_trend_m_per_day  REAL,               -- real measured slope, no interpolation
+    last_obs_anomaly     REAL,               -- vs that well's train seasonal mean
+
+    -- weather up to origin (genuinely daily, so clean)
+    rain_since_obs       REAL,
+    et0_since_obs        REAL,
+    rain_7d              REAL,
+    rain_30d             REAL,
+    rain_90d             REAL,
+    et0_30d              REAL,
+    days_since_last_rain INTEGER,
+    cum_monsoon_rainfall REAL,
+    soil_moist_0_7       REAL,
+    soil_moist_7_28      REAL,
+    temp_max             REAL,
+    rh_mean              REAL,
+
+    -- calendar of the TARGET date
+    month                INTEGER,
+    doy                  INTEGER,
+    season               TEXT,
+
+    -- static well attributes
+    specific_yield       REAL,
+    well_depth           REAL,
+    lat                  REAL,
+    lon                  REAL,
+
+    -- train-fitted climatology, from real observations only
+    clim_season          REAL,
+    clim_well            REAL,
+
+    target_level         REAL NOT NULL,      -- the real reading. The label.
+    split                TEXT NOT NULL,
+
+    PRIMARY KEY (well_id, origin_date, horizon_d),
+    CHECK (split IN ('train','val','test')),
+    CHECK (horizon_d > 0)
+);
+CREATE INDEX IF NOT EXISTS idx_fc_split  ON features_causal(split);
+CREATE INDEX IF NOT EXISTS idx_fc_target ON features_causal(target_date);
+CREATE INDEX IF NOT EXISTS idx_fc_well   ON features_causal(well_id);
+
+-- ---------------------------------------------------------------------
 -- 8. ingest_log — provenance. Every script writes one row per run.
 --    This is what DATA_CARD.md is generated from.
 -- ---------------------------------------------------------------------
