@@ -214,9 +214,10 @@ def main():
         if n_res:
             L += ["## Urban track", ""]
             for label, rid, d in [
-                ("Mumbai, scenario date", "MUM_ALL", str(cfg.scenario_date)),
-                ("Mumbai, today",         "MUM_ALL", str(cfg.end_date)),
-                ("Pune, today",           "PUN_ALL", str(cfg.end_date)),
+                ("Mumbai, scenario date",  "MUM_ALL", str(cfg.scenario_date)),
+                ("Mumbai, today",          "MUM_ALL", str(cfg.end_date)),
+                ("Pune (Khadakwasla chain)", "PUN_KHW", str(cfg.end_date)),
+                ("Pune, today",            "PUN_ALL", str(cfg.end_date)),
             ]:
                 row = con.execute("SELECT live_storage_pct, source FROM "
                                   "reservoir_daily WHERE reservoir_id=? AND date=?",
@@ -232,6 +233,51 @@ def main():
                 "urban forecast.",
                 "",
             ]
+
+            # ---- urban stress score --------------------------------------
+            try:
+                n_stress = q1(con, "SELECT COUNT(*) FROM urban_stress")
+            except Exception:
+                n_stress = 0
+            if n_stress:
+                ver = q1(con, "SELECT method_version FROM urban_stress LIMIT 1")
+                L += [
+                    "### Water Stress Score (urban)", "",
+                    f"`{ver}` — **rule-based, not modelled.** {n_stress:,} daily "
+                    "scores. The formula is depletion (0–60) + rate of decline "
+                    "(0–25) + days of supply at municipal draw (0–15); each "
+                    "component is stored alongside the total in `urban_stress`, "
+                    "so any score can be taken apart and defended.", "",
+                    "| Date | Storage | Score | Band | What BMC did |",
+                    "|---|---|---|---|---|",
+                ]
+                for d, note in [
+                    ("2026-05-15", "imposed first 10% city-wide cut"),
+                    ("2026-06-16", "extended restrictions to industry"),
+                    ("2026-06-29", "season low; supply projected to 20 Aug"),
+                    ("2026-07-21", "monsoon refilling"),
+                    ("2026-08-03", "season peak, four lakes overflowing"),
+                ]:
+                    r = con.execute(
+                        "SELECT live_storage_pct, score, band FROM urban_stress "
+                        "WHERE entity_id='MUM_ALL' AND date=?", (d,)).fetchone()
+                    if r:
+                        L += [f"| {d} | {r['live_storage_pct']:.2f}% | "
+                              f"**{r['score']}** | {r['band']} | {note} |"]
+                interp = q1(con, "SELECT COUNT(*) FROM urban_stress "
+                                 "WHERE inputs_source='interpolated'")
+                L += [
+                    "",
+                    f"{interp:,} of {n_stress:,} scores rest on at least one "
+                    "interpolated input; `urban_stress.inputs_source` records "
+                    "the worst provenance behind every score.",
+                    "",
+                    "**Known blind spot.** The series begins 15 May 2026, so the "
+                    "earliest dates score with no trend term and read lower than "
+                    "they should. That is a limit of the data, not a bug in the "
+                    "formula, and `07_stress.py --calibrate` prints it.",
+                    "",
+                ]
 
         # ---- sources ----------------------------------------------------
         L += [

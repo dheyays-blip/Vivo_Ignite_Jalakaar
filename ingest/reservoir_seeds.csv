@@ -1,14 +1,79 @@
-# Hand-verified aggregate anchors for the 2026 season.
-# Every row traces to a named public source. Nothing here is invented.
-# live_storage_pct is the source of truth; storage_mcm is derived from
-# capacity in 04_reservoirs.py so the two can never drift apart.
-entity_id,date,live_storage_pct,source_note
-MUM_ALL,2026-05-15,23.00,RMSI climate blog Jul 2026 - BMC imposes first 10% city-wide cut
-MUM_ALL,2026-06-16,10.35,RMSI climate blog - restrictions extended to industrial/commercial users
-MUM_ALL,2026-06-20,8.68,RMSI blog / Mumbai Live - lowest for this date in three years
-MUM_ALL,2026-06-23,8.34,RMSI blog - BMC begins drawing reserve stock
-MUM_ALL,2026-06-30,6.93,JALAAKAR poster sourced to BMC Hydraulic Engineers Dept - 3-year low
-MUM_ALL,2026-07-25,53.38,JALAAKAR poster - BMC Hydraulic Engineers Dept
-MUM_ALL,2026-08-03,90.06,JALAAKAR poster - BMC Hydraulic Engineers Dept
-MUM_ALL,2026-08-07,88.50,mumbailakewaterlevel.in - BMC 06:00 report
-PUN_ALL,2026-08-07,96.60,mumbailakewaterlevel.in/pune-dam-water-levels - WRD/Pravah
+# JALAAKAR — hand-verified aggregate anchors for the 2026 season.
+#
+# CHAIN OF CUSTODY RULE
+# ---------------------
+# Every row must cite a source that is NOT this project. A figure whose only
+# provenance is the Jalaakar poster is not evidence — the poster is downstream
+# of the data, not upstream of it. Three rows previously broke that rule and
+# have been re-sourced or removed (see the changelog at the bottom).
+#
+# COLUMNS
+#   entity_id         MUM_ALL | PUN_KHW | PUN_ALL  (see 04_reservoirs.py)
+#   date              date the READING refers to, not the publication date.
+#                     These differ constantly in Indian water reporting: a
+#                     bulletin published 30 June carries the 29 June 06:00
+#                     reading. Getting this wrong shifts the whole series.
+#   live_storage_pct  source of truth; storage_mcm is derived in 04_reservoirs.py
+#   confidence        primary   = published by BMC / WRD / Irrigation Dept and
+#                                 read off the page itself
+#                     reported  = a named outlet quoting the above, page read
+#                                 and date confirmed
+#                     secondhand= quoted inside another article, original not read
+#   source_org        who published it
+#   source_url        where to check it
+#
+entity_id,date,live_storage_pct,confidence,source_org,source_url,source_note
+#
+# ---- Mumbai: all 7 BMC supply lakes (capacity 14,47,363 ML) ----------------
+MUM_ALL,2026-05-15,23.00,secondhand,RMSI climate blog,https://www.rmsi.com/blog/,BMC imposes first 10% city-wide cut. Needs a primary re-source.
+MUM_ALL,2026-06-16,10.35,secondhand,RMSI climate blog / Mumbai Live,https://www.rmsi.com/blog/,Restrictions extended to industrial and commercial users.
+MUM_ALL,2026-06-20,8.68,secondhand,RMSI climate blog / Mumbai Live,https://www.rmsi.com/blog/,Lowest for this date in three years.
+MUM_ALL,2026-06-23,8.34,reported,Free Press Journal,https://www.freepressjournal.in/mumbai/mumbais-water-stock-falls-to-834-as-delayed-monsoon-hits-lake-levels,BMC Hydraulic Engineer 06:00 report. Delayed monsoon.
+MUM_ALL,2026-06-29,6.93,reported,Free Press Journal,https://www.freepressjournal.in/mumbai/mumbai-water-crisis-usable-lake-storage-drops-to-693-per-cent-delayed-projects-raise-long-term-supply-concerns,"Water stock as on June 29. ~1 lakh ML left; FPJ projects supply to 20 Aug. WAS DATED 30 JUNE IN ERROR — see changelog."
+MUM_ALL,2026-06-30,6.75,reported,Mid-Day (via Inshorts),https://inshorts.com/en/news/water-levels-in-mumbai-s-7-lakes-drop-to-6-75--despite-rain-1782830556356,"97,666 ML of 14,47,363 ML per BMC data. Season low. Last year same period >40%."
+MUM_ALL,2026-07-20,54.05,secondhand,Free Press Journal,https://www.freepressjournal.in/mumbai/mumbais-water-stock-jumps-to-5775-after-heavy-rain-lake-levels-rise-by-370-in-24-hours,Quoted as Monday's figure inside the 21 July report.
+MUM_ALL,2026-07-21,57.75,reported,Free Press Journal,https://www.freepressjournal.in/mumbai/mumbais-water-stock-jumps-to-5775-after-heavy-rain-lake-levels-rise-by-370-in-24-hours,"8,35,919 ML. BMC Hydraulic Engineer, 06:00 21 July."
+MUM_ALL,2026-07-24,77.62,reported,Free Press Journal,https://www.freepressjournal.in/mumbai/mumbai-rains-citys-water-stock-climbs-to-7762-after-heavy-showers-lake-levels-rise-nearly-8-in-24-hours,"11,23,443 ML. +7.88 pp in 24h. Tansa overflowed 22 Jul, Modak Sagar 23 Jul."
+MUM_ALL,2026-08-02,89.08,secondhand,Free Press Journal,https://www.freepressjournal.in/mumbai/mumbais-water-stock-crosses-90-mark-lake-levels-at-9006-amid-incessant-rains,Quoted as Sunday's figure inside the 3 August report.
+MUM_ALL,2026-08-03,90.06,reported,Free Press Journal,https://www.freepressjournal.in/mumbai/mumbais-water-stock-crosses-90-mark-lake-levels-at-9006-amid-incessant-rains,"13,03,500 ML of 14,47,363 ML. BMC Hydraulic Engineer, 06:00 3 Aug. Season peak."
+MUM_ALL,2026-08-07,88.50,primary,BMC Hydraulic Engineer via mumbailakewaterlevel.in,https://www.mumbailakewaterlevel.in/,"12,80,931 ML. 06:00 report. YoY: 89.18% (2025), 90.23% (2024)."
+#
+# ---- Pune: Khadakwasla chain, 4 dams (capacity 29.15 TMC = 8,25,660 ML) ----
+# This is the entity Pune reporting actually describes. It EXCLUDES Pavana.
+# Attaching these percentages to a 5-dam PUN_ALL denominator was the previous
+# bug — same number, wrong divisor.
+PUN_KHW,2026-07-05,17.47,reported,Punekar News / Pune Irrigation Dept,https://www.punekarnews.in/pune-dams-water-storage-update-reservoirs-at-17-47-capacity-despite-steady-rainfall/,"5.09 TMC at 06:00. Last year same period 17.67 TMC (60.62%)."
+PUN_KHW,2026-07-21,61.82,secondhand,The Bridge Chronicle / Pune Irrigation Dept,https://www.thebridgechronicle.com/pune/pune-dam-storage-18-02-tmc-imd-rainfall-forecast-july-23-agn97,18.02 TMC of 29.15 TMC. Derived percentage — headline gives TMC only.
+PUN_KHW,2026-07-27,87.77,reported,The Bridge Chronicle / Pune Irrigation Dept,https://www.thebridgechronicle.com/pune/pune-khadakwasla-dam-chain-nears-88-percent-capacity-controlled-water-release-agn97,"25.54 TMC at 17:00. Khadakwasla itself 100%, spilling 2.71 TMC."
+PUN_KHW,2026-08-04,99.54,secondhand,The Bridge Chronicle / Pune Irrigation Dept,https://www.thebridgechronicle.com/pune/pune-dams-99-54-percent-full-khadakwasla-discharge-raised-29117-cusecs-agn97,"Discharge raised to 29,117 cusecs."
+PUN_KHW,2026-08-08,100.00,reported,Free Press Journal,https://www.freepressjournal.in/pune/record-july-rain-fills-pune-dams-to-the-brim-khadakwasla-system-hits-100-storage-pawana-almost-full,"All four at 100% at 06:00: Khadakwasla 1.97, Varasgaon 12.82, Panshet 10.65, Temghar 3.71 TMC. Pavana 98.31%."
+#
+# ---- Pune: all 5 dams incl. Pavana (capacity 10,66,930 ML) -----------------
+PUN_ALL,2026-08-07,96.60,primary,Maharashtra WRD via mumbailakewaterlevel.in,https://www.mumbailakewaterlevel.in/pune-dam-water-levels/,Five-dam aggregate as published by the portal.
+#
+# ===========================================================================
+# CHANGELOG — 8 Aug 2026
+# ---------------------------------------------------------------------------
+# REMOVED  MUM_ALL 2026-07-25 53.38%
+#          Cited the Jalaakar poster only, and is contradicted by the record:
+#          BMC reported 77.62% on 24 July and 88.40% on 27 July. A 53% reading
+#          cannot sit between them. The value plausibly belongs to ~19 July
+#          (54.05% is confirmed for 20 July) but no source was found, so it is
+#          dropped rather than guessed.
+#
+# MOVED    MUM_ALL 6.93%  30 June -> 29 June
+#          FPJ's table is captioned "Water Stock As On June 29"; the article
+#          was published 30 June. The 30 June reading is 6.75%, separately
+#          confirmed by Mid-Day. Both dates are now anchored.
+#          NOTE: config.yaml scenario.date is 2026-06-30, so the demo now
+#          resolves to 6.75%, not the 6.93% printed on the poster. Decide
+#          which one the poster should say before Tuesday.
+#
+# RE-SOURCED MUM_ALL 90.06% 3 Aug -> FPJ / BMC Hydraulic Engineer, with the
+#          underlying volume (13,03,500 ML) confirming the percentage.
+#
+# STILL OPEN
+#          The three May/June RMSI-blog rows are 'secondhand'. They are
+#          consistent with the rest of the curve and with the BMC restriction
+#          timeline, but none has been read off a BMC or WRD page.
+# ===========================================================================

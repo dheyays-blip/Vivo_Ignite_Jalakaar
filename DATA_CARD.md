@@ -1,6 +1,6 @@
 # JALAAKAR — DATA CARD
 
-**Generated:** 2026-08-08 01:04 · **Source DB:** `FROZEN_20260808_0103.db`
+**Generated:** 2026-08-08 13:18 · **Source DB:** `jalaakar.db`
 **Demo taluka:** Dindori, Nashik
 
 **Scenario date:** 2026-06-30 (pre-monsoon)
@@ -25,7 +25,7 @@ This file is generated from the database by `tools/data_card.py`. Do not edit it
 | `gw_observations` | 68,994 | **real measured** groundwater readings |
 | `gw_daily` | 3,250,606 | daily levels, real + interpolated |
 | `weather_daily` | 3,858,146 | daily weather per entity (NASA POWER for wells, Open-Meteo for reservoirs) |
-| `reservoir_daily` | 86 | urban storage, real + interpolated |
+| `reservoir_daily` | 121 | urban storage, real + interpolated |
 | `features` | 3,194,786 | final joined training table |
 
 ## Real vs interpolated — read this first
@@ -33,7 +33,7 @@ This file is generated from the database by `tools/data_card.py`. Do not edit it
 - **28,717 of 3,250,606 daily groundwater rows (0.88%) are genuine measurements.** The rest are interpolated.
 - `gw_daily.is_observed` separates the two. Every accuracy number must be computed against `is_observed = 1` rows only.
 - **Interpolation MAE: NOT YET RECORDED.** Dev A owes this (task A5). Re-run with `--mae <value>` before the freeze.
-- Urban rows carry `reservoir_daily.source`: `interpolated` 77, `manual` 9.
+- Urban rows carry `reservoir_daily.source`: `interpolated` 103, `manual` 18.
 
 > The sentence to say out loud: *"We reconstruct daily levels from each well's own seasonal cycle plus a linearly interpolated anomaly. We validated four methods against 1,088 held-out readings and shipped the lowest-error one. Rainfall-driven recession curves scored worse, so we don't use them for reconstruction — rainfall still feeds the forecasting model as a feature."*
 
@@ -83,11 +83,28 @@ Target is level at **t+30 days**. A random split would leak the future into trai
 
 ## Urban track
 
-- **Mumbai, scenario date (2026-06-30): 6.93%** (`manual`)
+- **Mumbai, scenario date (2026-06-30): 6.75%** (`manual`)
 - **Mumbai, today (2026-08-07): 88.5%** (`manual`)
+- **Pune (Khadakwasla chain) (2026-08-07): 99.88%** (`interpolated`)
 - **Pune, today (2026-08-07): 96.6%** (`manual`)
 
 The urban series covers roughly one season of publicly reported aggregates. It is sufficient for the demo narrative and the stress score; it is **not** enough to claim a trained urban forecast.
+
+### Water Stress Score (urban)
+
+`urban-stress-1.0` — **rule-based, not modelled.** 121 daily scores. The formula is depletion (0–60) + rate of decline (0–25) + days of supply at municipal draw (0–15); each component is stored alongside the total in `urban_stress`, so any score can be taken apart and defended.
+
+| Date | Storage | Score | Band | What BMC did |
+|---|---|---|---|---|
+| 2026-05-15 | 23.00% | **38** | SAFE | imposed first 10% city-wide cut |
+| 2026-06-16 | 10.35% | **83** | ACT NOW | extended restrictions to industry |
+| 2026-06-29 | 6.93% | **90** | ACT NOW | season low; supply projected to 20 Aug |
+| 2026-07-21 | 57.75% | **13** | SAFE | monsoon refilling |
+| 2026-08-03 | 90.06% | **0** | SAFE | season peak, four lakes overflowing |
+
+114 of 121 scores rest on at least one interpolated input; `urban_stress.inputs_source` records the worst provenance behind every score.
+
+**Known blind spot.** The series begins 15 May 2026, so the earliest dates score with no trend term and read lower than they should. That is a limit of the data, not a bug in the formula, and `07_stress.py --calibrate` prints it.
 
 ## Sources and licences
 
@@ -116,6 +133,8 @@ Total data cost: **₹0**.
 
 | Script | Started | Rows in | Rows out | Status |
 |---|---|---:|---:|---|
+| `07_stress.py` | 2026-08-08T13:17:41 |  | 121 | ok |
+| `04_reservoirs.py` | 2026-08-08T13:17:27 |  | 121 | ok |
 | `06_features.py` | 2026-08-08T00:28:05 |  | 3,194,786 | ok |
 | `05_interpolate.py` | 2026-08-08T00:27:36 | 68,994 | 3,250,606 | ok |
 | `03b_nasapower.py` | 2026-08-08T00:16:46 | 940 | 3,815,460 | ok |
@@ -126,5 +145,3 @@ Total data cost: **₹0**.
 | `03_openmeteo.py` | 2026-08-07T23:26:35 | 940 |  | ok |
 | `03_openmeteo.py` | 2026-08-07T23:20:08 | 940 |  | ok |
 | `03_openmeteo.py` | 2026-08-07T23:13:41 | 14 | 42,686 | ok |
-| `03_openmeteo.py` | 2026-08-07T23:10:44 | 940 |  | failed |
-| `04_reservoirs.py` | 2026-08-07T23:09:56 |  | 86 | ok |

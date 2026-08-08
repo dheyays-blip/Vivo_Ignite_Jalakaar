@@ -69,13 +69,54 @@ REGISTRY = pd.DataFrame(
 )
 
 # city aggregates — the entity most public reporting is published at
+#
+# PUN_KHW added 8 Aug. Pune storage is published for the *Khadakwasla chain*
+# (Khadakwasla + Panshet + Varasgaon + Temghar, 29.15 TMC), which is what the
+# Irrigation Department reports and what every Pune anchor in
+# reservoir_seeds.csv actually measures. Pavana is a separate PCMC-side source
+# and is NOT in that number. Feeding a 4-dam percentage into a 5-dam
+# denominator understated Pune storage by ~23%.
+#
+# PUN_ALL capacity corrected 1,099,980 -> 1,066,930 ML. The old value matched
+# no sum of the registry; the members total 1,066,930. See _check_aggregates.
 AGGREGATES = pd.DataFrame(
     [
-        ("MUM_ALL", "Mumbai — all 7 lakes", "Mumbai", 19.55, 73.30, 1_447_363),
-        ("PUN_ALL", "Pune — all 5 dams",    "Pune",   18.45, 73.60, 1_099_980),
+        ("MUM_ALL", "Mumbai — all 7 lakes",       "Mumbai", 19.55, 73.30, 1_447_363),
+        ("PUN_KHW", "Pune — Khadakwasla chain",   "Pune",   18.42, 73.62,   825_660),
+        ("PUN_ALL", "Pune — all 5 dams",          "Pune",   18.45, 73.60, 1_066_930),
     ],
     columns=["reservoir_id", "name", "city", "lat", "lon", "capacity_ml"],
 )
+
+# which water bodies each aggregate is the sum of — asserted at load time so
+# a capacity edit can never silently desync the two again
+AGGREGATE_MEMBERS = {
+    "MUM_ALL": ["UPPER_VAITARNA", "MODAK_SAGAR", "TANSA", "MIDDLE_VAITARNA",
+                "BHATSA", "VIHAR", "TULSI"],
+    "PUN_KHW": ["KHADAKWASLA", "PANSHET", "VARASGAON", "TEMGHAR"],
+    "PUN_ALL": ["KHADAKWASLA", "PANSHET", "VARASGAON", "TEMGHAR", "PAVANA"],
+}
+
+
+def _check_aggregates() -> None:
+    """Every aggregate must equal the sum of its members. No exceptions.
+
+    This is the invariant that failed silently before: PUN_ALL claimed
+    1,099,980 ML while its five members summed to 1,066,930 ML, so every
+    Pune storage_mcm was ~3% low and nothing complained.
+    """
+    body = dict(zip(REGISTRY.reservoir_id, REGISTRY.capacity_ml))
+    agg = dict(zip(AGGREGATES.reservoir_id, AGGREGATES.capacity_ml))
+    for aid, members in AGGREGATE_MEMBERS.items():
+        want = sum(body[m] for m in members)
+        got = agg[aid]
+        if want != got:
+            sys.exit(
+                f"ERROR: {aid} capacity is {got:,} ML but its {len(members)} "
+                f"members sum to {want:,} ML (difference {got - want:+,}). "
+                f"Fix AGGREGATES or AGGREGATE_MEMBERS — do not load."
+            )
+    print(f"[check] {len(AGGREGATE_MEMBERS)} aggregates match the sum of their members")
 
 NAME_TO_ID = {
     "upper vaitarna": "UPPER_VAITARNA", "modak sagar": "MODAK_SAGAR",
@@ -95,6 +136,7 @@ def capacities() -> dict[str, float]:
 # registry load
 # --------------------------------------------------------------------------
 def load_registry(con) -> int:
+    _check_aggregates()
     reg = pd.concat([REGISTRY, AGGREGATES], ignore_index=True)
     reg["capacity_mcm"] = (reg["capacity_ml"] / 1000).round(3)   # 1000 ML = 1 MCM
     n = upsert(con, "reservoirs", reg.drop(columns=["capacity_ml"]))
@@ -124,6 +166,10 @@ def load_seeds(con) -> int:
     s["source"] = "manual"
     s["pct_same_day_last_yr"] = pd.NA
 
+    unknown = set(s.entity_id) - set(cap)
+    if unknown:
+        sys.exit(f"ERROR: seeds reference unknown entities {sorted(unknown)}")
+
     n = upsert(con, "reservoir_daily",
                s[["reservoir_id", "date", "live_storage_pct", "storage_mcm",
                   "pct_same_day_last_yr", "source"]])
@@ -132,6 +178,17 @@ def load_seeds(con) -> int:
         print(f"        {eid}: {len(g)} anchors, "
               f"{g.date.min().date()} → {g.date.max().date()}, "
               f"{g.live_storage_pct.min():.2f}% – {g.live_storage_pct.max():.2f}%")
+
+    # chain of custody — the whole point of the CSV rewrite. If 'secondhand'
+    # ever climbs, somebody is adding numbers without reading the source.
+    if "confidence" in s.columns:
+        print("[seeds] chain of custody:")
+        for conf, g in s.groupby("confidence"):
+            print(f"        {conf:<11} {len(g):>2}")
+        if "source_url" in s.columns and s.source_url.isna().any():
+            print("  WARNING: anchors with no source_url:", file=sys.stderr)
+            print(s[s.source_url.isna()][["entity_id", "date"]].to_string(index=False),
+                  file=sys.stderr)
     return n
 
 
@@ -289,6 +346,7 @@ def main():
             for label, rid, d in [
                 ("Mumbai, scenario date", "MUM_ALL", cfg.scenario_date),
                 ("Mumbai, today",         "MUM_ALL", when),
+                ("Pune (Khadakwasla)",    "PUN_KHW", when),
                 ("Pune, today",           "PUN_ALL", when),
             ]:
                 row = con.execute(

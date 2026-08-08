@@ -180,6 +180,38 @@ CREATE INDEX IF NOT EXISTS idx_feat_date   ON features(date);
 CREATE INDEX IF NOT EXISTS idx_feat_entity ON features(entity_type, entity_id);
 
 -- ---------------------------------------------------------------------
+-- 7b. urban_stress — rule-based 0-100 Water Stress Score for the urban
+--     track. ADDITIVE, 8 Aug. Nothing above this was changed, so the
+--     frozen contract with the ML track still holds.
+--
+--     Rule-based, NOT modelled, and deliberately so: the urban series is
+--     ~25 published aggregate rows over one season. That is not a training
+--     set, and pretending otherwise is how a demo dies under questioning.
+--     Every component is stored alongside the total so any score can be
+--     taken apart and defended: "why 87?" has an arithmetic answer.
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS urban_stress (
+    entity_id        TEXT NOT NULL REFERENCES reservoirs(reservoir_id) ON DELETE CASCADE,
+    date             TEXT NOT NULL,      -- DATE
+    score            INTEGER NOT NULL,   -- 0..100
+    band             TEXT NOT NULL,      -- 'SAFE' | 'MONITOR' | 'ACT NOW'
+    s_level          REAL NOT NULL,      -- 0..60  depletion
+    s_trend          REAL NOT NULL,      -- 0..25  rate of decline
+    s_runway         REAL NOT NULL,      -- 0..15  days of supply left
+    live_storage_pct REAL,
+    trend_pp_per_day REAL,               -- negative = falling
+    trend_window_d   INTEGER,            -- lookback actually used
+    days_of_supply   REAL,               -- storage_ML / draw_MLD
+    inputs_source    TEXT,               -- worst provenance among inputs used
+    method_version   TEXT NOT NULL,
+    PRIMARY KEY (entity_id, date),
+    CHECK (score BETWEEN 0 AND 100),
+    CHECK (band IN ('SAFE','MONITOR','ACT NOW'))
+);
+CREATE INDEX IF NOT EXISTS idx_stress_date ON urban_stress(date);
+CREATE INDEX IF NOT EXISTS idx_stress_band ON urban_stress(band);
+
+-- ---------------------------------------------------------------------
 -- 8. ingest_log — provenance. Every script writes one row per run.
 --    This is what DATA_CARD.md is generated from.
 -- ---------------------------------------------------------------------
