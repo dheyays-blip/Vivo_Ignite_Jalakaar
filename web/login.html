@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in — Jalaakar</title>
+<meta name="description" content="Sign in to Jalaakar to see your water stress score and, if you are an official, send alerts.">
+<meta name="theme-color" content="#0b2136">
+
+<link rel="preload" href="assets/fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css?v=23d74d77">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234fb4f0' d='M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav is-stuck" id="nav">
+  <div class="nav__inner">
+    <a class="brand" href="index.html" aria-label="Jalaakar home">
+      <svg class="brand__drop" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z"/></svg>
+      <span class="brand__text">
+        <span class="brand__name">JAL<em>AAKAR</em></span>
+        <span class="brand__sub"><span lang="mr">जलाकार</span> &mdash; &ldquo;The Shape of Water&rdquo;</span>
+      </span>
+    </a>
+
+    <nav class="nav__links" id="navLinks" aria-label="Primary">
+      <a href="index.html#about">About</a>
+      <a href="index.html#problem">Problem</a>
+      <a href="demo.html">Live Demo</a>
+      <a href="index.html#guide">Guide</a>
+      <a href="index.html#impact">Impact</a>
+      <div class="nav__auth-mobile">
+        <a class="nav__signin" href="login.html" aria-current="page">Sign in</a>
+        <a class="btn btn--sm btn--primary" href="signup.html" aria-current="page">Sign up</a>
+      </div>
+    </nav>
+
+    <div class="nav__auth">
+      <a class="nav__signin" href="login.html" aria-current="page">Sign in</a>
+      <a class="btn btn--sm btn--primary" href="signup.html" aria-current="page">Sign up</a>
+    </div>
+
+    <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main class="auth" id="main">
+  <div class="auth__blob auth__blob--1" aria-hidden="true"></div>
+  <div class="auth__blob auth__blob--2" aria-hidden="true"></div>
+  <svg class="auth__drop" viewBox="0 0 200 260" aria-hidden="true">
+    <path d="M100 8s78 96 78 148a78 78 0 1 1-156 0C22 104 100 8 100 8Z"/>
+    <path d="M100 62s46 60 46 92a46 46 0 1 1-92 0c0-32 46-92 46-92Z"/>
+  </svg>
+
+  <div class="auth__card">
+    <h1 class="auth__title">Sign in to Jal<em>aakar</em></h1>
+    <p class="auth__sub">Your water stress score, and alerts if you send them.</p>
+
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label class="field__label" for="loginPhone">Phone Number</label>
+        <input class="field__input" id="loginPhone" name="phone" type="tel"
+               placeholder="+91-7017X XXXXX" autocomplete="tel"
+               inputmode="tel" required>
+        <span class="field__error" data-error-for="loginPhone"></span>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="loginPassword">Password</label>
+        <input class="field__input" id="loginPassword" name="password"
+               type="password" placeholder="Your password"
+               autocomplete="current-password" required>
+        <span class="field__error" data-error-for="loginPassword"></span>
+      </div>
+
+      <p class="auth__note">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.6" stroke-linecap="round"/></svg>
+        <span>Anyone with an account can sign in. <strong>Sending alerts</strong>
+          is limited to government officials and housing society managers.
+          No password reset yet &mdash; ask an administrator to run
+          <code>tools/set_password.py</code>.</span>
+      </p>
+
+      <div class="auth__submit">
+        <button class="btn" type="submit">Sign in</button>
+        <p class="auth__alt">New here? <a href="signup.html">Create an account</a></p>
+      </div>
+
+      <p class="auth__done" id="loginDone" role="status"></p>
+    </form>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__inner">
+    <p class="foot__left">
+      <svg class="foot__drop" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z"/></svg>
+      &copy; 2026, JAL<em>AAKAR</em> <span lang="mr">जलाकार</span> &middot; The Shape of Water
+    </p>
+    <nav class="foot__nav" aria-label="Footer">
+      <a href="index.html#problem">Problem</a>
+      <a href="demo.html">Live Demo</a>
+      <a href="index.html#guide">Guide</a>
+      <a href="index.html#impact">Impact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="script.js?v=7e3e76c3"></script>
+</body>
+</html>

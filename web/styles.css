@@ -811,7 +811,13 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em}
   padding:clamp(20px,3vw,28px);border-radius:var(--r);
   border:1px solid var(--line-strong);background:rgba(255,255,255,.03);
 }
-.demo__panel--result{min-height:430px;display:flex;flex-direction:column;justify-content:center}
+.demo__panel--result{
+  min-height:460px;display:flex;flex-direction:column;justify-content:center;
+}
+/* A finished card is the tallest state; centring it inside a min-height box
+   is fine until the content exceeds that box, at which point the top gets
+   pushed out of the padding. Anchor it to the top once it is that tall. */
+.demo__panel--result:has(> [data-state="done"].is-on){justify-content:flex-start}
 
 .demo__pane{display:none}
 .demo__pane.is-on{display:block}
@@ -837,25 +843,60 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em}
 .demo__prog>span{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--blue-500),var(--blue-300))}
 .demo__prog-pct{text-align:center;font-size:.72rem;letter-spacing:.08em;color:var(--ink-3)}
 
-.demo__place{text-align:center;font-size:.86rem;font-weight:600;color:var(--ink-2);margin-bottom:6px}
-.meter{position:relative;max-width:300px;margin:0 auto}
+.demo__place{text-align:center;font-size:.86rem;font-weight:600;color:var(--ink-2);margin-bottom:10px}
+/* --- gauge -------------------------------------------------------------
+   The arc runs x=16..184 in a 200-wide viewBox, i.e. 8%..92% of the box.
+   Anything that must line up with the arc uses --arc-lo / --arc-span rather
+   than a magic number.
+
+   The score is <text> inside the svg. It used to be an absolutely positioned
+   <p>, which meant its position depended on which ancestor was positioned —
+   and a cached stylesheet was enough to drop it on top of the band label.
+   ---------------------------------------------------------------------- */
+.meter{--arc-lo:8%;--arc-span:84;max-width:300px;margin:0 auto}
 .meter svg{width:100%;display:block;overflow:visible}
+
 .meter__track,.meter__fill{fill:none;stroke-width:14;stroke-linecap:round}
 .meter__track{stroke:rgba(255,255,255,.08)}
 .meter__fill{stroke:var(--blue-400);transition:stroke .3s var(--ease)}
 .meter__fill[data-band="GREEN"]{stroke:var(--green)}
 .meter__fill[data-band="AMBER"]{stroke:#e0a95c}
 .meter__fill[data-band="RED"]{stroke:#e2585b}
-.meter__num{position:absolute;left:0;right:0;bottom:4px;text-align:center;font-size:clamp(2.4rem,6vw,3.2rem);font-weight:800;line-height:1}
-.meter__num em{font-style:normal;font-size:.3em;font-weight:600;color:var(--ink-3);margin-left:2px}
-.meter__band{text-align:center;font-size:.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-top:10px}
+
+/* font-size is in viewBox units, so it scales with the gauge automatically */
+.meter__value{
+  fill:var(--ink);font-family:var(--font);font-size:38px;font-weight:800;
+  letter-spacing:-1px;
+}
+.meter__of{fill:var(--ink-3);font-family:var(--font);font-size:11px;font-weight:600}
+
+.meter__band{
+  text-align:center;margin-top:6px;
+  font-size:.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+}
 .meter__band--safe{color:var(--green)}
 .meter__band--monitor{color:#e0a95c}
 .meter__band--act-now{color:#e2585b}
-.meter__scale{display:flex;justify-content:space-between;max-width:300px;margin:6px auto 0;font-size:.6rem;letter-spacing:.06em;color:var(--ink-3)}
-.meter__scale em{font-style:normal}
 
-.demo__facts{list-style:none;margin-top:24px;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
+/* Ticks sit at their real value on the arc: left = 8% + (v/100 * 84%). */
+.meter__scale{
+  position:relative;max-width:300px;height:1.6em;margin:12px auto 0;
+  font-size:.6rem;letter-spacing:.06em;color:var(--ink-3);
+}
+.meter__scale em{position:absolute;top:0;font-style:normal;white-space:nowrap}
+.meter__scale-end{left:0}
+.meter__scale-end--hi{left:auto;right:0}
+.meter__tick{
+  left:calc(var(--arc-lo) + (var(--p) / 100) * var(--arc-span) * 1%);
+  transform:translateX(-50%);
+  padding-top:6px;
+}
+.meter__tick::before{
+  content:"";position:absolute;left:50%;top:-4px;
+  width:1px;height:6px;background:var(--line-strong);
+}
+
+.demo__facts{list-style:none;margin-top:26px;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
 .demo__facts li{display:flex;justify-content:space-between;gap:12px;padding:9px 13px;background:var(--navy-800);font-size:.78rem}
 .demo__k{color:var(--ink-3)}
 .demo__v{color:var(--ink);font-weight:600;text-align:right}
@@ -878,11 +919,11 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em}
   .demo__panel--result{min-height:360px}
 }
 .demo__fallback{
-  max-width:340px;margin:0 auto 12px;text-align:center;
+  max-width:340px;margin:0 auto 10px;text-align:center;
   font-size:.7rem;line-height:1.55;color:#f0c68a;
 }
 .demo__model{
-  max-width:340px;margin:0 auto 14px;text-align:center;
+  max-width:340px;margin:0 auto 16px;text-align:center;
   font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
   color:var(--ink-3);
 }
@@ -924,3 +965,168 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em}
 }
 .video__hint a{color:var(--blue-400);font-weight:600}
 .video__hint a:hover{text-decoration:underline}
+
+/* Narrow screens: the gauge is the one element that must not shrink into
+   illegibility, so it keeps its size while the panel padding gives way. */
+@media (max-width:420px){
+  .demo__panel{padding:18px 14px}
+  .meter,.meter__scale{max-width:270px}
+  .demo__facts li{font-size:.74rem;padding:8px 10px}
+  .demo__facts .demo__v{max-width:58%}
+}
+
+/* ==========================================================================
+   19. ALERT BOX — pipeline step 5, shown under the score on demo.html
+   Deliberately reuses the page's panel/tab/field vocabulary; the only new
+   idea is the chat bubble, which has to read as WhatsApp at a glance.
+   ========================================================================== */
+.alertbox{
+  margin-top:26px;padding-top:22px;border-top:1px solid var(--line);
+}
+.alertbox--muted{opacity:.72}
+
+.alertbox__head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-bottom:14px;
+}
+.alertbox__title{font-size:.9rem;font-weight:600;color:var(--ink)}
+.alertbox__state{
+  font-size:.58rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  padding:4px 9px;border-radius:999px;white-space:nowrap;cursor:help;
+}
+.alertbox__state--on{
+  color:var(--green);background:rgba(79,190,134,.13);
+  border:1px solid rgba(79,190,134,.36);
+}
+.alertbox__state--off{
+  color:var(--ink-3);background:rgba(255,255,255,.05);border:1px solid var(--line);
+}
+
+.alertbox__langs{display:flex;gap:6px;margin-bottom:12px}
+.alertbox__lang{
+  font:inherit;font-size:.74rem;font-weight:600;cursor:pointer;
+  padding:6px 14px;border-radius:999px;color:var(--ink-3);
+  border:1px solid var(--line);background:transparent;
+  transition:color .2s var(--ease),border-color .2s var(--ease),background-color .2s var(--ease);
+}
+.alertbox__lang:hover{color:var(--ink-2);border-color:var(--line-strong)}
+.alertbox__lang.is-on{
+  color:var(--blue-300);border-color:var(--blue-500);background:rgba(79,180,240,.12);
+}
+
+/* --- chat bubble ---
+   Green-tinted outgoing bubble with a tail, on a faint "wallpaper" so it
+   reads as a phone rather than as another card on the page. */
+.chat{
+  padding:16px 14px;border-radius:var(--r);
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255,255,255,.035) 0 2px, transparent 2px),
+    radial-gradient(circle at 68% 72%, rgba(255,255,255,.03) 0 2px, transparent 2px),
+    var(--navy-900);
+  background-size:34px 34px,44px 44px,auto;
+  border:1px solid var(--line);
+}
+.chat__bubble{
+  position:relative;margin-left:auto;max-width:min(92%,340px);
+  padding:11px 13px 9px;border-radius:12px 3px 12px 12px;
+  background:#0f4a3c;border:1px solid rgba(79,190,134,.28);
+  color:#eaf7f0;font-size:.82rem;line-height:1.62;
+  white-space:pre-wrap;word-break:break-word;
+  box-shadow:0 8px 22px -16px #000;
+}
+.chat__bubble::after{
+  content:"";position:absolute;top:-1px;right:-7px;
+  border:7px solid transparent;border-top-color:#0f4a3c;border-right:0;
+}
+.chat__meta{
+  display:flex;align-items:center;justify-content:flex-end;gap:5px;
+  margin-top:6px;font-size:.6rem;color:var(--ink-3);
+}
+.chat__ticks{width:14px;height:13px;fill:none;stroke:var(--blue-300);stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round}
+
+.alertbox__send{margin-top:18px}
+.alertbox__row{display:flex;gap:8px;margin-top:6px}
+.alertbox__row .field__input{flex:1;min-width:0}
+.alertbox__row .btn{flex-shrink:0;padding-inline:22px}
+.demo__hint--ok{color:var(--green)}
+
+@media (max-width:420px){
+  .alertbox__row{flex-direction:column}
+  .alertbox__row .btn{width:100%}
+  .chat__bubble{max-width:100%}
+}
+
+/* --- sign-in + broadcast, inside the alert box --------------------------
+   NAMED `gate`, NOT `auth`. `.auth` is the signup page's full-screen
+   wrapper — min-height:100svh, display:flex, 120px padding — and reusing it
+   here detonated the demo layout: the alert box inherited a viewport-tall
+   flex container and every column collapsed to a word wide.
+   New UI blocks get new names; check before reaching for a generic one.
+   ---------------------------------------------------------------------- */
+.gate{display:block}
+.gate--in{display:block}
+.gate__lead{
+  display:flex;gap:9px;align-items:flex-start;
+  font-size:.78rem;line-height:1.6;color:var(--ink-2);margin-bottom:12px;
+}
+.gate__lock{
+  flex-shrink:0;width:17px;height:17px;margin-top:1px;
+  fill:none;stroke:var(--amber);stroke-width:1.6;stroke-linecap:round;
+}
+.gate__note{
+  margin-top:10px;font-size:.68rem;line-height:1.6;color:var(--ink-3);
+}
+.gate__who{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:var(--r-sm);
+  border:1px solid rgba(79,190,134,.3);background:rgba(79,190,134,.07);
+}
+.gate__avatar{
+  flex-shrink:0;width:28px;height:28px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--blue-500);color:#fff;font-size:.8rem;font-weight:700;
+}
+.gate__who strong{display:block;font-size:.82rem;color:var(--ink)}
+.gate__who em{
+  display:block;font-style:normal;font-size:.66rem;color:var(--ink-3);
+  text-transform:capitalize;
+}
+.gate__out{
+  margin-left:auto;font:inherit;font-size:.7rem;font-weight:600;cursor:pointer;
+  padding:5px 11px;border-radius:999px;color:var(--ink-3);
+  border:1px solid var(--line);background:transparent;
+}
+.gate__out:hover{color:var(--ink-2);border-color:var(--line-strong)}
+
+.alertbox__cast{margin-top:12px;gap:.6em}
+.alertbox__cast:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.alertbox__count{
+  display:inline-grid;place-items:center;min-width:22px;height:20px;
+  padding:0 6px;border-radius:999px;
+  background:rgba(79,180,240,.18);border:1px solid var(--line-strong);
+  font-size:.68rem;font-weight:700;color:var(--blue-300);
+}
+
+.cast{
+  margin-top:12px;display:grid;gap:1px;
+  background:var(--line);border:1px solid var(--line);
+  border-radius:var(--r-sm);overflow:hidden;
+}
+.cast li{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 11px;background:var(--navy-800);font-size:.72rem;
+}
+.cast__band{
+  flex-shrink:0;min-width:30px;text-align:center;
+  padding:2px 6px;border-radius:5px;font-weight:700;font-size:.68rem;
+}
+.cast__band--safe{color:var(--green);background:rgba(79,190,134,.14)}
+.cast__band--monitor{color:#e0a95c;background:rgba(224,169,92,.14)}
+.cast__band--act-now{color:#e2585b;background:rgba(226,88,91,.16)}
+.cast__who{flex:1;min-width:0;color:var(--ink-2);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cast__st{flex-shrink:0;color:var(--ink-3);font-size:.66rem}
+.gate__note a{color:var(--blue-400);font-weight:600}
+.gate__note a:hover{text-decoration:underline}
+@media (max-width:640px){ .alertbox__row{flex-wrap:wrap} }

@@ -321,10 +321,22 @@
         : setError(f, 'Tell us where — this is what we forecast against.');
     }
 
+    function validatePassword(f) {
+      /* Same floor as api/appdb.py MIN_PASSWORD. If the two ever disagree the
+         browser accepts what the server rejects, which reads as a bug. */
+      if (!f.value) return setError(f, 'Choose a password.');
+      if (f.value.length < 8) {
+        return setError(f, 'At least 8 characters.');
+      }
+      return setError(f, '');
+    }
+
     var nameInput  = $('#fullName');
     var phoneInput = $('#phone');
+    var pwInput    = $('#password');
 
-    [[nameInput, validateName], [phoneInput, validatePhone], [placeInput, validatePlace]]
+    [[nameInput, validateName], [phoneInput, validatePhone],
+     [placeInput, validatePlace], [pwInput, validatePassword]]
       .forEach(function (pair) {
         var el = pair[0], fn = pair[1];
         if (!el) return;
@@ -340,7 +352,8 @@
       var ok = [
         validateName(nameInput),
         validatePhone(phoneInput),
-        validatePlace(placeInput)
+        validatePlace(placeInput),
+        validatePassword(pwInput)
       ].every(Boolean);
 
       if (!ok) {
@@ -356,6 +369,7 @@
         name:  nameInput.value.trim(),
         phone: phoneInput.value.trim(),
         place: placeInput.value.trim(),
+        password: pwInput.value,
         lang:  langEl ? langEl.value : 'mr'
       };
 
@@ -607,6 +621,77 @@
       var p = String(iso || '').split('-');
       return p.length === 3 ? (+p[2]) + ' ' + M[+p[1] - 1] + ' ' + p[0] : iso;
     }
+  })();
+
+
+  /* ------------------------------------------------------------------ */
+  /* 11. Sign in (login.html)                                            */
+  /*                                                                     */
+  /* Writes the token to the same sessionStorage key demo.js reads, so   */
+  /* signing in here unlocks the send controls there. sessionStorage,    */
+  /* not localStorage: a token should not outlive the browser session on */
+  /* a shared demo laptop.                                               */
+  /* ------------------------------------------------------------------ */
+  (function loginPage() {
+    var form = $('#loginForm');
+    if (!form) return;
+
+    var phone = $('#loginPhone');
+    var pass  = $('#loginPassword');
+    var done  = $('#loginDone');
+    var btn   = form.querySelector('button[type="submit"]');
+
+    function err(el, msg) {
+      var slot = form.querySelector('[data-error-for="' + el.id + '"]');
+      if (slot) slot.textContent = msg || '';
+      el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      return !msg;
+    }
+
+    function finish(msg, isError) {
+      if (btn) { btn.disabled = false; btn.textContent = 'Sign in'; }
+      done.textContent = msg;
+      done.classList.toggle('auth__done--error', !!isError);
+      done.classList.add('is-on');
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var ok = [
+        phone.value.trim() ? err(phone, '') : err(phone, 'Enter your number.'),
+        pass.value ? err(pass, '') : err(pass, 'Enter your password.')
+      ].every(Boolean);
+      if (!ok) { (form.querySelector('[aria-invalid="true"]') || phone).focus(); return; }
+
+      btn.disabled = true;
+      btn.textContent = 'Signing in…';
+
+      fetch((window.JALAAKAR_API || '') + '/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: phone.value.trim(), password: pass.value })
+      })
+        .then(function (r) {
+          return r.json().then(function (d) { return { ok: r.ok, d: d }; });
+        })
+        .then(function (res) {
+          if (!res.ok) {
+            /* One message for both wrong-number and wrong-password: telling
+               them apart turns this form into a way to discover which numbers
+               are registered. */
+            return finish((res.d && res.d.detail) || 'Could not sign in.', true);
+          }
+          try { sessionStorage.setItem('jalaakar_token', res.d.token); } catch (e) {}
+          var u = res.d.user;
+          finish('Signed in as ' + u.name + '. ' + (u.can_send
+            ? 'You can send alerts — opening the demo…'
+            : 'Sending is limited to officials and society managers; opening your score…'), false);
+          setTimeout(function () { window.location.href = 'demo.html'; }, 1200);
+        })
+        .catch(function () {
+          finish('Could not reach the Jalaakar service. Try again in a moment.', true);
+        });
+    });
   })();
 
 })();

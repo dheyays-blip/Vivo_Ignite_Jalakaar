@@ -9,7 +9,7 @@
 
 <link rel="preload" href="assets/fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=23d74d77">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234fb4f0' d='M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -33,13 +33,13 @@
       <a href="index.html#guide">Guide</a>
       <a href="index.html#impact">Impact</a>
       <div class="nav__auth-mobile">
-        <a class="nav__signin" href="signup.html#login">Sign in</a>
+        <a class="nav__signin" href="login.html">Sign in</a>
         <a class="btn btn--sm btn--primary" href="signup.html">Sign up</a>
       </div>
     </nav>
 
     <div class="nav__auth">
-      <a class="nav__signin" href="signup.html#login">Sign in</a>
+      <a class="nav__signin" href="login.html">Sign in</a>
       <a class="btn btn--sm btn--primary" href="signup.html">Sign up</a>
     </div>
 
@@ -106,13 +106,15 @@
             <option value="PUN_ALL">Pune — all 5 dams</option>
           </select>
 
+          <!-- Populated from GET /api/timeline for the selected city. These
+               used to be hardcoded Mumbai dates applied to all three systems,
+               so Pune + "29 Jun" hit a date Pune has no data for and the demo
+               showed an error card. Never offer a choice that cannot work. -->
           <label class="field__label field__label--mt" for="urbanDate">Date</label>
           <select class="field__input" id="urbanDate">
             <option value="">Latest available</option>
-            <option value="2026-06-29">29 Jun 2026 — the crisis</option>
-            <option value="2026-07-21">21 Jul 2026 — monsoon refilling</option>
-            <option value="2026-08-03">3 Aug 2026 — season peak</option>
           </select>
+          <p class="demo__hint" id="urbanHint"></p>
 
           <p class="demo__scenario">
             <strong>This one is live.</strong> BMC and the Pune Irrigation
@@ -150,15 +152,33 @@
           <p class="demo__fallback" id="rFallback" style="display:none"></p>
           <p class="demo__model" id="rModel" style="display:none"></p>
 
+          <!-- The score lives INSIDE the svg as <text>, not as an absolutely
+               positioned <p>. Absolute positioning made the number's location
+               depend on which ancestor happened to be positioned, so a stale
+               stylesheet put the score on top of the band label. Text in the
+               viewBox is placed by the same coordinate system as the arc: it
+               scales with the gauge and cannot collide with anything outside
+               the svg, whatever the CSS does. -->
           <div class="meter" id="meter">
-            <svg viewBox="0 0 200 116" aria-hidden="true">
+            <svg viewBox="0 0 200 132" aria-hidden="true">
               <path class="meter__track" d="M16 104a84 84 0 0 1 168 0"/>
               <path class="meter__fill" id="meterFill" d="M16 104a84 84 0 0 1 168 0"/>
+              <text class="meter__value" id="rScore" x="100" y="99"
+                    text-anchor="middle">0</text>
+              <text class="meter__of" x="100" y="120" text-anchor="middle">/100</text>
             </svg>
-            <p class="meter__num"><span id="rScore">0</span><em>/100</em></p>
             <p class="meter__band" id="rBand"></p>
           </div>
-          <div class="meter__scale"><em>0 safe</em><em id="sc1">40</em><em id="sc2">70</em><em>100 critical</em></div>
+
+          <!-- Ticks are placed at their TRUE position along the arc via --p,
+               set from the band cutoffs in demo.js. Even spacing drew the 40
+               and 53 thresholds at 33% and 66%, which misreads the gauge. -->
+          <div class="meter__scale">
+            <em class="meter__scale-end">0 safe</em>
+            <em class="meter__tick" id="sc1" style="--p:40">40</em>
+            <em class="meter__tick" id="sc2" style="--p:70">70</em>
+            <em class="meter__scale-end meter__scale-end--hi">100 critical</em>
+          </div>
 
           <ul class="demo__facts" id="rFacts"></ul>
 
@@ -167,6 +187,111 @@
             <ul id="rBreak"></ul>
             <p class="demo__method" id="rMethod"></p>
           </details>
+
+          <!-- ============ step 5 of the pipeline: Alert ============
+               The score is only half the product. This shows the exact
+               WhatsApp message the system would send for the place just
+               scored, in all three languages, and can put it on a real
+               phone. Nothing here is mocked — it calls the same
+               render/send code the scheduler would. -->
+          <div class="alertbox" id="alertBox" hidden>
+            <div class="alertbox__head">
+              <h3 class="alertbox__title">The alert this sends</h3>
+              <span class="alertbox__state" id="alertState"></span>
+            </div>
+
+            <div class="alertbox__langs" role="tablist" aria-label="Alert language">
+              <button class="alertbox__lang is-on" data-lang="mr" role="tab"
+                      aria-selected="true" lang="mr">मराठी</button>
+              <button class="alertbox__lang" data-lang="hi" role="tab"
+                      aria-selected="false" lang="hi">हिंदी</button>
+              <button class="alertbox__lang" data-lang="en" role="tab"
+                      aria-selected="false">English</button>
+            </div>
+
+            <div class="chat">
+              <div class="chat__bubble" id="alertBody"></div>
+              <div class="chat__meta">
+                <svg viewBox="0 0 16 15" aria-hidden="true" class="chat__ticks">
+                  <path d="M1 8.2 3.6 11 9.6 4.3M6.4 8.2 9 11 15 4.3"/>
+                </svg>
+                <span id="alertTime"></span>
+              </div>
+            </div>
+
+            <!-- Sending is restricted to government officials and housing
+                 society managers. A farmer or resident can read the alert
+                 but cannot broadcast one. -->
+            <div class="alertbox__send">
+
+              <!-- signed out -->
+              <div class="gate" id="authOut">
+                <p class="gate__lead">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" class="gate__lock">
+                    <rect x="4.5" y="10.5" width="15" height="10" rx="2"/>
+                    <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>
+                  </svg>
+                  Sending is restricted to <strong>government officials</strong>
+                  and <strong>housing society managers</strong>.
+                </p>
+                <div class="alertbox__row">
+                  <input class="field__input" id="authPhone" type="tel"
+                         inputmode="tel" autocomplete="tel"
+                         placeholder="Registered number">
+                  <input class="field__input" id="authPass" type="password"
+                         autocomplete="current-password" placeholder="Password">
+                  <button class="btn btn--primary" id="authGo" type="button">
+                    Sign in
+                  </button>
+                </div>
+                <p class="demo__hint" id="authMsg"></p>
+                <p class="gate__note">
+                  No account? <a href="signup.html">Create one</a>. Prefer the
+                  full page? <a href="login.html">Sign in there</a>. Passwords
+                  are hashed with PBKDF2; there is no reset flow yet.
+                </p>
+              </div>
+
+              <!-- signed in -->
+              <div class="gate gate--in" id="authIn" hidden>
+                <div class="gate__who">
+                  <span class="gate__avatar" id="authInitial">—</span>
+                  <span>
+                    <strong id="authName"></strong>
+                    <em id="authRole"></em>
+                  </span>
+                  <button class="gate__out" id="authLogout" type="button">
+                    Sign out
+                  </button>
+                </div>
+
+                <label class="field__label field__label--mt" for="alertPhone">
+                  Send to one number
+                </label>
+                <div class="alertbox__row">
+                  <input class="field__input" id="alertPhone" type="tel"
+                         inputmode="tel" autocomplete="tel"
+                         placeholder="10-digit Indian mobile">
+                  <button class="btn btn--primary" id="alertSend" type="button">
+                    Send
+                  </button>
+                </div>
+
+                <button class="btn btn--ghost btn--block alertbox__cast"
+                        id="alertCast" type="button">
+                  Broadcast to all subscribers
+                  <span class="alertbox__count" id="castCount">0</span>
+                </button>
+                <p class="gate__note">
+                  Each subscriber is scored for <strong>their own</strong>
+                  taluka and messaged in <strong>their own</strong> language.
+                  Anyone whose score is Safe is skipped.
+                </p>
+                <p class="demo__hint" id="alertResult"></p>
+                <ul class="cast" id="castList" hidden></ul>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- refused -->
@@ -206,7 +331,7 @@
   </div>
 </footer>
 
-<script src="script.js"></script>
-<script src="demo.js"></script>
+<script src="script.js?v=7e3e76c3"></script>
+<script src="demo.js?v=85cdd343"></script>
 </body>
 </html>

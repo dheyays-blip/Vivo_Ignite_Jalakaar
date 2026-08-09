@@ -52,6 +52,13 @@
   var track = 'rural';
   var timers = [];
 
+  function fmt(iso) {
+    var M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+             'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var p = String(iso || '').split('-');
+    return p.length === 3 ? (+p[2]) + ' ' + M[+p[1] - 1] + ' ' + p[0] : iso;
+  }
+
   function clearTimers() {
     timers.forEach(clearTimeout);
     timers = [];
@@ -157,8 +164,78 @@
     syncGo();
   });
 
-  $('#city').addEventListener('change', syncGo);
-  $('#urbanDate').addEventListener('change', syncGo);
+  /* ------------------------------------------------------------------ */
+  /* 2b. Urban dates, built from what the entity actually has            */
+  /*                                                                     */
+  /* The three systems have very different coverage:                     */
+  /*   MUM_ALL  85 days  15 May - 7 Aug                                  */
+  /*   PUN_KHW  35 days   5 Jul - 8 Aug                                  */
+  /*   PUN_ALL   1 day            7 Aug                                  */
+  /* A fixed Mumbai date list therefore broke 4 of 12 combinations. This */
+  /* reads the real series and offers the dates that tell the story:     */
+  /* worst, best, earliest, latest — whichever exist.                    */
+  /* ------------------------------------------------------------------ */
+  var citySel = $('#city');
+  var urbanDate = $('#urbanDate');
+  var urbanHint = $('#urbanHint');
+
+  function loadUrbanDates() {
+    var id = citySel.value;
+    urbanDate.innerHTML = '<option value="">Latest available</option>';
+    urbanDate.disabled = true;
+    if (urbanHint) urbanHint.textContent = 'Loading dates…';
+
+    fetch(API + '/api/timeline?entity_id=' + encodeURIComponent(id))
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        var pts = (res && res.points) || [];
+        if (!pts.length) {
+          if (urbanHint) urbanHint.textContent =
+            'No published series for this system yet.';
+          urbanDate.disabled = false;
+          return;
+        }
+
+        var worst = pts.reduce(function (a, b) { return b.score > a.score ? b : a; });
+        var best  = pts.reduce(function (a, b) { return b.score < a.score ? b : a; });
+        var picks = [
+          { p: worst,          note: 'most stressed' },
+          { p: pts[0],         note: 'earliest' },
+          { p: best,           note: 'least stressed' },
+          { p: pts[pts.length - 1], note: 'latest' }
+        ];
+
+        var seen = {};
+        picks.forEach(function (x) {
+          if (!x.p || seen[x.p.date]) return;
+          seen[x.p.date] = 1;
+          var o = document.createElement('option');
+          o.value = x.p.date;
+          o.textContent = fmt(x.p.date) + ' — ' +
+                          Number(x.p.live_storage_pct).toFixed(2) + '% (' +
+                          x.note + ')';
+          urbanDate.appendChild(o);
+        });
+
+        urbanDate.disabled = false;
+        if (urbanHint) {
+          urbanHint.textContent = pts.length + ' published day' +
+            (pts.length === 1 ? '' : 's') + ' available, ' +
+            fmt(pts[0].date) + ' to ' + fmt(pts[pts.length - 1].date) + '.';
+          urbanHint.className = 'demo__hint';
+        }
+      })
+      .catch(function () {
+        urbanDate.disabled = false;
+        if (urbanHint) urbanHint.textContent =
+          'Could not load dates — "Latest available" will still work.';
+      })
+      .then(syncGo);
+  }
+
+  citySel.addEventListener('change', loadUrbanDates);
+  urbanDate.addEventListener('change', syncGo);
+  loadUrbanDates();
 
   function syncGo() {
     goBtn.disabled = track === 'rural' ? !talukaSel.value : !$('#city').value;
@@ -355,8 +432,15 @@
        uses the cutoff fitted on val (ml/04). Showing 70 on a rural gauge that
        actually alerts above 53 would mislabel the scale. */
     var b = card.bands || { monitor_above: 40, act_now_above: 70 };
-    if ($('#sc1')) $('#sc1').textContent = b.monitor_above;
-    if ($('#sc2')) $('#sc2').textContent = b.act_now_above;
+    [['#sc1', b.monitor_above], ['#sc2', b.act_now_above]].forEach(function (t) {
+      var el = $(t[0]);
+      if (!el) return;
+      el.textContent = t[1];
+      /* --p drives the tick's position along the arc in CSS. Setting the
+         label without setting this is how the gauge ends up claiming its
+         thresholds are somewhere they are not. */
+      el.style.setProperty('--p', t[1]);
+    });
 
     var mb = $('#rModel');
     if (mb) {
@@ -369,12 +453,327 @@
     }
 
     console.info('[jalaakar] demo card', card);
+    loadAlert(card);
   }
 
-  function fmt(iso) {
-    var M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-             'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var p = String(iso || '').split('-');
-    return p.length === 3 ? (+p[2]) + ' ' + M[+p[1] - 1] + ' ' + p[0] : iso;
+  /* ------------------------------------------------------------------ */
+  /* 5. Alert — pipeline step 5, on the same page as the score           */
+  /*                                                                     */
+  /* Calls the same render/send code the scheduler uses. The three       */
+  /* language tabs are filled from one response, so switching between    */
+  /* them is instant and cannot drift from what actually goes out.       */
+  /* ------------------------------------------------------------------ */
+  var alertMsgs = null;
+  var alertCtx = null;
+  var alertLang = 'mr';
+
+  function alertPayload(card, lang) {
+    return {
+      entity_type: card.track === 'urban' ? 'reservoir'
+                 : (card.entity_id && card.wells ? 'taluka' : 'taluka'),
+      entity_id: card.entity_id,
+      on: card.track === 'urban' ? card.date : card.date,
+      lang: lang || alertLang,
+      role: card.track === 'urban' ? 'society-manager' : 'farmer'
+    };
   }
+
+  function loadAlert(card) {
+    var box = $('#alertBox');
+    if (!box) return;
+    box.hidden = true;
+    alertMsgs = null;
+    alertCtx = card;
+    $('#alertResult').textContent = '';
+    $('#alertResult').className = 'demo__hint';
+
+    fetch(API + '/api/alerts/render', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(alertPayload(card))
+    })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (a) {
+        alertMsgs = a.messages;
+        box.hidden = false;
+
+        var st = $('#alertState');
+        st.textContent = a.would_send ? 'Would send now' : 'No alert sent';
+        st.className = 'alertbox__state ' +
+          (a.would_send ? 'alertbox__state--on' : 'alertbox__state--off');
+        st.title = a.why_not || '';
+
+        /* An honest demo shows the message even when it would not be sent —
+           the point is that SAFE stays quiet, not that nothing exists. */
+        box.classList.toggle('alertbox--muted', !a.would_send);
+        $('#alertTime').textContent = new Date()
+          .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        paintAlert();
+      })
+      .catch(function () { box.hidden = true; });
+  }
+
+  function paintAlert() {
+    if (!alertMsgs) return;
+    $('#alertBody').textContent = alertMsgs[alertLang] || alertMsgs.en;
+    $('#alertBody').setAttribute('lang', alertLang);
+    $$('.alertbox__lang').forEach(function (b) {
+      var on = b.getAttribute('data-lang') === alertLang;
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-selected', String(on));
+    });
+  }
+
+  $$('.alertbox__lang').forEach(function (b) {
+    b.addEventListener('click', function () {
+      alertLang = b.getAttribute('data-lang');
+      paintAlert();
+    });
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* 6. Sign-in — only officials and society managers may send           */
+  /*                                                                     */
+  /* The token lives in sessionStorage, not localStorage: it should not  */
+  /* outlive the browser session on a shared demo laptop.                */
+  /* ------------------------------------------------------------------ */
+  var TOKEN_KEY = 'jalaakar_token';
+  var token = null;
+  try { token = sessionStorage.getItem(TOKEN_KEY); } catch (e) { token = null; }
+
+  function authHeaders(extra) {
+    var h = extra || {};
+    if (token) h.Authorization = 'Bearer ' + token;
+    return h;
+  }
+
+  function setSignedIn(user, audience) {
+    /* Signed in but not allowed to send: say which, rather than showing a
+       sign-in box to someone who is already signed in. */
+    if (user && user.can_send === false) {
+      $('#authOut').hidden = false;
+      $('#authIn').hidden = true;
+      var m = $('#authMsg');
+      m.textContent = 'Signed in as ' + user.name + ' (' +
+        user.role.replace('-', ' ') + '). Sending is limited to government ' +
+        'officials and verified society managers.';
+      m.className = 'demo__hint demo__hint--warn';
+      return;
+    }
+    $('#authOut').hidden = true;
+    $('#authIn').hidden = false;
+    $('#authName').textContent = user.name;
+    $('#authRole').textContent = user.role.replace('-', ' ') +
+      (user.entity_label ? ' · ' + user.entity_label : '');
+    $('#authInitial').textContent = (user.name || '?').charAt(0).toUpperCase();
+    var n = audience == null ? 0 : audience;
+    $('#castCount').textContent = n;
+    var cast = $('#alertCast');
+    cast.disabled = n === 0;
+    cast.title = n === 0
+      ? 'Nobody else has signed up yet, so there is no one to broadcast to.'
+      : 'Send each of the ' + n + ' subscribers their own score.';
+  }
+
+  function setSignedOut(msg, isError) {
+    token = null;
+    try { sessionStorage.removeItem(TOKEN_KEY); } catch (e) {}
+    $('#authOut').hidden = false;
+    $('#authIn').hidden = true;
+    var m = $('#authMsg');
+    m.textContent = msg || '';
+    m.className = 'demo__hint' + (isError ? ' demo__hint--warn' : '');
+  }
+
+  if (token) {
+    fetch(API + '/api/auth/me', { headers: authHeaders() })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (d) { setSignedIn(d.user, d.audience_size); })
+      .catch(function () { setSignedOut(''); });     /* expired or revoked */
+  }
+
+  var authGo = $('#authGo');
+  if (authGo) {
+    authGo.addEventListener('click', function () {
+      var phone = ($('#authPhone').value || '').trim();
+      var pass = ($('#authPass').value || '');
+      var m = $('#authMsg');
+      if (!phone || !pass) {
+        m.textContent = 'Enter your number and password.';
+        m.className = 'demo__hint demo__hint--warn';
+        return;
+      }
+      authGo.disabled = true;
+      var label = authGo.textContent;
+      authGo.textContent = 'Checking…';
+
+      fetch(API + '/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: phone, password: pass })
+      })
+        .then(function (r) {
+          return r.json().then(function (d) { return { ok: r.ok, d: d }; });
+        })
+        .then(function (res) {
+          authGo.disabled = false;
+          authGo.textContent = label;
+          if (!res.ok) {
+            /* The API explains WHY — wrong role, unverified, unknown number.
+               Pass it through rather than saying "login failed". */
+            setSignedOut((res.d && res.d.detail) || 'Could not sign in.', true);
+            return;
+          }
+          token = res.d.token;
+          try { sessionStorage.setItem(TOKEN_KEY, token); } catch (e) {}
+          $('#authPhone').value = '';
+          $('#authPass').value = '';
+          setSignedIn(res.d.user, res.d.audience_size);
+        })
+        .catch(function () {
+          authGo.disabled = false;
+          authGo.textContent = label;
+          setSignedOut('Could not reach the server.', true);
+        });
+    });
+  }
+
+  var logoutBtn = $('#authLogout');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', function () {
+      fetch(API + '/api/auth/logout', { method: 'POST', headers: authHeaders() })
+        .catch(function () {})
+        .then(function () { setSignedOut(''); $('#castList').hidden = true; });
+    });
+  }
+
+  /* ---- broadcast --------------------------------------------------- */
+  var castBtn = $('#alertCast');
+  if (castBtn) {
+    castBtn.addEventListener('click', function () {
+      if (!alertCtx) return;
+      var out = $('#alertResult');
+      var list = $('#castList');
+      castBtn.disabled = true;
+      var label = castBtn.innerHTML;
+      castBtn.textContent = 'Sending…';
+      out.textContent = '';
+      out.className = 'demo__hint';
+      list.hidden = true;
+
+      fetch(API + '/api/alerts/broadcast', {
+        method: 'POST',
+        headers: authHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify(alertPayload(alertCtx))
+      })
+        .then(function (r) {
+          if (r.status === 401) { setSignedOut('Session expired — sign in again.', true); return null; }
+          return r.json();
+        })
+        .then(function (d) {
+          castBtn.disabled = false;
+          castBtn.innerHTML = label;
+          if (!d) return;
+
+          out.textContent = d.delivered + ' delivered, ' + d.rendered_only +
+            ' rendered only, ' + d.skipped + ' skipped of ' + d.audience +
+            ' subscribers.' + (d.note ? ' ' + d.note : '');
+          out.className = 'demo__hint' +
+            (d.delivered ? ' demo__hint--ok' : ' demo__hint--warn');
+
+          list.innerHTML = '';
+          var rows = d.detail.sent.concat(d.detail.skipped);
+          rows.slice(0, 12).forEach(function (r) {
+            var li = document.createElement('li');
+            var band = document.createElement('span');
+            band.className = 'cast__band cast__band--' +
+              String(r.band || 'safe').replace(/\s+/g, '-').toLowerCase();
+            band.textContent = r.score != null ? r.score : '—';
+            var who = document.createElement('span');
+            who.className = 'cast__who';
+            who.textContent = r.entity + ' · ' + (r.lang || '').toUpperCase();
+            var st = document.createElement('span');
+            st.className = 'cast__st';
+            st.textContent = r.status || (r.reason || '').split('—')[0].trim();
+            li.appendChild(band); li.appendChild(who); li.appendChild(st);
+            list.appendChild(li);
+          });
+          list.hidden = rows.length === 0;
+        })
+        .catch(function () {
+          castBtn.disabled = false;
+          castBtn.innerHTML = label;
+          out.textContent = 'Could not reach the server.';
+          out.className = 'demo__hint demo__hint--warn';
+        });
+    });
+  }
+
+  var sendBtn = $('#alertSend');
+  if (sendBtn) {
+    sendBtn.addEventListener('click', function () {
+      var out = $('#alertResult');
+      var phone = ($('#alertPhone').value || '').trim();
+      if (!phone) {
+        out.textContent = 'Enter a number first.';
+        out.className = 'demo__hint demo__hint--warn';
+        return;
+      }
+      if (!alertCtx) return;
+
+      sendBtn.disabled = true;
+      var label = sendBtn.textContent;
+      sendBtn.textContent = 'Sending…';
+      out.textContent = '';
+      out.className = 'demo__hint';
+
+      var body = alertPayload(alertCtx, alertLang);
+      body.phone = phone;
+      body.force = true;   /* explicit human action — send regardless of band */
+
+      fetch(API + '/api/alerts/send-demo', {
+        method: 'POST',
+        headers: authHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify(body)
+      })
+        .then(function (r) {
+          if (r.status === 401) {
+            setSignedOut('Session expired — sign in again.', true);
+            return { ok: false, d: { detail: 'Signed out.' } };
+          }
+          return r.json().then(function (d) { return { ok: r.ok, d: d }; });
+        })
+        .then(function (res) {
+          sendBtn.disabled = false;
+          sendBtn.textContent = label;
+          if (!res.ok) {
+            out.textContent = (res.d && res.d.detail) || 'Could not send.';
+            out.className = 'demo__hint demo__hint--warn';
+            return;
+          }
+          var d = res.d;
+          if (d.status === 'sent') {
+            out.textContent = 'Delivered to ' + d.to + ' — check the phone.' +
+                              (d.provider_sid ? ' (' + d.provider_sid + ')' : '');
+            out.className = 'demo__hint demo__hint--ok';
+          } else if (d.status === 'rendered') {
+            /* Never dress a dry run up as a delivery. */
+            out.textContent = 'Rendered and logged for ' + d.to +
+              ', but NOT delivered — WhatsApp credentials are not configured ' +
+              'on this server.';
+            out.className = 'demo__hint demo__hint--warn';
+          } else {
+            out.textContent = 'Send failed: ' + (d.error || 'unknown error');
+            out.className = 'demo__hint demo__hint--warn';
+          }
+        })
+        .catch(function () {
+          sendBtn.disabled = false;
+          sendBtn.textContent = label;
+          out.textContent = 'Could not reach the server.';
+          out.className = 'demo__hint demo__hint--warn';
+        });
+    });
+  }
+
 })();

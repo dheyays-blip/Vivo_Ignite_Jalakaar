@@ -10,3 +10,4 @@
 *.pdf     binary
 *.xlsx    binary
 data/parquet/*.parquet filter=lfs diff=lfs merge=lfs -text
+data/bootstrap/*.parquet filter=lfs diff=lfs merge=lfs -text

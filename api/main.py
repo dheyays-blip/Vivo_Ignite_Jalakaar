@@ -37,11 +37,13 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from . import alerts as alerts_mod
+from . import auth
 from . import community
 from . import figures as figures_mod
 from . import places as places_mod
 from . import scoring
-from .appdb import app_db, new_id, normalise_phone, pipeline_db, utcnow
+from .appdb import (app_db, hash_password, new_id, normalise_phone,
+                    pipeline_db, utcnow)
 
 ROOT = Path(__file__).resolve().parent.parent
 WEB = ROOT / "web"
@@ -63,6 +65,7 @@ class SignupIn(BaseModel):
     name: str = Field(min_length=2)
     phone: str
     place: str = Field(min_length=1)
+    password: str = Field(min_length=8)
     lang: Literal["mr", "hi", "en"] = "mr"
 
 
@@ -177,11 +180,15 @@ def signup(body: SignupIn):
                                (phone,)).fetchone()
         if existing:
             raise HTTPException(409, "That number is already registered.")
+        try:
+            pw = hash_password(body.password)
+        except ValueError as e:
+            raise HTTPException(422, str(e)) from e
         con.execute(
-            "INSERT INTO users (user_id,role,name,phone_e164,lang,place_raw,"
-            "entity_type,entity_id,entity_label,verified,created_at) "
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-            (user_id, body.role, body.name.strip(), phone, body.lang,
+            "INSERT INTO users (user_id,role,name,phone_e164,pw_hash,lang,"
+            "place_raw,entity_type,entity_id,entity_label,verified,created_at) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+            (user_id, body.role, body.name.strip(), phone, pw, body.lang,
              body.place.strip(), entity_type, entity_id, label,
              0 if body.role == "government" else 1, utcnow()))
 
@@ -354,6 +361,216 @@ async def whatsapp_webhook(request: Request):
 def whatsapp_simulate(phone: str, body: str):
     """The same flow without Twilio, so the demo works offline."""
     return community.handle_message(normalise_phone(phone), body)
+
+
+# ---- ad-hoc alerts, for the live demo ------------------------------------
+# The demo scores a place the visitor picked; there is no account behind it.
+# These accept an entity directly so the page can show the exact message the
+# system would send, in all three languages, without creating a user first.
+class DemoAlertIn(BaseModel):
+    entity_type: Literal["taluka", "well", "reservoir"]
+    entity_id: str
+    on: Optional[str] = None
+    lang: Literal["mr", "hi", "en"] = "mr"
+    role: Literal["farmer", "society-manager", "society-resident"] = "farmer"
+    name: str = "Jal Mitra"
+    phone: Optional[str] = None
+    force: bool = False
+
+
+def _adhoc(body: DemoAlertIn) -> tuple[dict, dict]:
+    card = scoring.score_for(body.entity_type, body.entity_id,
+                             _valid_date(body.on), lang=body.lang)
+    if card.get("status") != "ok":
+        raise HTTPException(409, card.get("reason", "No score available."))
+    user = {"user_id": None, "role": body.role, "name": body.name,
+            "lang": body.lang, "phone_e164": None,
+            "place_raw": body.entity_id,
+            "entity_label": card.get("entity_label", body.entity_id)}
+    return user, card
+
+
+@app.post("/api/alerts/render")
+def render_alert(body: DemoAlertIn):
+    """Exactly what would be sent, in all three languages. Writes nothing."""
+    user, card = _adhoc(body)
+    return {
+        "score": card["score"], "band": card["band"],
+        "band_label": card["band_label"], "colour": card["colour"],
+        "entity_label": card["entity_label"], "date": card["date"],
+        "days_to_crisis": card.get("days_to_crisis"),
+        "would_send": alerts_mod.should_alert(card["band"]),
+        "why_not": (None if alerts_mod.should_alert(card["band"]) else
+                    f"{card['band']} does not warrant an alert. A system that "
+                    f"only ever sends warnings is not a forecaster."),
+        "lang": body.lang,
+        "messages": {lg: alerts_mod.render({**user, "lang": lg}, card)
+                     for lg in ("mr", "hi", "en")},
+    }
+
+
+# ---- auth ----------------------------------------------------------------
+class LoginIn(BaseModel):
+    phone: str
+    password: str
+
+
+def _bearer(request: Request) -> Optional[str]:
+    h = request.headers.get("authorization", "")
+    return h[7:].strip() if h.lower().startswith("bearer ") else None
+
+
+def _user(request: Request) -> dict:
+    """Authentication only — any signed-in account."""
+    u = auth.resolve(_bearer(request))
+    if not u:
+        raise HTTPException(401, "Sign in to continue.")
+    return u
+
+
+def _sender(request: Request) -> dict:
+    """Authorisation — signed in AND allowed to send.
+
+    Kept separate from _user so a farmer can sign in and see their own score
+    without being able to broadcast. 401 means "who are you", 403 means "not
+    you"; conflating them makes both confusing to debug.
+    """
+    u = _user(request)
+    if not auth.can_send(u):
+        raise HTTPException(
+            403, "Only government officials and verified housing society "
+                 "managers can send alerts. This account is registered as a "
+                 f"{u['role'].replace('-', ' ')}."
+                 + ("" if u["verified"] else
+                    " It is also awaiting department verification."))
+    return u
+
+
+@app.post("/api/auth/login")
+def login(body: LoginIn):
+    try:
+        phone = normalise_phone(body.phone)
+    except ValueError as e:
+        raise HTTPException(422, str(e)) from e
+    res = auth.login(phone, body.password)
+    if not res["ok"]:
+        raise HTTPException(401, res["reason"])
+    u = res["user"]
+    res["audience_size"] = (len(auth.audience(u)) if u["can_send"] else 0)
+    return res
+
+
+@app.get("/api/auth/me")
+def whoami(request: Request):
+    u = _user(request)
+    pub = auth._public(u)
+    card = None
+    if u.get("entity_id"):
+        card = scoring.score_for(u["entity_type"], u["entity_id"], lang=u["lang"])
+    return {"user": pub,
+            "audience_size": len(auth.audience(u)) if pub["can_send"] else 0,
+            "score": card}
+
+
+@app.post("/api/auth/logout")
+def logout(request: Request):
+    t = _bearer(request)
+    if t:
+        auth.logout(t)
+    return {"ok": True}
+
+
+@app.post("/api/alerts/broadcast")
+def broadcast(request: Request, body: DemoAlertIn = None, force: bool = False):
+    """Send every subscriber the alert for THEIR OWN place, in THEIR language.
+
+    Not one message copy-pasted. A farmer in Baglan and a society in Kothrud
+    have different water, so they get different scores — sending one text to
+    both would be warning people about somebody else's reservoir.
+
+    Recipients whose own score is SAFE are skipped unless force is set, which
+    is the same gate the scheduled path uses.
+    """
+    sender = _sender(request)
+    people = auth.audience(sender)
+
+    sent, skipped, failed = [], [], []
+    for u in people:
+        card = scoring.score_for(u["entity_type"], u["entity_id"],
+                                 lang=u["lang"])
+        if card.get("status") != "ok":
+            skipped.append({"user_id": u["user_id"],
+                            "entity": u["entity_label"],
+                            "reason": card.get("reason", "no score")[:90]})
+            continue
+        if not alerts_mod.should_alert(card["band"]) and not force:
+            skipped.append({"user_id": u["user_id"],
+                            "entity": u["entity_label"],
+                            "score": card["score"], "band": card["band"],
+                            "reason": f"{card['band']} — no alert warranted"})
+            continue
+        out = alerts_mod.send(u, card, force=force)
+        rec = {"user_id": u["user_id"], "entity": u["entity_label"],
+               "lang": u["lang"], "score": card["score"], "band": card["band"],
+               "status": out["status"], "channel": out["channel"]}
+        (sent if out["status"] in ("sent", "rendered") else failed).append(rec)
+
+    delivered = sum(1 for r in sent if r["channel"] == "whatsapp")
+    return {
+        "sender": {"name": sender["name"], "role": sender["role"],
+                   "entity_label": sender["entity_label"]},
+        "audience": len(people),
+        "sent": len(sent), "delivered": delivered,
+        "rendered_only": len(sent) - delivered,
+        "skipped": len(skipped), "failed": len(failed),
+        "detail": {"sent": sent, "skipped": skipped, "failed": failed},
+        "note": (None if delivered == len(sent) else
+                 "Messages with channel 'console' were rendered and logged, "
+                 "not delivered — WhatsApp credentials are not configured."),
+    }
+
+
+@app.post("/api/alerts/send-demo")
+def send_demo_alert(body: DemoAlertIn, request: Request):
+    """Send to one phone. Requires a signed-in official or society manager.
+
+    The number is stored, because a delivery log with no recipient is not a
+    log. If it is already registered we reuse that account rather than
+    silently creating a second one for the same person.
+    """
+    sender = _sender(request)
+    if not body.phone:
+        raise HTTPException(422, "A phone number is required to send.")
+    try:
+        phone = normalise_phone(body.phone)
+    except ValueError as e:
+        raise HTTPException(422, str(e)) from e
+
+    user, card = _adhoc(body)
+
+    with app_db() as con:
+        row = con.execute("SELECT * FROM users WHERE phone_e164=?",
+                          (phone,)).fetchone()
+        if row:
+            user = {**dict(row), "lang": body.lang,
+                    "entity_label": card["entity_label"]}
+        else:
+            uid = new_id("usr")
+            con.execute(
+                "INSERT INTO users (user_id,role,name,phone_e164,lang,place_raw,"
+                "entity_type,entity_id,entity_label,verified,created_at) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                (uid, body.role, body.name.strip() or "Jal Mitra", phone,
+                 body.lang, body.entity_id, body.entity_type, body.entity_id,
+                 card["entity_label"], 1, utcnow()))
+            user = {**user, "user_id": uid, "phone_e164": phone}
+
+    out = alerts_mod.send(user, card, force=body.force)
+    out["to"] = phone
+    out["band"] = card["band"]
+    out["score"] = card["score"]
+    out["sent_by"] = {"name": sender["name"], "role": sender["role"]}
+    return out
 
 
 @app.get("/api/alerts/templates")

@@ -14,7 +14,10 @@ touches. Pipeline data is reproducible; user data is not. Keep them apart.
 
 from __future__ import annotations
 
+import hashlib
+import hmac
 import re
+import secrets
 import sqlite3
 import uuid
 from contextlib import contextmanager
@@ -33,6 +36,8 @@ CREATE TABLE IF NOT EXISTS users (
     role          TEXT NOT NULL,      -- farmer|society-manager|society-resident|government
     name          TEXT NOT NULL,
     phone_e164    TEXT NOT NULL,      -- +91XXXXXXXXXX, normalised on write
+    pw_hash       TEXT,               -- pbkdf2_sha256$iters$salt$hash, NULL for
+                                      -- accounts created before passwords
     lang          TEXT NOT NULL,      -- mr|hi|en
     place_raw     TEXT NOT NULL,      -- exactly what they typed
     entity_type   TEXT,               -- well|reservoir|taluka|unresolved
@@ -86,6 +91,7 @@ def app_db():
         except sqlite3.OperationalError:
             con.execute("PRAGMA journal_mode = DELETE")
         con.executescript(SCHEMA)
+        migrate(con)
         yield con
         con.commit()
     finally:
@@ -108,6 +114,55 @@ def pipeline_db():
 
 def new_id(prefix: str) -> str:
     return f"{prefix}_{uuid.uuid4().hex[:12]}"
+
+
+def migrate(con) -> None:
+    """Add columns that arrived after the first accounts did.
+
+    Existing installs already have a users table without pw_hash. A bare
+    CREATE TABLE IF NOT EXISTS will not add it, and the first login would
+    then fail with 'no such column' on someone's laptop and not on mine.
+    """
+    cols = {r[1] for r in con.execute("PRAGMA table_info(users)")}
+    if cols and "pw_hash" not in cols:
+        con.execute("ALTER TABLE users ADD COLUMN pw_hash TEXT")
+        print("[appdb] migrated: users.pw_hash added")
+
+
+# --------------------------------------------------------------------------
+# Passwords. PBKDF2-HMAC-SHA256 from the standard library — no bcrypt, no
+# argon2, nothing to pip install on demo day. 240k iterations is the current
+# OWASP floor for PBKDF2-SHA256.
+#
+# Not a substitute for a real auth service; it is a real hash rather than a
+# stored plaintext, which is the part that actually matters here.
+# --------------------------------------------------------------------------
+PBKDF2_ITERS = 240_000
+MIN_PASSWORD = 8
+
+
+def hash_password(pw: str) -> str:
+    if len(pw or "") < MIN_PASSWORD:
+        raise ValueError(f"Password must be at least {MIN_PASSWORD} characters.")
+    salt = secrets.token_hex(16)
+    dk = hashlib.pbkdf2_hmac("sha256", pw.encode(), bytes.fromhex(salt),
+                             PBKDF2_ITERS)
+    return f"pbkdf2_sha256${PBKDF2_ITERS}${salt}${dk.hex()}"
+
+
+def verify_password(pw: str, stored: str | None) -> bool:
+    if not stored or not pw:
+        return False
+    try:
+        algo, iters, salt, want = stored.split("$")
+        if algo != "pbkdf2_sha256":
+            return False
+        dk = hashlib.pbkdf2_hmac("sha256", pw.encode(), bytes.fromhex(salt),
+                                 int(iters))
+    except (ValueError, TypeError):
+        return False
+    # constant time — a length-independent compare leaks the prefix
+    return hmac.compare_digest(dk.hex(), want)
 
 
 # --------------------------------------------------------------------------

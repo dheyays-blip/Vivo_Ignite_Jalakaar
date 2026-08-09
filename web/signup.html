@@ -9,7 +9,7 @@
 
 <link rel="preload" href="assets/fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=23d74d77">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234fb4f0' d='M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -33,13 +33,13 @@
       <a href="index.html#guide">Guide</a>
       <a href="index.html#impact">Impact</a>
       <div class="nav__auth-mobile">
-        <a class="nav__signin" href="signup.html#login">Sign in</a>
+        <a class="nav__signin" href="login.html">Sign in</a>
         <a class="btn btn--sm btn--primary" href="signup.html" aria-current="page">Sign up</a>
       </div>
     </nav>
 
     <div class="nav__auth">
-      <a class="nav__signin" href="signup.html#login">Sign in</a>
+      <a class="nav__signin" href="login.html">Sign in</a>
       <a class="btn btn--sm btn--primary" href="signup.html" aria-current="page">Sign up</a>
     </div>
 
@@ -108,6 +108,14 @@
         <span class="field__error" data-error-for="place"></span>
       </div>
 
+      <div class="field">
+        <label class="field__label" for="password">Password</label>
+        <input class="field__input" id="password" name="password" type="password"
+               placeholder="At least 8 characters" autocomplete="new-password"
+               minlength="8" required>
+        <span class="field__error" data-error-for="password"></span>
+      </div>
+
       <!-- ---------- language ---------- -->
       <fieldset class="field" style="border:0;padding:0;margin-inline:0">
         <legend class="field__label">Preferred Alert Language</legend>
@@ -129,12 +137,12 @@
 
       <p class="auth__note" id="govNote">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.6" stroke-linecap="round"/></svg>
-        <span>Government Official accounts require department verification before dashboard access is granted. <em>(feature yet to be implemented)</em></span>
+        <span>Government Official accounts require department verification before they can send alerts. You can sign in immediately; sending stays locked until a department administrator approves the account.</span>
       </p>
 
       <div class="auth__submit">
         <button class="btn" type="submit">Create Account</button>
-        <p class="auth__alt" id="login">Already have an account? <a href="#login">Log in</a></p>
+        <p class="auth__alt">Already have an account? <a href="login.html">Log in</a></p>
       </div>
 
       <p class="auth__done" id="done" role="status"></p>
@@ -157,6 +165,6 @@
   </div>
 </footer>
 
-<script src="script.js"></script>
+<script src="script.js?v=7e3e76c3"></script>
 </body>
 </html>
