@@ -42,8 +42,8 @@ Want accounts to play with? `make demo-user` creates five (password
 | **12 reservoirs** | BMC + Pune Irrigation Department daily storage, current to yesterday |
 | **3.86 M rows** | NASA POWER daily weather per well |
 | **247 talukas** | every one scorable, live, in the browser |
-| **24 API endpoints** | scoring, alerts, community reports, auth |
-| **63 tests** | plus a frontend audit, both in `make test` |
+| **26 API endpoints** | scoring, alerts, community reports, auth, control room |
+| **98 tests** | plus a frontend audit, both in `make test` |
 
 ### Measured results
 
@@ -56,12 +56,46 @@ never saw. Reproduce with `make test` then the `ml/` scripts.
 | Against a seasonal baseline | **24% better** (1.845 m) |
 | 80% of forecasts land within | **2.15 m** of the real reading |
 | The tail worth naming | p95 = **4.34 m** |
-| Real crises caught | **77%** of 510, at a threshold fitted on validation |
+| Real crises caught | **44%** of 510 at the shipped cutoff — see below |
 | Daily reconstruction | **1.32 m** MAE on 1,088 held-out readings |
 
 **Not** claimed: the ~90/85/80% accuracy ladder on the original poster. That
 was borrowed from published literature and has been replaced by the numbers
 above, which came from this repository.
+
+#### The alert threshold, and the recall it costs
+
+This is the one number in the project that was made worse on purpose, so it
+gets its own section rather than a footnote.
+
+`ml/04_operating_point.py` fits the ACT NOW cutoff on validation and lands on
+**53**. Jalaakar ships **70**. Measured on the same 7,752 held-out rows,
+against 510 real crises:
+
+| ACT NOW cutoff | alerts fired | crises caught | false alarms | recall | precision |
+|---|---|---|---|---|---|
+| 53 — fitted on val | 1,643 | 394 | 1,249 | **77.3%** | 24.0% |
+| 71 — the poster's | 420 | 223 | 197 | **43.7%** | **53.1%** |
+
+**70 ships, and the row above it is cutoff 71, not 70.** The comparison is
+`score > cutoff`, so 70 fires one point earlier than the measured row and its
+true recall is a little above 43.7%. The exact figure needs a re-run —
+`python ml/04_operating_point.py` now reads the shipped value straight out of
+`api/model.py` and reports it as a third row — and until that has been run on
+a machine with the feature table built, this README says *about 44%* rather
+than inventing a decimal.
+
+Why give up 33 points of recall: at 53, three of every four alerts are wrong.
+That was survivable when a score was something you looked up. It is not
+survivable now that `web/admin.html` lets an official warn the whole state in
+one click, because a channel that cries wolf three times in four gets muted —
+and a muted channel has a real-world recall of zero whatever the table says.
+70 also makes a rural 68 and an urban 68 mean the same thing, which they have
+to when the control room sorts both into one list.
+
+Both cutoffs are real and neither is free. `reports/operating_point.json`
+holds the full validation curve at every value from 30 to 90, so this is a
+decision anyone can re-derive and argue with, not a constant somebody picked.
 
 ### What is *not* built
 
@@ -104,7 +138,7 @@ shipping an untested LSTM to match a diagram.
 ingest/     data pipeline, numbered in run order
 ml/         baselines, training, evaluation, intervals
 api/        FastAPI backend — scoring, alerts, auth, community reports
-web/        the site: landing, live demo, signup, login (no build step)
+web/        the site: landing, demo, control room, signup, login (no build step)
 tools/      bootstrap, audits, admin scripts
 reports/    every metric this README quotes, as JSON
 ```
@@ -200,7 +234,7 @@ Say instead:
 ## Contributing
 
 ```bash
-make test      # 63 API checks + frontend audit
+make test      # 98 API checks + frontend audit
 make audit     # frontend only: dead links, class collisions, stale cache stamps
 ```
 

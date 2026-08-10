@@ -681,12 +681,20 @@
                are registered. */
             return finish((res.d && res.d.detail) || 'Could not sign in.', true);
           }
-          try { sessionStorage.setItem('jalaakar_token', res.d.token); } catch (e) {}
           var u = res.d.user;
+          /* Stores the token AND the three fields the nav needs, so every
+             page can stop offering "Sign in" to someone who just did. */
+          if (window.JALAAKAR) { window.JALAAKAR.save(res.d.token, u); }
+          else { try { sessionStorage.setItem('jalaakar_token', res.d.token); } catch (e) {} }
+          /* Senders land in the control room, everyone else on the demo.
+             An official's first screen should be the state, not a taluka
+             picker — and a control room nobody is ever taken to is the same
+             defect as the sign-in that only existed inside the alert box. */
+          var to = u.can_send ? 'admin.html' : 'demo.html';
           finish('Signed in as ' + u.name + '. ' + (u.can_send
-            ? 'You can send alerts — opening the demo…'
+            ? 'Opening the control room…'
             : 'Sending is limited to officials and society managers; opening your score…'), false);
-          setTimeout(function () { window.location.href = 'demo.html'; }, 1200);
+          setTimeout(function () { window.location.href = to; }, 1200);
         })
         .catch(function () {
           finish('Could not reach the Jalaakar service. Try again in a moment.', true);
@@ -694,4 +702,104 @@
     });
   })();
 
+})();
+
+
+/* ==========================================================================
+   Shared sign-in state for the nav.
+
+   The nav offered "Sign in" and "Sign up" to everyone, including people who
+   had just signed in — on every page, with no way to sign out from any of
+   them except the one button buried in the demo's alert box.
+
+   What is stored, and what is not
+   -------------------------------
+   Only `name`, `role` and `can_send`, and only to decide what the nav says.
+   Nothing here is a permission. Every endpoint re-checks the token server
+   side, so a tampered blob buys you a link that immediately 401s. Session
+   storage, not local: it must not outlive the browser on a shared laptop.
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  var TOKEN_KEY = 'jalaakar_token';
+  var USER_KEY = 'jalaakar_user';
+
+  function read(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }
+  function write(k, v) { try { sessionStorage.setItem(k, v); } catch (e) { /* private mode */ } }
+  function drop(k) { try { sessionStorage.removeItem(k); } catch (e) { /* ignore */ } }
+
+  function getUser() {
+    var s = read(USER_KEY);
+    if (!s) { return null; }
+    try { return JSON.parse(s); } catch (e) { return null; }
+  }
+
+  function save(token, user) {
+    if (token) { write(TOKEN_KEY, token); }
+    write(USER_KEY, JSON.stringify({
+      name: user.name, role: user.role, can_send: !!user.can_send
+    }));
+  }
+
+  function clear() { drop(TOKEN_KEY); drop(USER_KEY); }
+
+  function esc(s) {
+    return String(s === null || s === undefined ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  /* The signed-out markup is captured once, on first paint, so signing out
+     restores exactly what the page shipped with instead of a reconstruction
+     that slowly drifts from it. */
+  var slots = [];
+  Array.prototype.forEach.call(
+    document.querySelectorAll('.nav__auth, .nav__auth-mobile'),
+    function (el) { slots.push({ el: el, out: el.innerHTML }); });
+
+  function paintNav() {
+    var u = getUser();
+    slots.forEach(function (s) {
+      if (!u) { s.el.innerHTML = s.out; return; }
+      var initial = esc((u.name || '?').trim().charAt(0).toUpperCase());
+      /* Name and Sign out only. This block used to also inject a "Control
+         room" link, which every page already has in its main nav — so the
+         header showed it twice. */
+      s.el.innerHTML =
+        '<span class="nav__me" title="' + esc(u.role || '').replace(/-/g, ' ') + '">' +
+        '<span class="nav__me-dot">' + initial + '</span>' +
+        '<span class="nav__me-name">' + esc(u.name) + '</span></span>' +
+        '<button class="nav__signout" type="button">Sign out</button>';
+    });
+  }
+
+  function signOut() {
+    var t = read(TOKEN_KEY);
+    var done = function () {
+      clear();
+      paintNav();
+      /* Always the landing page, never a reload. Reloading leaves a
+         signed-out official staring at a locked control room, which reads as
+         a failure rather than as a completed sign-out. A full navigation also
+         means every page re-derives its state from "no token" — the one path
+         that cannot be half-applied. */
+      window.location.href = 'index.html';
+    };
+    if (!t) { done(); return; }
+    fetch((window.JALAAKAR_API || '') + '/api/auth/logout', {
+      method: 'POST', headers: { Authorization: 'Bearer ' + t }
+    }).catch(function () { /* the local session goes either way */ }).then(done);
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.nav__signout');
+    if (b) { e.preventDefault(); signOut(); }
+  });
+
+  window.JALAAKAR = {
+    save: save, clear: clear, getUser: getUser,
+    paintNav: paintNav, signOut: signOut, TOKEN_KEY: TOKEN_KEY
+  };
+
+  paintNav();
 })();

@@ -104,12 +104,13 @@ def band_of(score: float) -> tuple[str, str]:
 
 
 def rural_band(score: float) -> tuple[str, str]:
-    """Rural bands use the FITTED ACT NOW cutoff, not the poster's 71.
+    """Same boundaries as urban: 0-40 SAFE, 41-70 MONITOR, 71-100 ACT NOW.
 
-    ml/04_operating_point.py chose it on val for >= 80% recall; on test it
-    caught 77.3% of 510 real crises against 43.7% at 71. The poster's boundary
-    was a design choice that was never fitted to anything, and keeping it would
-    mean the better forecaster warned fewer people.
+    Rural previously used 53, fitted on val by ml/04_operating_point.py for
+    >= 80% recall. It now matches urban so that one number means one thing
+    across both tracks on the admin dashboard, which lists them in a single
+    table and broadcasts to both from one button. `api/model.py` states what
+    that costs in recall and why it is still the right default for broadcast.
     """
     if score > model_mod.ACT_NOW_CUTOFF:
         return "ACT NOW", "RED"
@@ -325,8 +326,8 @@ def rural_score(entity_type: str, entity_id: str,
         "method": model_mod.METHOD if used_model else CLIM_METHOD,
         "bands": {"monitor_above": model_mod.MONITOR_CUTOFF,
                   "act_now_above": model_mod.ACT_NOW_CUTOFF,
-                  "note": "ACT NOW cutoff fitted on val for >=80% recall "
-                          "(ml/04_operating_point.py), not the poster's 71"},
+                  "note": "0-40 SAFE, 41-70 MONITOR, 71-100 ACT NOW — the "
+                          "same boundaries as the urban track"},
         "provenance": "cgwb_observations",
         "lang": lang,
         "lang_name": LANG_NAMES.get(lang, "ENGLISH"),

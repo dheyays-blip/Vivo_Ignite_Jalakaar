@@ -17,6 +17,8 @@ something that does not exist.
                               declared somewhere it cannot be inherited from
   6. stale asset stamps       ?v= hash that no longer matches the file
   7. unwired buttons          a <button> with no id/class referenced in JS
+  8. defeated `hidden`        an element with the hidden attribute whose class
+                              sets `display`, so hiding it does nothing
 
 Run it before every commit that touches web/. It takes under a second and it
 has already caught four real bugs.
@@ -41,8 +43,11 @@ ASSET_RE = re.compile(r'(?:href|src)="([a-z0-9_.-]+\.(?:css|js))(?:\?v=([0-9a-f]
 def main() -> int:
     pages = sorted(WEB.glob("*.html"))
     css = (WEB / "styles.css").read_text()
-    js = "".join((WEB / f).read_text() for f in ("script.js", "demo.js")
-                 if (WEB / f).exists())
+    # Every script in web/, discovered rather than listed. The hardcoded pair
+    # ("script.js", "demo.js") meant adding admin.js made check 7 report every
+    # button on that page as unwired — a page-wide false positive, which is
+    # the fastest way to teach someone to stop reading this output.
+    js = "".join(p.read_text() for p in sorted(WEB.glob("*.js")))
     ids = {p.name: set(re.findall(r'id="([^"]+)"', p.read_text())) for p in pages}
     problems: list[str] = []
 
@@ -97,6 +102,35 @@ def main() -> int:
             key, cls = (i.group(1) if i else None), (c.group(1).split()[0] if c else "")
             if not ((key and f"#{key}" in js) or (cls and f".{cls}" in js)):
                 problems.append(f"{p.name}: button with no handler — {tag[:60]}")
+
+    # 8: a `hidden` attribute that does nothing.
+    #
+    # [hidden]{display:none} is one attribute selector — the same specificity
+    # as one class — so `.cast{display:grid}` beats it and el.hidden = true
+    # silently has no effect. A single global rule with !important settles it
+    # for every element; without that rule, every such element is a live bug,
+    # so report them individually rather than just naming the missing line.
+    guard = re.search(r"\[hidden\]\s*\{[^}]*display\s*:\s*none\s*!important", css)
+    if not guard:
+        display_setters = {
+            c for m in re.finditer(r"([^{}]+)\{([^}]*)\}", css)
+            if re.search(r"(?:^|;)\s*display\s*:", m.group(2))
+            for c in re.findall(r"\.([a-zA-Z][\w-]*)", m.group(1))
+        }
+        for p in pages:
+            for tag in re.findall(r"<[a-z][^>]*>", p.read_text()):
+                # Attribute NAMES, so `aria-hidden="true"` — which is on every
+                # decorative icon in this site — is not mistaken for `hidden`.
+                attrs = re.findall(r'(?:^|\s)([a-zA-Z][\w-]*)', tag[1:])
+                if "hidden" not in attrs:
+                    continue
+                cm = re.search(r'class="([^"]+)"', tag)
+                for c in (cm.group(1).split() if cm else []):
+                    if c in display_setters:
+                        problems.append(
+                            f"{p.name}: .{c} sets display, so `hidden` on "
+                            f"{tag[:52]} does nothing — styles.css needs a "
+                            f"global [hidden]{{display:none!important}}")
 
     # 5: undefined CSS variables
     # A declaration is `--name:`; a usage is `var(--name)` with no colon.

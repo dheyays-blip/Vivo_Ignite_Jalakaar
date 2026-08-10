@@ -26,6 +26,9 @@ from __future__ import annotations
 import os
 
 from .appdb import app_db, new_id, utcnow
+from .env import load_env  # noqa: F401  -- import-time: reads repo-root .env
+
+load_env()
 
 ALERT_BANDS = {"MONITOR", "ACT NOW"}
 

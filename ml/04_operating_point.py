@@ -24,11 +24,30 @@ next alert slightly less. These are not symmetric, and averaging them into one
 The threshold is chosen on VAL and then applied unchanged to TEST. Choosing it
 on test would be fitting to the number you then report.
 
+What the product actually ships, and why that is not what this fits
+-------------------------------------------------------------------
+This script fits 53. `api/model.py` ships **70**. The gap is deliberate and is
+argued in that module and in the README: the control room can now warn the
+whole state in one click, and at 53 three of every four alerts are false,
+which is how an alerting channel gets muted. Recall you cannot deliver is not
+recall.
+
+So the test block below reports THREE cutoffs — the poster's, the fitted one,
+and whatever `api/model.py` currently ships — and the last one is read from
+that module rather than written down here. A threshold that lives in two files
+is a threshold that will disagree with itself, and this script exists to stop
+exactly that.
+
+Note the comparison is `pred_score > cutoff`, matching `api/scoring.py`. So
+cutoff 70 fires at 71 and above. Off by one here silently moves every number
+in the README.
+
 Usage
 -----
     python ml/04_operating_point.py                    # target 80% recall
     python ml/04_operating_point.py --target-recall 0.9
     python ml/04_operating_point.py --sweep            # full curve, pick yourself
+    python ml/04_operating_point.py --cutoff 70        # measure one specific value
 """
 
 from __future__ import annotations
@@ -100,8 +119,17 @@ def main():
     ap.add_argument("--model", default="models/xgb_causal.json")
     ap.add_argument("--target-recall", type=float, default=0.80)
     ap.add_argument("--sweep", action="store_true")
+    ap.add_argument("--cutoff", type=float, default=None,
+                    help="also report test metrics at this exact cutoff; "
+                         "defaults to whatever api/model.py ships")
     ap.add_argument("--out", default="reports/operating_point.json")
     args = ap.parse_args()
+
+    # Imported, never copied. If someone changes the shipped cutoff, the next
+    # run of this script measures the new one without anybody remembering to
+    # come here and edit a number.
+    from api.model import ACT_NOW_CUTOFF as SHIPPED
+    shipped = float(args.cutoff if args.cutoff is not None else SHIPPED)
 
     import xgboost as xgb
 
@@ -153,9 +181,11 @@ def main():
     print(f"{'=' * 74}")
 
     out = {"target_recall": args.target_recall, "chosen_cutoff": float(chosen),
-           "default_cutoff": DEFAULT_CUTOFF, "val_curve": curve, "test": {}}
+           "default_cutoff": DEFAULT_CUTOFF, "shipped_cutoff": shipped,
+           "val_curve": curve, "test": {}}
 
-    for label, cut in (("poster default", DEFAULT_CUTOFF), ("tuned", chosen)):
+    for label, cut in (("poster default", DEFAULT_CUTOFF), ("tuned", chosen),
+                       ("shipped", shipped)):
         r = rates(te["true_score"].values, te["pred_score"].values, cut)
         out["test"][label] = r
         print(f"\n  TEST @ cutoff {cut:.0f}  ({label})")

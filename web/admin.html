@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Control room — Jalaakar</title>
+<meta name="description" content="Every taluka and reservoir in Maharashtra, scored and sorted worst first, with one-click alerts to the people who live there.">
+<meta name="theme-color" content="#0b2136">
+
+<link rel="preload" href="assets/fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css?v=ca7533ed">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234fb4f0' d='M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav is-stuck" id="nav">
+  <div class="nav__inner">
+    <a class="brand" href="index.html" aria-label="Jalaakar home">
+      <svg class="brand__drop" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z"/></svg>
+      <span class="brand__text">
+        <span class="brand__name">JAL<em>AAKAR</em></span>
+        <span class="brand__sub"><span lang="mr">जलाकार</span> &mdash; &ldquo;The Shape of Water&rdquo;</span>
+      </span>
+    </a>
+
+    <nav class="nav__links" id="navLinks" aria-label="Primary">
+      <a href="index.html#about">About</a>
+      <a href="index.html#problem">Problem</a>
+      <a href="demo.html">Live Demo</a>
+      <a href="admin.html" aria-current="page">Control room</a>
+      <a href="index.html#impact">Impact</a>
+      <div class="nav__auth-mobile">
+        <a class="nav__signin" href="login.html">Sign in</a>
+        <a class="btn btn--sm btn--primary" href="signup.html">Sign up</a>
+      </div>
+    </nav>
+
+    <div class="nav__auth">
+      <a class="nav__signin" href="login.html">Sign in</a>
+      <a class="btn btn--sm btn--primary" href="signup.html">Sign up</a>
+    </div>
+
+    <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main class="adm" id="main">
+  <div class="wrap">
+
+    <p class="eyebrow">Control room</p>
+    <h1 class="h2">Maharashtra, worst first.</h1>
+    <p class="adm__lead">
+      Every taluka and every reservoir the system can speak for, scored and
+      sorted by severity. Warn the people who live in them &mdash; each in
+      their own place, each in their own language &mdash; from one button.
+    </p>
+
+    <!-- signed out ---------------------------------------------------- -->
+    <section class="adm__locked" id="admLocked" hidden>
+      <svg class="gate__lock" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="4" y="10.5" width="16" height="10" rx="2"/>
+        <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>
+      </svg>
+      <div class="adm__locked-body">
+        <h2 class="h3">This page is for officials.</h2>
+        <p>
+          The control room shows where every community in the state stands and
+          can message all of them at once, so it is restricted to
+          <strong>government officials</strong> and <strong>verified housing
+          society managers</strong>. Government accounts also need a department
+          administrator to approve them before they can send.
+        </p>
+        <p class="adm__err" id="admErr" role="status"></p>
+        <a class="btn btn--primary" href="login.html">Sign in</a>
+        <a class="btn btn--ghost" href="signup.html">Create an account</a>
+      </div>
+    </section>
+
+    <!-- signed in ----------------------------------------------------- -->
+    <div class="adm__body" id="admBody" hidden>
+
+      <!-- Who you are and how to leave live in the nav, once, on every page.
+           A second copy of both sat here and drifted out of sync with it. -->
+      <div class="adm__bar">
+        <p class="adm__meta" id="admMeta">Scoring the state&hellip;</p>
+        <button class="btn btn--sm btn--ghost" id="admRefresh">Rescore</button>
+      </div>
+
+      <ul class="adm__tiles" id="admTiles">
+        <li class="adm__tile adm__tile--act">
+          <b class="adm__tilenum" id="tAct">&mdash;</b>
+          <span class="adm__tilelabel">Act now</span>
+          <span class="adm__tilesub">above 70 &middot; <i id="tActReach">0</i> subscribers</span>
+        </li>
+        <li class="adm__tile adm__tile--mon">
+          <b class="adm__tilenum" id="tMon">&mdash;</b>
+          <span class="adm__tilelabel">Monitor</span>
+          <span class="adm__tilesub">41 to 70 &middot; <i id="tMonReach">0</i> subscribers</span>
+        </li>
+        <li class="adm__tile adm__tile--safe">
+          <b class="adm__tilenum" id="tSafe">&mdash;</b>
+          <span class="adm__tilelabel">Safe</span>
+          <span class="adm__tilesub">0 to 40 &middot; never alerted</span>
+        </li>
+        <li class="adm__tile adm__tile--none">
+          <b class="adm__tilenum" id="tNone">&mdash;</b>
+          <span class="adm__tilelabel">No score</span>
+          <span class="adm__tilesub">too little history to speak for</span>
+        </li>
+      </ul>
+
+      <div class="adm__tabs" role="tablist" aria-label="Severity filter">
+        <button class="adm__tab is-on" id="bAll" data-bucket="all" role="tab" aria-selected="true">All</button>
+        <button class="adm__tab" id="bAct" data-bucket="act_now" role="tab" aria-selected="false">Above 70</button>
+        <button class="adm__tab" id="bMon" data-bucket="monitor" role="tab" aria-selected="false">41 &ndash; 70</button>
+        <input class="adm__find" id="admFind" type="search" placeholder="Filter by name or district" aria-label="Filter rows">
+      </div>
+
+      <div class="adm__tablewrap">
+        <table class="adm__table">
+          <thead>
+            <tr>
+              <th scope="col">Score</th>
+              <th scope="col">Place</th>
+              <th scope="col">Track</th>
+              <th scope="col">Reading</th>
+              <th scope="col">Days to crisis</th>
+              <th scope="col">Subscribers</th>
+            </tr>
+          </thead>
+          <tbody id="admRows">
+            <tr><td class="adm__empty" colspan="6">Scoring 247 talukas and every reservoir&hellip;</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="adm__foot" id="admFoot"></p>
+
+      <!-- send ------------------------------------------------------- -->
+      <section class="adm__send">
+        <h2 class="h3">Send</h2>
+        <p class="adm__sendlead">
+          One click messages <strong>every registered user</strong> whose own
+          place falls in the selected bucket. Above 70 they get the caution
+          alert; between 41 and 70 the ordinary notice. Nobody whose water is
+          safe is contacted, and nobody is told about somebody else&rsquo;s
+          reservoir.
+        </p>
+
+        <div class="adm__sendrow">
+          <button class="btn btn--sm btn--ghost" id="admPreview">Preview messages</button>
+          <button class="btn btn--sm btn--primary" id="admSend">
+            Send now <span class="alertbox__count" id="admReach">0</span>
+          </button>
+        </div>
+
+        <!-- the wording, not the recipients -->
+        <div class="adm__pv" id="admPv" hidden>
+          <div class="adm__pvbar">
+            <div class="adm__pvbands" role="tablist" aria-label="Which alert">
+              <button class="adm__pvband is-on" data-band="ACT NOW" role="tab"
+                      aria-selected="true">Caution &middot; above 70</button>
+              <button class="adm__pvband" data-band="MONITOR" role="tab"
+                      aria-selected="false">Notice &middot; 41&ndash;70</button>
+            </div>
+            <div class="adm__pvroles" role="tablist" aria-label="Which audience">
+              <button class="adm__pvrole is-on" data-role="farmer" role="tab"
+                      aria-selected="true">Farmer</button>
+              <button class="adm__pvrole" data-role="society" role="tab"
+                      aria-selected="false">Society</button>
+            </div>
+          </div>
+
+          <div class="chat">
+            <div class="chat__bubble" id="admPvBody"></div>
+            <div class="chat__meta">
+              <svg viewBox="0 0 16 15" aria-hidden="true" class="chat__ticks">
+                <path d="M1 8.2 3.6 11 9.6 4.3M6.4 8.2 9 11 15 4.3"/>
+              </svg>
+              <span id="admPvTime"></span>
+            </div>
+          </div>
+
+          <div class="alertbox__langs" role="tablist" aria-label="Alert language">
+            <button class="alertbox__lang adm__pvlang is-on" data-pvlang="mr"
+                    role="tab" aria-selected="true" lang="mr">मराठी</button>
+            <button class="alertbox__lang adm__pvlang" data-pvlang="hi"
+                    role="tab" aria-selected="false" lang="hi">हिंदी</button>
+            <button class="alertbox__lang adm__pvlang" data-pvlang="en"
+                    role="tab" aria-selected="false">English</button>
+          </div>
+
+          <p class="adm__pvnote" id="admPvNote"></p>
+        </div>
+
+        <p class="adm__note" id="admSendNote"></p>
+        <ul class="cast" id="admResult" hidden></ul>
+
+        <!-- One phone, one place. Moved here from the demo page, which is now
+             identical for every visitor. Sends the alert for whichever place
+             is at the top of the current view, and names it, so nobody has to
+             guess which taluka the message describes. -->
+        <div class="adm__one">
+          <label class="field__label" for="admOnePhone">
+            Send one alert to one number
+          </label>
+          <p class="adm__onelead" id="admOneFor">Pick a bucket first.</p>
+          <div class="adm__sendrow">
+            <input class="field__input adm__onephone" id="admOnePhone" type="tel"
+                   inputmode="tel" autocomplete="tel"
+                   placeholder="10-digit Indian mobile">
+            <button class="btn btn--sm btn--ghost" id="admOneGo">Send</button>
+          </div>
+          <p class="adm__note" id="admOneNote"></p>
+        </div>
+      </section>
+
+    </div><!-- /adm__body -->
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__inner">
+    <p class="foot__left">
+      <svg class="foot__drop" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z"/></svg>
+      &copy; 2026, JAL<em>AAKAR</em> <span lang="mr">जलाकार</span> &middot; The Shape of Water
+    </p>
+    <nav class="foot__nav" aria-label="Footer">
+      <a href="index.html#problem">Problem</a>
+      <a href="demo.html">Live Demo</a>
+      <a href="index.html#guide">Guide</a>
+      <a href="index.html#impact">Impact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="script.js?v=8c7bf616"></script>
+<script src="admin.js?v=c1688114"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-JALAAKAR — API smoke test. 23 assertions, no pytest, no network.
+JALAAKAR — API smoke test. 98 assertions, no pytest, no network.
 
     python api/test_smoke.py
 
@@ -124,23 +124,64 @@ def run() -> int:
     check("urban today SAFE", c.get(
         "/api/score?entity_type=reservoir&entity_id=MUM_ALL").json()["band"] == "SAFE")
 
-    p = c.post("/api/alerts/preview", json={"user_id": uid, "on": "2023-05-15"}).json()
+    # These four endpoints predate the auth work and had NO check at all: an
+    # anonymous caller could fire a real WhatsApp at any user_id and page
+    # through every message body and reporter phone number the system held.
+    # The gate on /api/admin/* was worth nothing while this door was open.
+    check("alerts/send needs a token",
+          c.post("/api/alerts/send",
+                 json={"user_id": uid, "force": True}).status_code == 401)
+    check("alerts/preview needs a token",
+          c.post("/api/alerts/preview", json={"user_id": uid}).status_code == 401)
+    check("alerts/log needs a token", c.get("/api/alerts/log").status_code == 401)
+    check("reports needs a token", c.get("/api/reports").status_code == 401)
+
+    # A farmer may look at their own alert, and may not send it.
+    fmr = {"Authorization": "Bearer " + c.post(
+        "/api/auth/login",
+        json={"phone": "9123456780", "password": "demo-pass-123"}
+    ).json()["token"]}
+    p = c.post("/api/alerts/preview", headers=fmr,
+               json={"user_id": uid, "on": "2023-05-15"}).json()
     check("preview 3 languages",
           set(p["all_languages"]) == {"mr", "hi", "en"} and p["would_send"])
-
-    s = c.post("/api/alerts/send", json={"user_id": uid, "on": "2023-05-15"}).json()
-    check("send logs as rendered",
-          s["status"] == "rendered" and s["channel"] == "console")
-    check("alert log", len(c.get("/api/alerts/log").json()["alerts"]) == 1)
+    check("a farmer cannot send even to themselves",
+          c.post("/api/alerts/send", headers=fmr,
+                 json={"user_id": uid, "on": "2023-05-15"}).status_code == 403)
 
     soc = c.post("/api/signup", json={"role": "society-manager", "name": "Asha Rao",
                                       "phone": "9876543210",
                                       "place": "Shivneri CHS, Kothrud, Pune",
                                       "lang": "en", "password": "demo-pass-123"}).json()
     check("society -> PUN_KHW", soc["entity"]["id"] == "PUN_KHW")
+
+    # A society manager is a sender, so they CAN send — but only inside their
+    # own society. Reaching a farmer in Nashik must still be refused.
+    mgr = {"Authorization": "Bearer " + c.post(
+        "/api/auth/login",
+        json={"phone": "9876543210", "password": "demo-pass-123"}
+    ).json()["token"]}
+    # No `on`: PUN_KHW's published series starts in Jul 2026, so a 2023 date
+    # has no honest urban score and the API correctly refuses one.
+    s = c.post("/api/alerts/send", headers=mgr,
+               json={"user_id": soc["user_id"], "force": True}).json()
+    check("send logs as rendered",
+          s["status"] == "rendered" and s["channel"] == "console")
+    check("a society manager cannot reach outside their society",
+          c.post("/api/alerts/send", headers=mgr,
+                 json={"user_id": uid, "force": True}).status_code == 403)
     check("SAFE sends nothing", c.post(
-        "/api/alerts/preview", json={"user_id": soc["user_id"]}
+        "/api/alerts/preview", headers=mgr, json={"user_id": soc["user_id"]}
     ).json()["would_send"] is False)
+
+    # Scoping, not just gating: the farmer sees their own history and nothing
+    # of the society manager's.
+    own = c.get("/api/alerts/log", headers=fmr).json()["alerts"]
+    check("alert log is scoped to the caller",
+          all(a["user_id"] == uid for a in own))
+    check("one account cannot read another's alert log",
+          c.get(f"/api/alerts/log?user_id={soc['user_id']}",
+                headers=fmr).status_code == 403)
 
     f = c.get("/api/figures").json()
     check("figures 18 anchors", f["summary"]["total_anchors"] == 18)
@@ -187,8 +228,20 @@ def run() -> int:
     deep = c.post(wa + "450").json()
     check("validator rejects the impossible",
           deep["report"]["status"] == "rejected")
+    # Reading the report log means reading reporters' phone numbers, so it is
+    # signed in and government-scoped. Approve the official from line 97 here.
+    with _app_db() as con:
+        con.execute("UPDATE users SET verified=1 WHERE phone_e164=?",
+                    ("+919876500011",))
+    gov = {"Authorization": "Bearer " + c.post(
+        "/api/auth/login",
+        json={"phone": "9876500011", "password": "demo-pass-123"}
+    ).json()["token"]}
+    reports = c.get("/api/reports", headers=gov).json()
     check("report log records the verdict",
-          len(c.get("/api/reports").json()["reports"]) >= 2)
+          len(reports["reports"]) >= 2 and reports["scope"] == "all")
+    check("a farmer sees only their own reports",
+          c.get("/api/reports", headers=fmr).json()["scope"] == "own")
 
     # ---- regressions: bugs found in the adversarial pass, 8 Aug -----------
     # Each of these was a live defect. Left as named tests so a refactor that
@@ -349,15 +402,131 @@ def run() -> int:
     check("society manager scope is their society only",
           mb["audience"] < b["audience"])
 
+    # ---- control room (admin.html) --------------------------------------
+    # The state-wide table IS the targeting information for a broadcast, so it
+    # is behind the same gate as sending — not a weaker one.
+    check("admin overview needs a token",
+          c.get("/api/admin/overview").status_code == 401)
+    check("farmer cannot open the control room",
+          c.get("/api/admin/overview", headers=fhdr).status_code == 403)
+    check("admin broadcast needs a token",
+          c.post("/api/admin/broadcast", json={"bucket": "all"}).status_code == 401)
+
+    ov = c.get("/api/admin/overview", headers=hdr).json()
+    check("overview scores the whole state",
+          ov["total"] >= 247 and len(ov["rows"]) == ov["total"])
+    check("overview is sorted worst first",
+          all((ov["rows"][i]["score"] or -1) >= (ov["rows"][i + 1]["score"] or -1)
+              for i in range(min(40, len(ov["rows"]) - 1))))
+    check("overview counts add up",
+          sum(ov["counts"].values()) == ov["total"])
+    # Every row must carry the date it was scored at and how old that is. A
+    # rural score with no visible age reads as if the state was measured this
+    # morning, and it was not — most rows are from 2023.
+    check("every scored row states its own age",
+          all(r["date"] and r["days_stale"] is not None
+              for r in ov["rows"] if r["score"] is not None))
+    check("bands are 40/70 on both tracks",
+          ov["bands"] == {"monitor_above": 40, "act_now_above": 70})
+    # The buckets are the bands. If these ever disagree, the dashboard is
+    # offering to alert a group that the alerting code will not alert.
+    act = c.get("/api/admin/overview?bucket=act_now", headers=hdr).json()
+    mon = c.get("/api/admin/overview?bucket=monitor", headers=hdr).json()
+    check("act_now bucket is exactly the scores above 70",
+          all(r["score"] > 70 and r["band"] == "ACT NOW" for r in act["rows"])
+          and act["shown"] == ov["counts"]["act_now"])
+    check("monitor bucket is exactly 41-70",
+          all(40 < r["score"] <= 70 and r["band"] == "MONITOR"
+              for r in mon["rows"])
+          and mon["shown"] == ov["counts"]["monitor"])
+    check("bucket totals still report the whole state",
+          act["total"] == ov["total"] and mon["total"] == ov["total"])
+
+    # The number on the Send button must be the number of messages Send
+    # produces. It was not: the count came from a GROUP BY over users, which
+    # includes the signed-in official, while auth.audience() excludes them —
+    # so the button offered to message 3 people and messaged 2.
+    reach = ov["subscriber_reach"]["act_now"] + ov["subscriber_reach"]["monitor"]
+    live = c.post("/api/admin/broadcast", headers=hdr,
+                  json={"bucket": "all", "dry_run": True}).json()
+    check("send count equals what send actually sends", reach == live["sent"])
+    check("the sender is never in their own audience",
+          all(r["user_id"] != lg.json()["user"]["user_id"]
+              for r in live["detail"]["sent"] + live["detail"]["skipped"]))
+
+    # Preview shows WORDING. Both bands, both audience types, three languages,
+    # rendered by the same alerts.render the real send calls — a preview built
+    # from its own copy of the templates is a preview that can lie.
+    pv = c.get("/api/admin/preview", headers=hdr).json()
+    check("preview needs a token",
+          c.get("/api/admin/preview").status_code == 401)
+    check("preview covers both bands x both audiences x 3 languages",
+          sorted(pv["messages"]) == ["ACT NOW", "MONITOR"] and
+          all(sorted(pv["messages"][b]) == ["farmer", "society"] and
+              all(sorted(pv["messages"][b][g]) == ["en", "hi", "mr"] and
+                  all(pv["messages"][b][g].values())
+                  for g in pv["messages"][b])
+              for b in pv["messages"]))
+    check("preview text is the shipped template, not a paraphrase",
+          "JALAAKAR ALERT" in pv["messages"]["ACT NOW"]["farmer"]["en"] and
+          "JALAAKAR NOTICE" in pv["messages"]["MONITOR"]["farmer"]["en"] and
+          "ठिबक" in pv["messages"]["ACT NOW"]["farmer"]["mr"])
+    check("preview says its numbers are samples",
+          "sample" in pv["note"].lower())
+
+    # A dry run must write nothing. If it logs, "preview" is a lie and an
+    # official who clicks it to read the wording has already messaged people.
+    before = len(c.get("/api/alerts/log", headers=hdr).json()["alerts"])
+    dry = c.post("/api/admin/broadcast", headers=hdr,
+                 json={"bucket": "all", "dry_run": True}).json()
+    check("dry run renders the real message body",
+          dry["dry_run"] and all(r.get("body") for r in dry["detail"]["sent"]))
+    check("dry run writes nothing to the alert log",
+          len(c.get("/api/alerts/log", headers=hdr).json()["alerts"]) == before)
+
+    # The bucket picks the AUDIENCE; each recipient's own band picks the
+    # WORDS. Sending caution wording to a MONITOR household is the failure
+    # this endpoint exists to avoid.
+    check("caution goes to ACT NOW, notice to MONITOR",
+          all((r["alert_type"] == "caution") == (r["band"] == "ACT NOW")
+              for r in dry["detail"]["sent"]))
+    check("no SAFE recipient is ever in a bucket",
+          all(r["band"] != "SAFE" for r in dry["detail"]["sent"]))
+
+    only = c.post("/api/admin/broadcast", headers=hdr,
+                  json={"bucket": "act_now", "dry_run": True}).json()
+    check("act_now bucket sends only caution alerts",
+          only["notice"] == 0 and
+          all(r["band"] == "ACT NOW" for r in only["detail"]["sent"]))
+    check("real send is logged as rendered, not delivered",
+          c.post("/api/admin/broadcast", headers=hdr,
+                 json={"bucket": "act_now"}).json()["delivered"] == 0)
+
     c.post("/api/auth/logout", headers=hdr)
     check("logout revokes the token", c.post(
         "/api/alerts/broadcast", headers=hdr,
         json={"entity_type": "taluka", "entity_id": "Baglan"}).status_code == 401)
+    check("logout closes the control room too",
+          c.get("/api/admin/overview", headers=hdr).status_code == 401)
 
     check("places typeahead", len(c.get("/api/places?q=dind").json()["results"]) >= 2)
     check("timeline", len(c.get("/api/timeline?entity_id=MUM_ALL").json()["points"]) == 85)
     check("static site", c.get("/").status_code == 200)
     check("signup.html", c.get("/signup.html").status_code == 200)
+    check("admin.html", c.get("/admin.html").status_code == 200)
+
+    # The demo page must look the same to a farmer, a resident, a society
+    # manager and a government official. It used to grow a sign-in form for
+    # visitors and a broadcast button for officials, so its shape depended on
+    # who was watching — which is not something you can rehearse. Sending now
+    # lives only in the control room.
+    demo_html = c.get("/demo.html").text
+    check("demo page has no role-dependent controls",
+          not any(k in demo_html for k in
+                  ("authPhone", "authGo", "authLogout", "alertSend",
+                   "alertCast", "castList", "gate__")))
+    check("demo page points sending at the control room",
+          "admin.html" in demo_html)
     check("openapi docs", c.get("/docs").status_code == 200)
 
     for name, passed in checks:

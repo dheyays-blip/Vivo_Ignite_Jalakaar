@@ -6,6 +6,11 @@ data/*.db
 *.sqlite
 *.sqlite3
 
+# --- secrets: a leaked Twilio auth token is someone else's phone bill ---
+.env
+.env.*
+!.env.example
+
 # --- python ---
 __pycache__/
 *.pyc

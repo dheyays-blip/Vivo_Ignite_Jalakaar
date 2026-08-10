@@ -36,6 +36,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
+from . import admin as admin_mod
 from . import alerts as alerts_mod
 from . import auth
 from . import community
@@ -313,9 +314,26 @@ def submit_report(body: ReportIn):
 
 
 @app.get("/api/reports")
-def list_reports(well_id: Optional[str] = None, phone: Optional[str] = None,
+def list_reports(request: Request, well_id: Optional[str] = None,
+                 phone: Optional[str] = None,
                  limit: int = Query(50, ge=1, le=500)):
-    return {"reports": community.history(well_id, phone, limit)}
+    """Community report history.
+
+    Every row carries `reporter_phone`, so this is signed in and scoped:
+    a government account sees the network, everyone else sees only the
+    readings they themselves submitted. Anonymous callers used to be able to
+    page through the lot, phone numbers included.
+    """
+    caller = _user(request)
+    if caller["role"] == "government":
+        rows = community.history(well_id, phone, limit)
+    else:
+        # Their own submissions only — matched on the number they registered,
+        # never on a number supplied in the query string.
+        rows = [r for r in community.history(None, caller["phone_e164"], limit)
+                if not well_id or r.get("well_id") == well_id]
+    return {"reports": rows,
+            "scope": "all" if caller["role"] == "government" else "own"}
 
 
 @app.post("/api/whatsapp/webhook")
@@ -428,6 +446,34 @@ def _user(request: Request) -> dict:
     return u
 
 
+def _may_reach(caller: dict, target: dict) -> bool:
+    """Is `caller` allowed to act on, or read about, `target`?
+
+    The same rule `auth.audience()` uses for a broadcast, applied to the
+    single-user endpoints so the two cannot disagree:
+
+        yourself           always
+        government         anyone
+        society-manager    only accounts attached to their own entity
+        everyone else      only themselves
+
+    These four endpoints (`/api/alerts/send`, `/preview`, `/log`, `/reports`)
+    predate the auth work and had NO check at all. An anonymous caller could
+    fire a real WhatsApp message at any user_id, read every alert body the
+    system had ever produced, and list community reporters' phone numbers —
+    all from the Try-it-out buttons on /docs, which the README points people
+    at. The gate on /api/admin/* meant nothing while this door was open.
+    """
+    if caller["user_id"] == target.get("user_id"):
+        return True
+    if not auth.can_send(caller):
+        return False
+    if caller["role"] == "government":
+        return True
+    return bool(caller.get("entity_id")) and \
+        caller.get("entity_id") == target.get("entity_id")
+
+
 def _sender(request: Request) -> dict:
     """Authorisation — signed in AND allowed to send.
 
@@ -530,6 +576,64 @@ def broadcast(request: Request, body: DemoAlertIn = None, force: bool = False):
     }
 
 
+# ---- admin dashboard -----------------------------------------------------
+# Same gate as sending, deliberately: the state-wide table IS the targeting
+# information for a broadcast, so anyone who can read it should already be
+# allowed to act on it. A government official sees the whole state; a society
+# manager sees only their own society, which is the same scope their broadcast
+# has.
+def _scope_of(u: dict) -> Optional[str]:
+    return None if u["role"] == "government" else u.get("entity_id")
+
+
+@app.get("/api/admin/overview")
+def admin_overview(request: Request,
+                   bucket: Literal["all", "act_now", "monitor"] = "all",
+                   refresh: bool = False):
+    """Every taluka and reservoir, worst first, with subscriber reach.
+
+    The first call is slow — it scores the whole state — and every later call
+    is served from memory until someone passes refresh=true. `age_seconds` on
+    the response says how old the snapshot is, so the page can show it rather
+    than presenting a cached number as if it were live.
+    """
+    u = _sender(request)
+    # The audience is passed in so the subscriber numbers on the page are
+    # derived from the same list the Send button will iterate. Counting users
+    # straight out of the table instead made the button offer to message the
+    # official who was pressing it.
+    return admin_mod.overview(bucket, refresh, scope_entity=_scope_of(u),
+                              audience=auth.audience(u))
+
+
+@app.get("/api/admin/preview")
+def admin_preview(request: Request):
+    """The wording, not the recipients — both bands, both audiences, 3 langs.
+
+    Rendered by the same `alerts.render` the real send uses, with sample
+    values in the per-recipient slots.
+    """
+    _sender(request)
+    return admin_mod.previews()
+
+
+class AdminBroadcastIn(BaseModel):
+    bucket: Literal["all", "act_now", "monitor"] = "all"
+    dry_run: bool = False
+
+
+@app.post("/api/admin/broadcast")
+def admin_broadcast(request: Request, body: AdminBroadcastIn):
+    """One click. Caution alerts above 70, ordinary notices from 41 to 70.
+
+    `dry_run` renders every message and writes nothing — worth doing once
+    before the real send, because the audience is everyone.
+    """
+    sender = _sender(request)
+    people = auth.audience(sender)
+    return admin_mod.broadcast(sender, people, body.bucket, body.dry_run)
+
+
 @app.post("/api/alerts/send-demo")
 def send_demo_alert(body: DemoAlertIn, request: Request):
     """Send to one phone. Requires a signed-in official or society manager.
@@ -582,8 +686,14 @@ def alert_templates():
 
 
 @app.post("/api/alerts/preview")
-def preview_alert(body: AlertIn):
+def preview_alert(request: Request, body: AlertIn):
+    """Render one existing user's alert. Signed in, and only for people you
+    are allowed to reach — the body names their place and their score."""
+    caller = _user(request)
     u, card = _user_and_card(body.user_id, body.on)
+    if not _may_reach(caller, u):
+        raise HTTPException(403, "You may only preview alerts for yourself "
+                                 "or for people you are allowed to message.")
     return {"band": card.get("band"),
             "would_send": alerts_mod.should_alert(card.get("band", "SAFE")),
             "lang": u["lang"],
@@ -593,23 +703,46 @@ def preview_alert(body: AlertIn):
 
 
 @app.post("/api/alerts/send")
-def send_alert(body: AlertIn):
+def send_alert(request: Request, body: AlertIn):
+    """Send to one existing user. This puts a real message on a real phone,
+    so it is gated exactly like the broadcast: a verified sender, and only
+    within their own audience."""
+    sender = _sender(request)
     u, card = _user_and_card(body.user_id, body.on)
+    if not _may_reach(sender, u):
+        raise HTTPException(403, "That account is outside the group you may "
+                                 "message.")
     return alerts_mod.send(u, card, force=body.force)
 
 
 @app.get("/api/alerts/log")
-def alert_log(user_id: Optional[str] = None,
+def alert_log(request: Request, user_id: Optional[str] = None,
               limit: int = Query(50, ge=1, le=500)):
+    """Delivery history. Every row contains a rendered message body, so it is
+    scoped: your own by default, your society if you manage one, everything
+    only for a government account."""
+    caller = _user(request)
+    scope, params = "", []
+
+    if user_id and user_id != caller["user_id"]:
+        with app_db() as con:
+            target = con.execute("SELECT * FROM users WHERE user_id=?",
+                                 (user_id,)).fetchone()
+        if not target or not _may_reach(caller, dict(target)):
+            raise HTTPException(403, "You may only read your own alert history.")
+        scope, params = "WHERE user_id=?", [user_id]
+    elif user_id or not auth.can_send(caller):
+        scope, params = "WHERE user_id=?", [caller["user_id"]]
+    elif caller["role"] != "government":
+        # A society manager sees their own society, not the whole country.
+        scope = ("WHERE user_id IN (SELECT user_id FROM users WHERE entity_id=?)")
+        params = [caller.get("entity_id")]
+
     with app_db() as con:
-        if user_id:
-            rows = con.execute("SELECT * FROM alert_log WHERE user_id=? "
-                               "ORDER BY created_at DESC LIMIT ?",
-                               (user_id, limit)).fetchall()
-        else:
-            rows = con.execute("SELECT * FROM alert_log ORDER BY created_at "
-                               "DESC LIMIT ?", (limit,)).fetchall()
-    return {"alerts": [dict(r) for r in rows]}
+        rows = con.execute(
+            f"SELECT * FROM alert_log {scope} ORDER BY created_at DESC LIMIT ?",
+            (*params, limit)).fetchall()
+    return {"alerts": [dict(r) for r in rows], "scope": scope or "all"}
 
 
 # --------------------------------------------------------------------------

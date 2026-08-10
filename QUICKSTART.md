@@ -55,8 +55,8 @@ git clone https://github.com/orgkushal/Jalakaar.git jal-check && cd jal-check
 make setup && make test
 ```
 
-Expect `data/jalaakar.db built — 490 MB`, then `63/63 passed` and
-`4 pages, 0 problem(s)`. If the database comes out much smaller than that,
+Expect `data/jalaakar.db built — 490 MB`, then `98/98 passed` and
+`5 pages, 0 problem(s)`. If the database comes out much smaller than that,
 `weather_daily` did not load and scores will not match the published MAE.
 
 ## Commands
@@ -65,9 +65,12 @@ Expect `data/jalaakar.db built — 490 MB`, then `63/63 passed` and
 |---|---|
 | `make setup` | venv, dependencies, database |
 | `make run` | serve on :8000 (`PORT=9000 make run` to change) |
-| `make test` | 63 API checks plus the frontend audit |
+| `make test` | 98 API checks plus the frontend audit |
 | `make audit` | frontend only — links, classes, cache stamps |
 | `make demo-user` | create demo accounts |
+| `make users` | who registered, and when (phones masked) |
+| `make delete-user PHONE=9…` | remove one account, keep its alert history |
+| `make whatsapp-check` | will a send really deliver? contacts nothing |
 | `make reset` | clear signups and alerts |
 | `make clean` | remove `.venv` and the built database |
 
@@ -86,13 +89,23 @@ delivered** — the UI says so explicitly. To send for real, join the free
 [Twilio WhatsApp sandbox](https://www.twilio.com/docs/whatsapp/sandbox), then:
 
 ```bash
-export TWILIO_ACCOUNT_SID=... TWILIO_AUTH_TOKEN=...
-export TWILIO_WHATSAPP_FROM='whatsapp:+14155238886'
-make run
+cp .env.example .env      # then paste in your SID and auth token
+make whatsapp-check       # confirms the send path will deliver
 ```
 
-The recipient's phone must send the sandbox join phrase first, and the session
-expires after 72 hours of inactivity.
+`.env` is gitignored and loaded automatically by both the server and the CLI —
+an `export` in one terminal does not survive `--reload` respawning the worker,
+which is the usual reason a send that worked once quietly stops delivering.
+
+Then the first real end-to-end send:
+
+```bash
+.venv/bin/python tools/send_test_alert.py --phone 9YOURNUMBER --place Baglan --lang mr
+```
+
+The recipient's phone must WhatsApp the join phrase to **+1 415 523 8886**
+first, and that session expires 3 days after joining. Errors 63015 / 63016 mean
+exactly that — rejoin and re-send.
 
 ## Retraining
 
@@ -116,5 +129,11 @@ advertises. If it prints `DIVERGED`, do not quote the numbers.
   Pune reservoirs. Try **Nashik → Baglan** (78, act now) against
   **Nashik → Dindori** (31, safe), then the Urban tab with Mumbai at
   29 Jun 2026 (90, act now) versus today (0, safe).
+- **http://localhost:8000/admin.html** — the control room: every taluka and
+  reservoir at once, worst first, and one button that warns everyone in a
+  severity bucket. Run `make demo-user` first, then sign in as
+  **9800000001 / jalaakar-demo** (the government account, already verified).
+  Click **Preview messages** before **Send now** — the preview renders the real
+  bodies and writes nothing.
 - **http://localhost:8000/docs** — every endpoint, interactive.
 - `DATA_CARD.md` and `SOURCES.md` — every figure and where it came from.

@@ -26,12 +26,23 @@ The measured difference (2,584 held-out CGWB readings, ml/03 and ml/04):
     xgboost          1.391 m       77.7%        43.9%  @ cutoff 71
     xgboost                                     77.3%  @ cutoff 53
 
-Note the middle row: at the poster's cutoff of 71 the better forecaster warns
-FEWER people, because its predictions sit closer to the seasonal mean and
-cross a fixed line less often. That is why ACT_NOW_CUTOFF below is 53 and not
-71 — the threshold was fitted on val to a stated recall target, never on test.
-Moving to the model without moving the cutoff would have made the product
-worse at the one thing it exists to do.
+The cutoff is a product decision, not a modelling one, and the two available
+answers trade against each other on held-out test (510 real crises):
+
+    cutoff 53    394 caught,  1,249 false alarms    recall 77.3%, prec 24.0%
+    cutoff 70    223 caught,    197 false alarms    recall 43.7%, prec 53.1%
+
+ACT_NOW_CUTOFF is 70. That is a **deliberate move away from the value
+ml/04_operating_point.py fitted**, and it halves recall, so the reason has to
+be stated rather than assumed: the product now broadcasts state-wide from one
+button (`api/admin.py`). At 53 a single click sends 1,643 alerts of which
+1,249 are false, and an alerting channel that is wrong three times in four is
+one people mute — after which recall on paper is 77% and recall in practice is
+zero. At 70 the same click sends 420 alerts and is right more often than not.
+
+Both numbers are real and neither is free. If Jalaakar ever moves to
+per-subscriber opt-in severity, 53 is the better default again, and
+`reports/operating_point.json` holds the full curve to re-derive it from.
 """
 
 from __future__ import annotations
@@ -48,10 +59,12 @@ MODEL_PATH = Path(os.getenv("JALAAKAR_MODEL",
 
 METHOD = "rural-stress-1.1/xgboost"
 
-# Fitted on VAL for >= 80% recall (ml/04_operating_point.py), applied unchanged
-# to test where it caught 77.3% of 510 real crises for 1,249 false alarms.
-# The poster's band boundary is 71; this is a deliberate, stated override.
-ACT_NOW_CUTOFF = 53
+# One set of bands for BOTH tracks: 0-40 SAFE, 41-70 MONITOR, 71-100 ACT NOW.
+# Rural used to sit at 53 (fitted on val by ml/04_operating_point.py); it now
+# matches the urban boundaries so a 68 in Nashik and a 68 in Mumbai mean the
+# same thing on the same admin dashboard. See the module docstring for the
+# recall/precision this costs and why it is the right call for broadcast.
+ACT_NOW_CUTOFF = 70
 MONITOR_CUTOFF = 40
 
 

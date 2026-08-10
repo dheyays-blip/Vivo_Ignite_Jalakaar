@@ -14,15 +14,18 @@ BIN     := $(VENV)/bin
 PORT    ?= 8000
 
 .DEFAULT_GOAL := help
-.PHONY: help setup run test audit clean reset demo-user
+.PHONY: help setup run test audit clean reset demo-user whatsapp-check users delete-user
 
 help:
 	@echo ""
 	@echo "  make setup    create .venv, install deps, build the database"
 	@echo "  make run      serve API + site on http://localhost:$(PORT)"
-	@echo "  make test     63 API checks + frontend audit"
+	@echo "  make test     98 API checks + frontend audit"
 	@echo "  make audit    frontend only (links, classes, cache stamps)"
 	@echo "  make reset    clear signups and alerts from data/app.db"
+	@echo "  make users    who registered, and when (phones masked)"
+	@echo "  make delete-user PHONE=9…  remove one account (keeps alert history)"
+	@echo "  make whatsapp-check  will a send really deliver? (contacts nothing)"
 	@echo "  make clean    remove .venv and the built database"
 	@echo ""
 
@@ -56,6 +59,18 @@ reset:
 
 demo-user:
 	@$(BIN)/python tools/seed_demo.py
+
+whatsapp-check:
+	@$(BIN)/python tools/check_twilio.py
+
+users:
+	@$(BIN)/python tools/list_users.py
+
+# make delete-user PHONE=9123456780        asks to confirm
+# make delete-user PHONE=9123456780 DRY=1  shows what would go
+delete-user:
+	@test -n "$(PHONE)" || { echo "  Usage: make delete-user PHONE=9123456780 [DRY=1]"; exit 1; }
+	@$(BIN)/python tools/delete_user.py --phone $(PHONE) $(if $(DRY),--dry-run,)
 
 clean:
 	@rm -rf $(VENV) data/jalaakar.db data/app.db*
