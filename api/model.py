@@ -24,25 +24,30 @@ The measured difference (2,584 held-out CGWB readings, ml/03 and ml/04):
                     MAE @7d   exact band   crises caught
     climatology      1.845 m       70.5%        52.0%
     xgboost          1.391 m       77.7%        43.9%  @ cutoff 71
-    xgboost                                     77.3%  @ cutoff 53
+    xgboost                                     77.5%  @ cutoff 54
 
-The cutoff is a product decision, not a modelling one, and the two available
-answers trade against each other on held-out test (510 real crises):
+The cutoff is a product decision, not a modelling one, and the answers trade
+against each other on held-out test (7,752 rows, 510 real crises). All three
+rows below are MEASURED by ml/04_operating_point.py, not interpolated:
 
-    cutoff 53    394 caught,  1,249 false alarms    recall 77.3%, prec 24.0%
-    cutoff 70    223 caught,    197 false alarms    recall 43.7%, prec 53.1%
+    cutoff 54 (fitted)    395 caught, 1,157 false alarms   recall 77.5%, prec 25.5%
+    cutoff 70 (shipped)   228 caught,   212 false alarms   recall 44.7%, prec 51.8%
+    cutoff 71 (poster)    217 caught,   194 false alarms   recall 42.5%, prec 52.8%
 
 ACT_NOW_CUTOFF is 70. That is a **deliberate move away from the value
-ml/04_operating_point.py fitted**, and it halves recall, so the reason has to
-be stated rather than assumed: the product now broadcasts state-wide from one
-button (`api/admin.py`). At 53 a single click sends 1,643 alerts of which
-1,249 are false, and an alerting channel that is wrong three times in four is
-one people mute — after which recall on paper is 77% and recall in practice is
-zero. At 70 the same click sends 420 alerts and is right more often than not.
+ml/04_operating_point.py fitted**, and it costs 33 points of recall, so the
+reason has to be stated rather than assumed: the product now broadcasts
+state-wide from one button (`api/admin.py`). At 54 a single click sends 1,552
+alerts of which 1,157 are false, and an alerting channel wrong three times in
+four is one people mute — after which recall on paper is 77% and recall in
+practice is zero. At 70 the same click sends 440 and is right more often than
+not.
 
 Both numbers are real and neither is free. If Jalaakar ever moves to
-per-subscriber opt-in severity, 53 is the better default again, and
+per-subscriber opt-in severity, 54 is the better default again, and
 `reports/operating_point.json` holds the full curve to re-derive it from.
+That script reads this constant rather than hard-coding it, so the "shipped"
+row above cannot go stale when the constant changes.
 """
 
 from __future__ import annotations
