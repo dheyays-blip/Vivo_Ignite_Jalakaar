@@ -85,6 +85,15 @@
   --r-lg:22px;
 
   --ease:cubic-bezier(.22,.61,.36,1);
+
+  /* Gauge geometry. The arc runs x=16..184 in a 200-wide viewBox, so it
+     occupies 8%..92% of the box. These live in :root, not on .meter, because
+     .meter__scale is a SIBLING of .meter — custom properties inherit down the
+     tree, not sideways, so declaring them on .meter left var(--arc-lo)
+     undefined in the tick rule, which invalidated the whole calc() and stacked
+     every tick at the same position. */
+  --arc-lo:8%;
+  --arc-span:84;
 }
 
 /* ---------------------------- 02 Reset & base ---------------------------- */
@@ -845,15 +854,14 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em}
 
 .demo__place{text-align:center;font-size:.86rem;font-weight:600;color:var(--ink-2);margin-bottom:10px}
 /* --- gauge -------------------------------------------------------------
-   The arc runs x=16..184 in a 200-wide viewBox, i.e. 8%..92% of the box.
-   Anything that must line up with the arc uses --arc-lo / --arc-span rather
-   than a magic number.
+   Anything that must line up with the arc uses --arc-lo / --arc-span from
+   :root rather than a magic number.
 
    The score is <text> inside the svg. It used to be an absolutely positioned
    <p>, which meant its position depended on which ancestor was positioned —
    and a cached stylesheet was enough to drop it on top of the band label.
    ---------------------------------------------------------------------- */
-.meter{--arc-lo:8%;--arc-span:84;max-width:300px;margin:0 auto}
+.meter{max-width:300px;margin:0 auto}
 .meter svg{width:100%;display:block;overflow:visible}
 
 .meter__track,.meter__fill{fill:none;stroke-width:14;stroke-linecap:round}

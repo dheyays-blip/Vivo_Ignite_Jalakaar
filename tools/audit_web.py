@@ -13,7 +13,8 @@ something that does not exist.
                               (the "Log in" link that pointed at itself)
   4. unstyled classes         a class in the HTML with no rule in the CSS
                               (catches typos and the .auth/.gate collision)
-  5. undefined CSS variables  var(--x) with no --x declared
+  5. undefined CSS variables  var(--x) with no --x declared, AND var(--x)
+                              declared somewhere it cannot be inherited from
   6. stale asset stamps       ?v= hash that no longer matches the file
   7. unwired buttons          a <button> with no id/class referenced in JS
 
@@ -109,6 +110,28 @@ def main() -> int:
     runtime |= set(re.findall(r"setProperty\(\s*['\"](--[a-z0-9-]+)", js))
     for v in sorted(set(re.findall(r"var\((--[a-z0-9-]+)", css)) - declared - runtime):
         problems.append(f"styles.css: var({v}) is never declared")
+
+    # A variable can be declared and STILL be unreachable. Custom properties
+    # inherit down the tree, not sideways, so a value set on .meter is invisible
+    # to .meter__scale — a sibling. That invalidates the whole calc() and the
+    # property silently does nothing.
+    #
+    # The rule that is actually checkable: a var() usage is safe if the variable
+    # is declared in :root, or declared in the same rule that uses it, or set at
+    # runtime. Anything else is a scope the stylesheet cannot guarantee.
+    root_block = re.search(r":root\s*\{(.*?)\}", css, re.S)
+    root_vars = set(re.findall(r"(--[a-z0-9-]+)\s*:", root_block.group(1))) if root_block else set()
+    for m in re.finditer(r"([^{}]+)\{([^}]*)\}", css):
+        sel, body = m.group(1).strip().splitlines()[-1].strip(), m.group(2)
+        if sel.startswith(("@", ":root")):
+            continue
+        local = set(re.findall(r"(--[a-z0-9-]+)\s*:", body))
+        for v in set(re.findall(r"var\((--[a-z0-9-]+)", body)):
+            if v in root_vars or v in local or v in runtime:
+                continue
+            problems.append(
+                f"styles.css: {sel} uses var({v}) but it is not in :root, not "
+                f"set here, and not set at runtime — check it is inheritable")
 
     print(f"\n  {len(pages)} pages, {len(problems)} problem(s)\n")
     for x in problems:
