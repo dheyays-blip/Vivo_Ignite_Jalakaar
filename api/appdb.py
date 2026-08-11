@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import hashlib
 import hmac
+import os
 import re
 import secrets
 import sqlite3
@@ -25,7 +26,19 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-APP_DB = ROOT / "data" / "app.db"
+
+# WHERE app.db LIVES IS A DEPLOYMENT DECISION, NOT A SOURCE-CODE ONE.
+#
+# Locally this is data/app.db and stays that way. On a host, data/ sits inside
+# the deployed image, and an image is replaced wholesale on every deploy — so a
+# signup made on Tuesday is gone after Wednesday's push, with nothing logged
+# and nobody told. The fix is to point this at a volume that outlives the
+# image, which is a per-host path, which means an environment variable.
+#
+# Unset, the behaviour is exactly what it was before.
+APP_DB = Path(os.environ.get("JALAAKAR_APP_DB") or (ROOT / "data" / "app.db"))
+APP_DB.parent.mkdir(parents=True, exist_ok=True)
+
 PIPELINE_DB = ROOT / "data" / "jalaakar.db"
 
 SCHEMA = """

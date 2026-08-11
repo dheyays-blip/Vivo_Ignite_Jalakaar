@@ -1,0 +1,73 @@
+# JALAAKAR — Render blueprint.
+#
+# Deploy: Render dashboard -> New -> Blueprint -> pick this repo.
+# Render reads this file and creates the service; nothing to click through.
+#
+# WHAT HAPPENS AT BUILD TIME
+# --------------------------
+# 1. git lfs pull        data/bootstrap/*.parquet are Git LFS pointers. A
+#                        plain clone gives you three 131-byte text files, and
+#                        tools/bootstrap.py then builds a database with zero
+#                        weather rows. The API still answers — with null
+#                        weather features and scores that do not match the
+#                        published MAE. It fails quietly, which is worse than
+#                        failing loudly, so pull them explicitly and let the
+#                        build die here if they do not arrive.
+# 2. pip install         requirements-deploy.txt, not requirements.txt. See
+#                        that file for why (1.3 GB -> 533 MB).
+# 3. bootstrap.py        builds data/jalaakar.db, 490 MB, ~40 s. This runs in
+#                        the BUILD, so the finished database is baked into the
+#                        deployed image. It is not rebuilt when the service
+#                        wakes from a spin-down.
+#
+# MEMORY
+# ------
+# The build peaks at 220 MB and the server idles at 179 MB with the model
+# loaded, so this fits a 512 MB instance. It did not before: loading
+# weather_daily with pd.read_parquet peaked at 2336 MB and would have been
+# OOM-killed here every time. tools/bootstrap.py now streams it in batches.
+
+services:
+  - type: web
+    name: jalaakar
+    runtime: python
+    plan: free
+    region: singapore          # closest to Maharashtra of Render's regions
+    branch: main
+
+    buildCommand: |
+      set -e
+      git lfs install
+      git lfs pull
+      # Fail loudly if LFS did not deliver. A pointer file is ~130 bytes;
+      # the real weather series is 28 MB.
+      SIZE=$(stat -c%s data/bootstrap/weather_daily.parquet)
+      if [ "$SIZE" -lt 1000000 ]; then
+        echo "FATAL: weather_daily.parquet is $SIZE bytes — Git LFS did not run."
+        echo "The build is stopping rather than shipping a site whose scores"
+        echo "silently disagree with the published MAE."
+        exit 1
+      fi
+      pip install --upgrade pip
+      pip install -r requirements-deploy.txt
+      python tools/bootstrap.py
+
+    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+
+    healthCheckPath: /api/health
+
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+      # Where user signups live. On the free plan this is ephemeral — see the
+      # note in the deploy write-up. Set to a mounted disk path on a paid plan.
+      - key: JALAAKAR_APP_DB
+        sync: false
+      # Optional — real WhatsApp delivery. Left unset, alerts are rendered and
+      # logged honestly as 'console'/'rendered' rather than claimed as sent.
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_WHATSAPP_FROM
+        sync: false
