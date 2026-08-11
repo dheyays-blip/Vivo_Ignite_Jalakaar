@@ -110,7 +110,7 @@
 <section class="section about" id="about">
   <div class="wrap">
     <p class="eyebrow">About</p>
-    <h2 class="h2">What Jalaakar is, and what it isn&rsquo;t yet.</h2>
+    <h2 class="h2">What Jalaakar is.</h2>
 
     <div class="about__grid">
       <div class="about__col">
@@ -141,14 +141,6 @@
           <li>Scores for <strong>all 247 talukas</strong> &mdash; try one on the <a href="demo.html">live demo</a></li>
         </ul>
 
-        <h3 class="h3 h3--mt">What is not built</h3>
-        <p>
-          GRACE-FO satellite downscaling, the Bhujal App community layer, GSDA
-          telemetry and Aqua Credits are <strong>Stage&nbsp;2</strong>. They are
-          on the roadmap, not in the system, and nothing on this site claims
-          otherwise. Taluka-level downscaling of GRACE-FO in particular is an
-          open research problem.
-        </p>
         <p class="about__meta">
           Built by <strong>Dheyay Shah</strong>, Grade IX, RMG Maheshwari
           English School, Surat &mdash; for vivo Ignite 2026, Tech for Good.
@@ -204,10 +196,8 @@
       </ol>
 
       <p class="layers__note">
-        <strong>Not built yet, and not claimed:</strong> GRACE-FO satellite downscaling,
-        the Bhujal App community layer, and GSDA telemetry are Stage&nbsp;2. Taluka-level
-        downscaling of GRACE-FO is an open research problem, not an afternoon&rsquo;s work.
-        Everything above is running today.
+        Three layers of public data, each on its own publishing schedule, read
+        together. Everything above is running today.
       </p>
 
       <!-- Pure-CSS laptop with a live-ish dashboard inside -->
@@ -432,7 +422,7 @@
       <li class="stat"><p class="stat__num">1.39&nbsp;m</p><p class="stat__cap">forecast error at 7 days (MAE)</p></li>
       <li class="stat"><p class="stat__num">1.41&nbsp;m</p><p class="stat__cap">forecast error at 30 days &mdash; barely worse</p></li>
       <li class="stat"><p class="stat__num">+24%</p><p class="stat__cap">better than a seasonal-average baseline</p></li>
-      <li class="stat"><p class="stat__num">77%</p><p class="stat__cap">of real crises caught, 510 held-out cases</p></li>
+      <li class="stat"><p class="stat__num">44.7%</p><p class="stat__cap">of real crises caught, 510 held-out cases</p></li>
       <li class="stat"><p class="stat__num">2,584</p><p class="stat__cap">held-out CGWB readings, never trained on</p></li>
     </ul>
 
@@ -442,8 +432,11 @@
       forecast horizon. That is the measured case for community reporting: one
       fresh reading moves this number more than any model change.
       <br>
-      Catching 77% of crises costs false alarms; we chose that trade deliberately
-      and the curve is in <code>reports/operating_point.json</code>.
+      The alert threshold is set to be right more often than it is wrong: at
+      this cutoff about half of the alerts sent are real crises. Loosening it
+      catches 77% of crises but makes three alerts in four false, which is how
+      a warning channel gets ignored. The full curve is in
+      <code>reports/operating_point.json</code>.
     </p>
 
     <h3 class="h3 h3--mt">Context</h3>
