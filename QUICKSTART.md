@@ -55,7 +55,7 @@ git clone https://github.com/orgkushal/Jalakaar.git jal-check && cd jal-check
 make setup && make test
 ```
 
-Expect `data/jalaakar.db built — 490 MB`, then `98/98 passed` and
+Expect `data/jalaakar.db built — 490 MB`, then `99/99 passed` and
 `5 pages, 0 problem(s)`. If the database comes out much smaller than that,
 `weather_daily` did not load and scores will not match the published MAE.
 
@@ -65,7 +65,7 @@ Expect `data/jalaakar.db built — 490 MB`, then `98/98 passed` and
 |---|---|
 | `make setup` | venv, dependencies, database |
 | `make run` | serve on :8000 (`PORT=9000 make run` to change) |
-| `make test` | 98 API checks plus the frontend audit |
+| `make test` | 99 API checks plus the frontend audit |
 | `make audit` | frontend only — links, classes, cache stamps |
 | `make demo-user` | create demo accounts |
 | `make users` | who registered, and when (phones masked) |

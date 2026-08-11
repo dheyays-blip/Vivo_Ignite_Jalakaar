@@ -20,7 +20,7 @@ help:
 	@echo ""
 	@echo "  make setup    create .venv, install deps, build the database"
 	@echo "  make run      serve API + site on http://localhost:$(PORT)"
-	@echo "  make test     98 API checks + frontend audit"
+	@echo "  make test     99 API checks + frontend audit"
 	@echo "  make audit    frontend only (links, classes, cache stamps)"
 	@echo "  make reset    clear signups and alerts from data/app.db"
 	@echo "  make users    who registered, and when (phones masked)"

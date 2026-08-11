@@ -43,7 +43,7 @@ Want accounts to play with? `make demo-user` creates five (password
 | **3.86 M rows** | NASA POWER daily weather per well |
 | **247 talukas** | every one scorable, live, in the browser |
 | **26 API endpoints** | scoring, alerts, community reports, auth, control room |
-| **98 tests** | plus a frontend audit, both in `make test` |
+| **99 tests** | plus a frontend audit, both in `make test` |
 
 ### Measured results
 
@@ -231,7 +231,7 @@ Say instead:
 ## Contributing
 
 ```bash
-make test      # 98 API checks + frontend audit
+make test      # 99 API checks + frontend audit
 make audit     # frontend only: dead links, class collisions, stale cache stamps
 ```
 

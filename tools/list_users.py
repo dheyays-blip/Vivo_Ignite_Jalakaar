@@ -80,9 +80,15 @@ def to_ist(stamp: str) -> tuple[str, str]:
 
 def fetch(args) -> list[dict]:
     if not DB.is_file():
-        print(f"\n  No database at {DB}.\n  Run 'make setup' first.\n",
-              file=sys.stderr)
-        raise SystemExit(1)
+        # NOT an error, and NOT a reason to re-run setup. data/app.db is
+        # created by the first signup, so on a fresh clone it legitimately
+        # does not exist yet. Saying "run 'make setup' first" sent people
+        # back to a step they had just completed successfully, and exiting 1
+        # made `make users` look like a broken target.
+        print("\n  No accounts yet — data/app.db is created by the first "
+              "signup.\n  Try 'make demo-user' for five, or sign up at "
+              "http://localhost:8000/signup.html\n")
+        raise SystemExit(0)
 
     con = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
     con.row_factory = sqlite3.Row

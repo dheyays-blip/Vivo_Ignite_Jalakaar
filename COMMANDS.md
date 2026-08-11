@@ -10,6 +10,57 @@ PY=.venv/bin/python
 
 ---
 
+## 0. Starting from nothing
+
+Needs **Python 3.11+**, **git**, and **git-lfs**. Nothing else, and no network
+after the clone.
+
+```bash
+# 1. git-lfs must exist BEFORE the clone, or the Parquet files arrive as
+#    130-byte text pointers and the build fails with a confusing error.
+git lfs install            # macOS: brew install git-lfs   ·   Ubuntu: apt install git-lfs
+
+# 2. clone
+git clone https://github.com/orgkushal/Jalakaar.git
+cd Jalakaar
+
+# 3. build: venv, dependencies, and data/jalaakar.db from data/bootstrap/
+make setup                 # ~2 minutes, no network needed
+
+# 4. serve the API and the site together
+make run                   # http://localhost:8000
+```
+
+Then, in a second terminal:
+
+```bash
+make demo-user             # 5 accounts, password: jalaakar-demo
+make test                  # 99 API checks + the frontend audit
+```
+
+**What you should see.** `make setup` ends with
+`data/jalaakar.db built — 490 MB`, and `make test` prints `99/99 passed` then
+`5 pages, 0 problem(s)`. If the database comes out much smaller, `weather_daily`
+did not load and the scores will not match the published accuracy.
+
+| If it goes wrong | Why, and the fix |
+|---|---|
+| `make setup` fails on missing Parquet | git-lfs did not run. `git lfs install && git lfs pull` |
+| Files in `data/bootstrap/` are ~130 bytes | Same cause — those are LFS pointers, not data. |
+| `[model] xgboost not installed` on startup | Dependencies are incomplete; re-run `make setup`. The API still works but serves climatology, not the trained model, and the MAE drops from 1.391 m to 1.845 m. `make test` fails on *the trained model actually loaded* when this happens. |
+| `make: command not found` | Use the three commands under section 1. |
+| Port 8000 in use | `PORT=9000 make run` |
+
+Optional, only if you want to retrain rather than use the committed model:
+
+```bash
+$PY ingest/06b_features_causal.py   # ~2 min, builds the 204,162-row training table
+$PY ml/02_xgboost.py                # retrain
+$PY api/verify_model.py             # must print +0.000 m before you quote any number
+```
+
+---
+
 ## 1. Everyday
 
 | Command | What it does |
@@ -17,7 +68,7 @@ PY=.venv/bin/python
 | `make setup` | Creates `.venv`, installs both requirements files, builds `data/jalaakar.db` from `data/bootstrap/`. Run once after cloning. |
 | `make run` | Serves the API and the whole website on http://localhost:8000. |
 | `PORT=9000 make run` | Same, on a different port. |
-| `make test` | 98 API checks plus the frontend audit. The one to run before committing. |
+| `make test` | 99 API checks plus the frontend audit. The one to run before committing. |
 | `make audit` | Frontend only — dead links, unstyled classes, stale cache stamps, unwired buttons. |
 | `make demo-user` | Creates 5 demo accounts, password `jalaakar-demo`. |
 | `make users` | Who registered and when, phone numbers masked. |
@@ -145,7 +196,7 @@ Needs `features_causal`, so run `ingest/06b_features_causal.py` first.
 
 | Command | What it does |
 |---|---|
-| `$PY api/test_smoke.py` | 98 API assertions, no pytest, no network. Uses a throwaway database. |
+| `$PY api/test_smoke.py` | 99 API assertions, no pytest, no network. Uses a throwaway database. |
 | `$PY tools/audit_web.py` | Eight frontend checks, including whether a `hidden` attribute actually hides. |
 | `$PY api/verify_model.py` | Replays held-out rows through the **live serving code** and compares to the published MAE. If it prints `DIVERGED`, do not quote the numbers. |
 | `$PY api/verify_features.py` | Proves the serving feature path reproduces the training feature path exactly. |
@@ -176,7 +227,7 @@ Needs `features_causal`, so run `ingest/06b_features_causal.py` first.
 |---|---|
 | `git lfs install && git lfs pull` | Fetches the real Parquet files if a clone came down with 130-byte pointers. |
 | `git lfs ls-files` | Confirms which files are actually stored in LFS. |
-| `cd /tmp && git clone <url> jal-check && cd jal-check && make setup && make test` | Proves the repo works for a stranger. Expect `built — 490 MB` and `98/98 passed`. |
+| `cd /tmp && git clone <url> jal-check && cd jal-check && make setup && make test` | Proves the repo works for a stranger. Expect `built — 490 MB` and `99/99 passed`. |
 
 ---
 

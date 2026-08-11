@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-JALAAKAR — API smoke test. 98 assertions, no pytest, no network.
+JALAAKAR — API smoke test. 99 assertions, no pytest, no network.
 
     python api/test_smoke.py
 
@@ -115,6 +115,19 @@ def run() -> int:
     check("method names the forecaster",
           card["method"] in ("rural-stress-1.0/climatology",
                              "rural-stress-1.1/xgboost"))
+
+    # This install serves the TRAINED model, not the fallback.
+    #
+    # Every other check here passes either way, which is how a fresh clone
+    # could print 98/98 while quietly serving 1.845 m MAE against a landing
+    # page advertising 1.391 m. `api/model.py` degrades gracefully at RUNTIME
+    # on purpose — but `make test` is the "is this install correct" gate, and
+    # an install that cannot load the committed model is not correct.
+    # xgboost is a hard dependency in requirements-api.txt for this reason.
+    import api.model as model_mod  # noqa: E402
+    check("the trained model actually loaded (not the climatology fallback)",
+          model_mod.available() and
+          card["method"] == "rural-stress-1.1/xgboost")
     check("rural refuses 2026", c.get(
         "/api/score?entity_type=taluka&entity_id=Dindori&on=2026-08-07"
     ).json()["status"] == "no_data")
@@ -289,9 +302,22 @@ def run() -> int:
                  ).json()["action"] == "ask_depth")
 
     # was: unknown lang returned the raw enum "ACT NOW" instead of a label
+    #
+    # Asserted against the ENGLISH response rather than a hard-coded "Act now".
+    # Pinning the string tied this check to whichever band Baglan happens to
+    # land in, which depends on whether the trained model or the climatology
+    # fallback is serving — so it passed on the fallback and failed on the
+    # model, for a reason that has nothing to do with language. The claim here
+    # is only: an unknown language falls back to the English label, and never
+    # leaks the raw enum.
+    zz = c.get("/api/score?entity_type=taluka&entity_id=Baglan"
+               "&on=2023-05-15&lang=zz").json()
+    en = c.get("/api/score?entity_type=taluka&entity_id=Baglan"
+               "&on=2023-05-15&lang=en").json()
     check("unknown lang falls back to English label",
-          c.get("/api/score?entity_type=taluka&entity_id=Baglan"
-                "&on=2023-05-15&lang=zz").json()["band_label"] == "Act now")
+          zz["band_label"] == en["band_label"]
+          and zz["band_label"] != zz["band"]
+          and zz["band_label"] in ("Safe", "Monitor", "Act now"))
 
     check("limit bounds enforced", all(
         c.get(f"/api/timeline?entity_id=MUM_ALL&limit={n}").status_code == 422

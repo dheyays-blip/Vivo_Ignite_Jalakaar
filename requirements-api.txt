@@ -3,6 +3,13 @@
 fastapi>=0.110
 uvicorn[standard]>=0.27
 pydantic>=2.6
+
+# The forecaster. models/xgb_causal.json is committed, but without this
+# package api/model.py cannot load it and falls back to climatology — the
+# served MAE quietly becomes 1.845 m instead of the 1.391 m the site
+# advertises. It printed a line and nobody read it. A fresh clone must get
+# the model the README describes, so this is a hard dependency, not optional.
+xgboost>=2.0
 # optional: only needed to actually deliver WhatsApp messages.
 # without it, alerts are rendered and logged, never faked as sent.
 twilio>=9.0
