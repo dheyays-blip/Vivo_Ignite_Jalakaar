@@ -5,14 +5,26 @@
 #
 # WHAT HAPPENS AT BUILD TIME
 # --------------------------
-# 1. git lfs pull        data/bootstrap/*.parquet are Git LFS pointers. A
-#                        plain clone gives you three 131-byte text files, and
-#                        tools/bootstrap.py then builds a database with zero
-#                        weather rows. The API still answers — with null
-#                        weather features and scores that do not match the
-#                        published MAE. It fails quietly, which is worse than
-#                        failing loudly, so pull them explicitly and let the
-#                        build die here if they do not arrive.
+# 1. size check          data/bootstrap/*.parquet are Git LFS files. Render's
+#                        CLONE resolves them, but the BUILD environment has no
+#                        `git lfs` binary at all — an earlier version of this
+#                        file called it and died with "'lfs' is not a git
+#                        command". So there is nothing to pull here; there is
+#                        only something to VERIFY.
+#
+#                        The check matters because the failure it guards is
+#                        silent. If the Parquet arrives as a 131-byte pointer,
+#                        bootstrap.py cheerfully builds a database with zero
+#                        weather rows, every endpoint keeps answering, and the
+#                        scores quietly stop matching the published MAE. A red
+#                        build is strictly better than that.
+#
+#                        If the pointer case ever does happen, fetch the real
+#                        bytes over plain HTTPS instead of failing outright —
+#                        GitHub serves LFS content from media.githubusercontent
+#                        .com and curl needs no LFS client. Verified: all three
+#                        return 200 with the correct byte counts. Only if THAT
+#                        also fails does the build stop.
 # 2. pip install         requirements-deploy.txt, not requirements.txt. See
 #                        that file for why (1.3 GB -> 533 MB).
 # 3. bootstrap.py        builds data/jalaakar.db, 490 MB, ~40 s. This runs in
@@ -37,17 +49,29 @@ services:
 
     buildCommand: |
       set -e
-      git lfs install
-      git lfs pull
-      # Fail loudly if LFS did not deliver. A pointer file is ~130 bytes;
-      # the real weather series is 28 MB.
-      SIZE=$(stat -c%s data/bootstrap/weather_daily.parquet)
+
+      # No `git lfs` here — it does not exist in this environment. Verify what
+      # the clone delivered, and repair over HTTPS if it delivered pointers.
+      # A pointer file is ~130 bytes; the real weather series is 28 MB.
+      SIZE=$(stat -c%s data/bootstrap/weather_daily.parquet 2>/dev/null || echo 0)
       if [ "$SIZE" -lt 1000000 ]; then
-        echo "FATAL: weather_daily.parquet is $SIZE bytes — Git LFS did not run."
-        echo "The build is stopping rather than shipping a site whose scores"
-        echo "silently disagree with the published MAE."
+        echo "weather_daily.parquet is $SIZE bytes — LFS pointers, not data."
+        echo "Fetching the real files over HTTPS instead."
+        for f in wells gw_observations weather_daily; do
+          curl -fsSL -o "data/bootstrap/$f.parquet" \
+            "https://media.githubusercontent.com/media/dheyays-blip/Vivo_Ignite_Jalakaar/main/data/bootstrap/$f.parquet"
+          echo "  $f.parquet $(stat -c%s data/bootstrap/$f.parquet) bytes"
+        done
+        SIZE=$(stat -c%s data/bootstrap/weather_daily.parquet)
+      fi
+      if [ "$SIZE" -lt 1000000 ]; then
+        echo "FATAL: weather_daily.parquet is still $SIZE bytes."
+        echo "Stopping rather than shipping a site that scores against an"
+        echo "empty weather table while advertising the published MAE."
         exit 1
       fi
+      echo "weather_daily.parquet OK — $SIZE bytes"
+
       pip install --upgrade pip
       pip install -r requirements-deploy.txt
       python tools/bootstrap.py
