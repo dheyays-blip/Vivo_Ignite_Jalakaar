@@ -13,7 +13,7 @@
 
 <link rel="preload" href="assets/fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=ca7533ed">
+<link rel="stylesheet" href="styles.css?v=3e3ad526">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234fb4f0' d='M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -92,10 +92,25 @@
         <span class="newscard__toggle" role="img" aria-label="Live"><i></i></span>
       </div>
       <p class="newscard__label">News</p>
-      <p class="newscard__body">
-        It is an AI layer built upon Maharashtra&rsquo;s <strong>Water 7/12</strong> system,
-        recently announced by Hon. Minister Chandrashekhar Bawankule on May&nbsp;25,&nbsp;2026.
-      </p>
+
+      <!-- Five items, rotated by script.js every 4 s. The first is rendered in
+           HTML so the card reads correctly with JavaScript off and never
+           flashes empty on load; script.js supplies the other four. Every item
+           carries a named publisher and a date — the same standard the figures
+           further down this page are held to. -->
+      <div class="newscard__rotor" data-news aria-live="off">
+        <article class="newscard__item is-current">
+          <p class="newscard__body">
+            An AI layer on Maharashtra&rsquo;s <strong>Water 7/12</strong> &mdash; India&rsquo;s
+            first digital water accounting, with village and watershed balance
+            sheets, annual audits and <strong>Aqua Credits</strong> for conservation.
+          </p>
+          <p class="newscard__src">
+            <span class="tag tag--ok">verified &bull; FPJ</span> 26 May 2026
+          </p>
+        </article>
+      </div>
+
       <span class="newscard__dot" aria-hidden="true"></span>
     </aside>
   </div>
@@ -444,7 +459,11 @@
       <li class="stat"><p class="stat__num">940</p><p class="stat__cap">wells ingested, 68,994 real readings</p></li>
       <li class="stat"><p class="stat__num">&#8377;&nbsp;0</p><p class="stat__cap">deployed system cost (open data only)</p></li>
       <li class="stat"><p class="stat__num">&#8377;&nbsp;3000</p><p class="stat__cap">per tanker in Pune <span class="tag tag--unverified">unsourced</span></p></li>
-      <li class="stat"><p class="stat__num">730</p><p class="stat__cap">CGWB units over-exploited <span class="tag tag--unverified">unsourced</span></p></li>
+      <!-- 730 is the ALL-INDIA count, not Maharashtra's. On a page about
+           Maharashtra a reader will assume otherwise, and Maharashtra's own
+           figure is 7 over-exploited taluks out of 359 — two orders of
+           magnitude apart. Say "India" out loud and cite the source. -->
+      <li class="stat"><p class="stat__num">730</p><p class="stat__cap">CGWB units over-exploited, all India <span class="tag tag--ok" title="Ministry of Jal Shakti, Press Information Bureau, 15 Dec 2025 — 730 of 6,762 assessment units">verified &bull; PIB</span></p></li>
       <li class="stat"><p class="stat__num">33%</p><p class="stat__cap">monitored wells declining <span class="tag tag--unverified">unsourced</span></p></li>
     </ul>
 
@@ -479,6 +498,6 @@
   </div>
 </footer>
 
-<script src="script.js?v=8c7bf616"></script>
+<script src="script.js?v=f5061b40"></script>
 </body>
 </html>

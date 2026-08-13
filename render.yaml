@@ -76,6 +76,21 @@ services:
       pip install -r requirements-deploy.txt
       python tools/bootstrap.py
 
+      # Demo accounts, baked into the image.
+      #
+      # A fresh app.db has no users, so the control room has nothing to sign
+      # in with and "broadcast to all subscribers" reaches nobody — a visitor
+      # cannot see the half of the product that matters. Seeding at BUILD time
+      # rather than at startup means the accounts are part of the image, so
+      # they survive the free plan's spin-down cycle exactly as the database
+      # does. seed_demo.py skips users that already exist, so re-running it on
+      # every deploy is safe.
+      #
+      # Sign in at /login.html as 9800000001 / jalaakar-demo for the
+      # government role. All five accounts are openly fake — placeholder names
+      # in the 98000000xx block — and `make reset` clears them.
+      python tools/seed_demo.py
+
     startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
 
     healthCheckPath: /api/health

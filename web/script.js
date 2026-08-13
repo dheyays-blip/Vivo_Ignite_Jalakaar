@@ -625,6 +625,94 @@
 
 
   /* ------------------------------------------------------------------ */
+  /* 10b. Rotating news card                                             */
+  /*                                                                     */
+  /* Five items, 4 s apart, cross-faded.                                 */
+  /*                                                                     */
+  /* Every item names a publisher and a date. The rest of this page tags */
+  /* each figure `verified` with a source or `unsourced` out loud, and a */
+  /* rotating headline is not exempt from that just because it moves. If */
+  /* an item cannot be traced to a named publisher it does not belong in */
+  /* the rotation.                                                       */
+  /*                                                                     */
+  /* Item 1 is also written into index.html so the card reads correctly  */
+  /* with JavaScript off and never flashes empty. It is not repeated in  */
+  /* this array — the existing DOM node is reused, so the no-JS copy and */
+  /* the rotated copy are identical by construction, not by discipline.  */
+  /* ------------------------------------------------------------------ */
+  (function newsRotator() {
+    var rotor = $('[data-news]');
+    if (!rotor) return;
+
+    var REST = [
+      { html: 'Maharashtra&rsquo;s own groundwater picture: <strong>306 of 359 taluks</strong> '
+            + 'assessed safe, 40 semi-critical, 5 critical and <strong>7 over-exploited</strong>.',
+        src: 'CGWB', date: 'Assessment 2025' },
+
+      { html: 'Nationally <strong>730 of 6,762</strong> assessment units are over-exploited. '
+            + 'India draws <strong>247.22 BCM</strong> a year against 407.75 BCM extractable '
+            + '&mdash; a 60.63% stage of extraction.',
+        src: 'PIB', date: '15 Dec 2025' },
+
+      { html: '<strong>Atal Bhujal Yojana</strong> puts &#8377;925.77 crore into 1,442 villages '
+            + 'across 73 watersheds in 13 districts, with GSDA implementing.',
+        src: 'GSDA', date: 'Govt of Maharashtra' },
+
+      { html: '<strong>Jalyukt Shivar</strong> spent &#8377;9,630 crore over a decade across '
+            + '22,586 villages and 630,000 interventions &mdash; and Down To Earth '
+            + 'questioned how little water it actually banked.',
+        src: 'DTE', date: '8 Apr 2024' }
+    ];
+
+    var first = $('.newscard__item', rotor);
+    if (!first) return;
+
+    REST.forEach(function (item) {
+      var el = document.createElement('article');
+      el.className = 'newscard__item';
+      el.innerHTML =
+        '<p class="newscard__body">' + item.html + '</p>' +
+        '<p class="newscard__src"><span class="tag tag--ok">verified &bull; ' +
+        item.src + '</span> ' + item.date + '</p>';
+      rotor.appendChild(el);
+    });
+
+    var slides = rotor.querySelectorAll('.newscard__item');
+    if (slides.length < 2) return;
+
+    var at = 0, timer = null;
+
+    function show(next) {
+      slides[at].classList.remove('is-current');
+      at = (next + slides.length) % slides.length;
+      slides[at].classList.add('is-current');
+    }
+
+    function start() {
+      if (!timer) timer = setInterval(function () { show(at + 1); }, 4000);
+    }
+    function stop() { clearInterval(timer); timer = null; }
+
+    /* Pause while the pointer is over the card or focus is inside it. Four
+       seconds is not long enough to finish a sentence you stopped on, and a
+       headline that slides away mid-read is a small hostility. */
+    rotor.addEventListener('mouseenter', stop);
+    rotor.addEventListener('mouseleave', start);
+    rotor.addEventListener('focusin', stop);
+    rotor.addEventListener('focusout', start);
+
+    /* Nothing to animate in a background tab, and browsers throttle timers
+       there anyway — which on return would otherwise dump a burst of queued
+       swaps all at once. */
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stop(); else start();
+    });
+
+    start();
+  })();
+
+
+  /* ------------------------------------------------------------------ */
   /* 11. Sign in (login.html)                                            */
   /*                                                                     */
   /* Writes the token to the same sessionStorage key demo.js reads, so   */

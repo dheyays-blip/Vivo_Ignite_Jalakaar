@@ -332,6 +332,31 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em}
 .newscard__label{font-size:.95rem;font-weight:600;margin-bottom:6px}
 .newscard__body{font-size:.72rem;line-height:1.6;color:var(--ink-2)}
 .newscard__body strong{color:var(--blue-300)}
+
+/* Rotating news.
+   Items stack in a single grid cell rather than being absolutely positioned,
+   so the rotor still sizes to its content and survives a late-loading font.
+   min-height holds it to roughly the tallest item so the hero does not jolt
+   every 4 s as different-length items swap in — a card that resizes under the
+   cursor is worse than one carrying a little slack at the bottom. */
+.newscard__rotor{display:grid;min-height:6.4rem}
+.newscard__item{
+  grid-area:1/1;
+  opacity:0;transform:translateY(6px);
+  transition:opacity .5s ease,transform .5s ease;
+  pointer-events:none;
+}
+.newscard__item.is-current{opacity:1;transform:none;pointer-events:auto}
+.newscard__src{
+  margin-top:8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  font-size:.58rem;letter-spacing:.03em;color:var(--ink-3);
+}
+/* Honour the OS setting. The point of the rotation is that the content
+   changes, not that it slides — so keep the swap, drop the travel. */
+@media (prefers-reduced-motion:reduce){
+  .newscard__item{transition:opacity .2s linear;transform:none}
+}
+
 .newscard__dot{
   position:absolute;right:-5px;bottom:-5px;width:10px;height:10px;border-radius:50%;
   background:var(--amber);box-shadow:0 0 0 4px rgba(208,154,82,.2);
