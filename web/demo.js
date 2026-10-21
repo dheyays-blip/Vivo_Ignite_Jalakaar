@@ -68,6 +68,9 @@
     $$('[data-state]').forEach(function (el) {
       el.classList.toggle('is-on', el.getAttribute('data-state') === name);
     });
+    if (name !== 'done') {
+      var rc = $('#rigCard'); if (rc) rc.hidden = true;
+    }
   }
 
   /* ------------------------------------------------------------------ */
@@ -453,7 +456,64 @@
     }
 
     console.info('[jalaakar] demo card', card);
+    loadRigTelemetry(card);
     loadAlert(card);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* 4b. In-situ Sensor Rig — multi-depth soil moisture + pH             */
+  /* ------------------------------------------------------------------ */
+  function loadRigTelemetry(card) {
+    var rig = $('#rigCard');
+    if (!rig) return;
+    if (card.track !== 'rural') {
+      rig.hidden = true;
+      return;
+    }
+    var taluka = card.place || 'Dindori';
+    fetch(API + '/api/rig/latest?taluka=' + encodeURIComponent(taluka))
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (d) {
+        rig.hidden = false;
+        var isLive = d.mode === 'LIVE';
+        var st = $('#rigStatus');
+        if (st) {
+          st.textContent = isLive ? '● LIVE HARDWARE' : 'STANDBY PILOT';
+          st.className = 'rig__pill' + (isLive ? ' rig__pill--live' : '');
+          st.title = isLive ? 'Real-time telemetry from ESP32' : 'Calibrated Dindori pilot baseline';
+        }
+        var dev = $('#rigDevice');
+        if (dev) {
+          dev.textContent = (d.device_id || 'JALAAKAR-RIG-01') + ' • ' + (d.taluka || taluka);
+        }
+
+        (d.profile || []).forEach(function (p) {
+          var bar = $('#bar' + p.depth_cm);
+          var val = $('#val' + p.depth_cm);
+          if (bar) {
+            bar.style.width = Math.min(100, Math.max(0, p.pct)) + '%';
+            bar.className = 'rig__bar rig__bar--' + (p.band || 'adequate');
+          }
+          if (val) val.textContent = p.pct + '%';
+        });
+
+        var ph = d.soil_ph || {};
+        var phBadge = $('#phBadge');
+        if (phBadge) {
+          phBadge.textContent = 'pH ' + (ph.value != null ? Number(ph.value).toFixed(1) : '7.2') +
+            ' • ' + (ph.is_optimal ? 'Optimal' : (ph.status || 'Check'));
+          phBadge.className = 'rig__ph-badge ' + (ph.is_optimal ? 'rig__ph-badge--optimal' : 'rig__ph-badge--warning');
+        }
+
+        var inf = d.infiltration_status || {};
+        var chip = $('#infiltChip');
+        if (chip) chip.textContent = inf.label || 'Active Infiltration';
+        var desc = $('#infiltDesc');
+        if (desc) desc.textContent = inf.description || '';
+        var adv = $('#rigAdvice');
+        if (adv) adv.textContent = d.irrigation_advice || '';
+      })
+      .catch(function () { rig.hidden = true; });
   }
 
   /* ------------------------------------------------------------------ */

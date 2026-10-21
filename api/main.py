@@ -43,6 +43,7 @@ from . import community
 from . import figures as figures_mod
 from . import places as places_mod
 from . import scoring
+from . import telemetry as telemetry_mod
 from .appdb import (app_db, hash_password, new_id, normalise_phone,
                     pipeline_db, utcnow)
 
@@ -334,6 +335,64 @@ def list_reports(request: Request, well_id: Optional[str] = None,
                 if not well_id or r.get("well_id") == well_id]
     return {"reports": rows,
             "scope": "all" if caller["role"] == "government" else "own"}
+
+
+# --------------------------------------------------------------------------
+# Multi-depth IoT Sensor Rig telemetry (20, 40, 60, 80 cm soil moisture + pH)
+# --------------------------------------------------------------------------
+class TelemetryIn(BaseModel):
+    device_id: str = "JALAAKAR-RIG-01"
+    m20: Optional[float] = None
+    m40: Optional[float] = None
+    m60: Optional[float] = None
+    m80: Optional[float] = None
+    ph: Optional[float] = None
+    moist_20cm: Optional[float] = None
+    moist_40cm: Optional[float] = None
+    moist_60cm: Optional[float] = None
+    moist_80cm: Optional[float] = None
+    soil_ph: Optional[float] = None
+    battery_v: Optional[float] = None
+    taluka: Optional[str] = "Dindori"
+    source: str = "esp32"
+
+
+@app.post("/api/rig/telemetry", status_code=201)
+def record_rig_telemetry(body: TelemetryIn):
+    """Ingest in-situ multi-depth sensor rig readings from ESP32 or Adafruit IO."""
+    m20 = body.m20 if body.m20 is not None else body.moist_20cm
+    m40 = body.m40 if body.m40 is not None else body.moist_40cm
+    m60 = body.m60 if body.m60 is not None else body.moist_60cm
+    m80 = body.m80 if body.m80 is not None else body.moist_80cm
+    ph = body.ph if body.ph is not None else body.soil_ph
+
+    if m20 is None or m40 is None or m60 is None or m80 is None or ph is None:
+        raise HTTPException(
+            422, "Telemetry payload must supply all 4 moisture depths (20, 40, 60, 80 cm) and pH.")
+
+    try:
+        raw_json = body.model_dump_json() if hasattr(body, "model_dump_json") else ""
+    except Exception:
+        raw_json = ""
+
+    return telemetry_mod.record_telemetry(
+        device_id=body.device_id,
+        m20=m20,
+        m40=m40,
+        m60=m60,
+        m80=m80,
+        ph=ph,
+        battery_v=body.battery_v,
+        taluka=body.taluka or "Dindori",
+        source=body.source,
+        raw_payload=raw_json,
+    )
+
+
+@app.get("/api/rig/latest")
+def get_latest_rig_telemetry(taluka: Optional[str] = Query(None)):
+    """Returns the latest in-situ sensor rig profile or calibrated standby pilot baseline."""
+    return telemetry_mod.get_latest_telemetry(taluka=taluka)
 
 
 @app.post("/api/whatsapp/webhook")

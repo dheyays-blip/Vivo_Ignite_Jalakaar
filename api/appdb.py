@@ -82,6 +82,24 @@ CREATE TABLE IF NOT EXISTS alert_log (
     error        TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_alert_user ON alert_log(user_id, created_at);
+
+-- In-situ IoT sensor rig telemetry: multi-depth soil moisture (20, 40, 60, 80 cm) + pH (100 cm).
+CREATE TABLE IF NOT EXISTS rig_telemetry (
+    reading_id   TEXT PRIMARY KEY,
+    device_id    TEXT NOT NULL,
+    recorded_at  TEXT NOT NULL,
+    source       TEXT NOT NULL,       -- esp32 | adafruit_io | pilot_baseline
+    moist_20cm   REAL NOT NULL,       -- % VWC
+    moist_40cm   REAL NOT NULL,
+    moist_60cm   REAL NOT NULL,
+    moist_80cm   REAL NOT NULL,
+    soil_ph      REAL NOT NULL,
+    battery_v    REAL,
+    taluka       TEXT,
+    raw_payload  TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_rig_time ON rig_telemetry(recorded_at);
+CREATE INDEX IF NOT EXISTS idx_rig_device ON rig_telemetry(device_id, recorded_at);
 """
 
 

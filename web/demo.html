@@ -9,7 +9,7 @@
 
 <link rel="preload" href="assets/fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=3e3ad526">
+<link rel="stylesheet" href="styles.css?v=1a4b7683">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234fb4f0' d='M12 2s7 8.2 7 12.6A7 7 0 0 1 5 14.6C5 10.2 12 2 12 2z'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -189,6 +189,78 @@
             <p class="demo__method" id="rMethod"></p>
           </details>
 
+          <!-- ============ In-situ Multi-depth Sensor Rig (100 cm) ============
+               Direct field telemetry: 4 moisture probes (20, 40, 60, 80 cm) +
+               subsoil pH (100 cm) from the physical Jalaakar validation rig. -->
+          <div class="rig" id="rigCard" hidden>
+            <div class="rig__head">
+              <div>
+                <h3 class="rig__title">In-Situ Sensor Rig — 100 cm Soil Depth</h3>
+                <p class="rig__sub" id="rigDevice">Pilot Unit #1 &bull; ESP32 Telemetry</p>
+              </div>
+              <span class="rig__pill" id="rigStatus">STANDBY PILOT</span>
+            </div>
+
+            <div class="rig__body">
+              <div class="rig__column" aria-label="Soil moisture at four depths">
+                <div class="rig__level" data-depth="20">
+                  <span class="rig__depth-label">20 cm</span>
+                  <div class="rig__bar-wrap">
+                    <div class="rig__bar" id="bar20" style="width: 42%"></div>
+                  </div>
+                  <span class="rig__val" id="val20">42%</span>
+                  <span class="rig__layer-role">Topsoil / Evaporative</span>
+                </div>
+
+                <div class="rig__level" data-depth="40">
+                  <span class="rig__depth-label">40 cm</span>
+                  <div class="rig__bar-wrap">
+                    <div class="rig__bar" id="bar40" style="width: 31%"></div>
+                  </div>
+                  <span class="rig__val" id="val40">31%</span>
+                  <span class="rig__layer-role">Active Feeder Roots</span>
+                </div>
+
+                <div class="rig__level" data-depth="60">
+                  <span class="rig__depth-label">60 cm</span>
+                  <div class="rig__bar-wrap">
+                    <div class="rig__bar" id="bar60" style="width: 22%"></div>
+                  </div>
+                  <span class="rig__val" id="val60">22%</span>
+                  <span class="rig__layer-role">Deep Root Buffer</span>
+                </div>
+
+                <div class="rig__level" data-depth="80">
+                  <span class="rig__depth-label">80 cm</span>
+                  <div class="rig__bar-wrap">
+                    <div class="rig__bar" id="bar80" style="width: 15%"></div>
+                  </div>
+                  <span class="rig__val" id="val80">15%</span>
+                  <span class="rig__layer-role">Recharge Gateway</span>
+                </div>
+
+                <div class="rig__ph-row">
+                  <span class="rig__depth-label">100 cm</span>
+                  <div class="rig__ph-box">
+                    <span class="rig__ph-badge" id="phBadge">pH 7.2 &bull; Optimal</span>
+                    <span class="rig__ph-note">Subsoil base chemistry</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rig__advisory">
+                <div class="rig__dyn">
+                  <span class="rig__dyn-chip" id="infiltChip">Active Infiltration</span>
+                  <p class="rig__dyn-desc" id="infiltDesc">Rain/irrigation is percolating through root zone toward subsoil.</p>
+                </div>
+                <div class="rig__advice-box">
+                  <strong class="rig__advice-title">Irrigation Action (Saves Borewell Water):</strong>
+                  <p class="rig__advice-text" id="rigAdvice">Root zone at 40 cm has ~3–4 days of moisture. Delay borewell pumping by 48 hrs to conserve groundwater.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- ============ step 5 of the pipeline: Alert ============
                The score is only half the product. This shows the exact
                WhatsApp message the system would send for the place just
@@ -273,6 +345,6 @@
 </footer>
 
 <script src="script.js?v=f5061b40"></script>
-<script src="demo.js?v=758c262a"></script>
+<script src="demo.js?v=aa172ae9"></script>
 </body>
 </html>

@@ -541,6 +541,22 @@ def run() -> int:
     check("signup.html", c.get("/signup.html").status_code == 200)
     check("admin.html", c.get("/admin.html").status_code == 200)
 
+    # In-situ Multi-depth Sensor Rig
+    rig_init = c.get("/api/rig/latest").json()
+    check("rig latest returns 4 depth points", len(rig_init.get("profile", [])) == 4)
+    check("rig latest has pH and infiltration advice",
+          "soil_ph" in rig_init and "infiltration_status" in rig_init)
+    check("rig telemetry rejects incomplete payload",
+          c.post("/api/rig/telemetry", json={"device_id": "TEST-BAD"}).status_code == 422)
+    rig_post = c.post("/api/rig/telemetry", json={
+        "device_id": "TEST-RIG-01",
+        "m20": 44.0, "m40": 32.5, "m60": 21.0, "m80": 16.0, "ph": 7.3,
+        "taluka": "Dindori"
+    })
+    check("rig telemetry records reading 201", rig_post.status_code == 201)
+    check("rig latest updates to live reading",
+          c.get("/api/rig/latest?taluka=Dindori").json().get("mode") == "LIVE")
+
     # The demo page must look the same to a farmer, a resident, a society
     # manager and a government official. It used to grow a sign-in form for
     # visitors and a broadcast button for officials, so its shape depended on

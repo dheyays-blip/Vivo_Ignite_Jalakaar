@@ -1048,6 +1048,85 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em}
 }
 
 /* ==========================================================================
+   18b. SENSOR RIG — multi-depth soil moisture (20, 40, 60, 80 cm) + pH (100 cm)
+   Physical validation rig telemetry, shown under the score on demo.html
+   ========================================================================== */
+.rig{
+  margin-top:22px;padding:16px 18px;border-radius:12px;
+  background:rgba(15,32,54,.6);border:1px solid var(--line);
+}
+.rig__head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+  margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line);
+}
+.rig__title{font-size:.88rem;font-weight:600;color:var(--ink);margin:0}
+.rig__sub{font-size:.72rem;color:var(--ink-3);margin:2px 0 0}
+.rig__pill{
+  font-size:.58rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 8px;border-radius:999px;white-space:nowrap;
+  color:var(--blue-400);background:rgba(79,180,240,.12);border:1px solid rgba(79,180,240,.3);
+}
+.rig__pill--live{
+  color:var(--green);background:rgba(79,190,134,.12);border-color:rgba(79,190,134,.35);
+}
+.rig__body{display:flex;flex-direction:column;gap:14px}
+.rig__column{display:flex;flex-direction:column;gap:8px}
+.rig__level{
+  display:grid;grid-template-columns:48px 1fr 38px 130px;align-items:center;gap:10px;
+  font-size:.75rem;
+}
+.rig__depth-label{
+  font-family:monospace;font-weight:600;color:var(--ink-2);font-size:.72rem;
+}
+.rig__bar-wrap{
+  height:8px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;
+}
+.rig__bar{
+  height:100%;border-radius:999px;transition:width .6s ease;
+  background:var(--blue-400);
+}
+.rig__bar--optimal{background:var(--green)}
+.rig__bar--adequate{background:var(--blue-400)}
+.rig__bar--monitor{background:var(--amber)}
+.rig__bar--stress{background:var(--red)}
+.rig__val{
+  font-family:monospace;font-weight:600;color:var(--ink);text-align:right;font-size:.74rem;
+}
+.rig__layer-role{color:var(--ink-3);font-size:.7rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rig__ph-row{
+  display:flex;align-items:center;gap:10px;margin-top:4px;padding-top:6px;
+  border-top:1px dashed var(--line);
+}
+.rig__ph-box{display:flex;align-items:center;gap:10px}
+.rig__ph-badge{
+  font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:6px;
+  background:rgba(255,255,255,.07);color:var(--ink-2);border:1px solid var(--line);
+}
+.rig__ph-badge--optimal{color:var(--green);border-color:rgba(79,190,134,.35)}
+.rig__ph-badge--warning{color:var(--amber);border-color:rgba(208,154,82,.35)}
+.rig__ph-note{font-size:.7rem;color:var(--ink-3)}
+
+.rig__advisory{
+  padding:10px 12px;border-radius:8px;
+  background:rgba(8,18,30,.5);border:1px solid var(--line);
+  display:flex;flex-direction:column;gap:8px;
+}
+.rig__dyn{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rig__dyn-chip{
+  font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;
+  padding:2px 7px;border-radius:4px;
+  background:rgba(79,180,240,.15);color:var(--blue-400);
+}
+.rig__dyn-desc{font-size:.72rem;color:var(--ink-2);margin:0}
+.rig__advice-box{font-size:.74rem;color:var(--ink)}
+.rig__advice-title{color:var(--ink-2);font-weight:600;display:inline}
+.rig__advice-text{margin:2px 0 0;color:var(--ink-2);line-height:1.4}
+@media (max-width:640px){
+  .rig__level{grid-template-columns:42px 1fr 34px;gap:6px}
+  .rig__layer-role{display:none}
+}
+
+/* ==========================================================================
    19. ALERT BOX — pipeline step 5, shown under the score on demo.html
    Deliberately reuses the page's panel/tab/field vocabulary; the only new
    idea is the chat bubble, which has to read as WhatsApp at a glance.
